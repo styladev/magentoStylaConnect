@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Styla_Connect>
+            <version>0.1.0</version>
+        </Styla_Connect>
+    </modules>
+    <global>
+        <models>
+            <styla_connect>
+                <class>Styla_Connect_Model</class>
+            </styla_connect>
+        </models>
+        <blocks>
+            <styla_connect>
+                <class>Styla_Connect_Block</class>
+            </styla_connect>
+        </blocks>
+        <helpers>
+            <styla_connect>
+                <class>Styla_Connect_Helper</class>
+            </styla_connect>
+        </helpers>
+    </global>
+</config>

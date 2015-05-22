@@ -1,0 +1,8 @@
+*.log
+.buildpath
+.project
+.settings/*
+ecocode_minify.iml
+.vagrant
+!.vagrant/utilities
+.vagrant-user.yaml

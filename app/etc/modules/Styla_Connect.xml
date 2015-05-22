@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Styla_Connect>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Styla_Connect>
+    </modules>
+</config>
