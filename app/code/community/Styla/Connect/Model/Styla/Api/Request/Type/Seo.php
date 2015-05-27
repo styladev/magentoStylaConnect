@@ -1,7 +1,7 @@
 <?php
 class Styla_Connect_Model_Styla_Api_Request_Type_Seo extends Styla_Connect_Model_Styla_Api_Request_Type_Abstract
 {
-    const API_URL_SEO = "http://seo.styla.com/clients/%s?lang=%s&url=%s";
+    const API_URL_SEO = "http://seoapitest1.magalog.net/clients/%s?url=%s";
     
     protected $_requestType = Styla_Connect_Model_Styla_Api::REQUEST_TYPE_SEO;
     
@@ -12,7 +12,11 @@ class Styla_Connect_Model_Styla_Api_Request_Type_Seo extends Styla_Connect_Model
         $languageCode = $this->getConfigHelper()->getLanguageCode();
         $requestPath = $this->getRequestPath();
         
-        $apiUrl = sprintf($apiUrl, $clientName, $languageCode, $requestPath);
+        if(strlen($requestPath) > 1) {
+            $requestPath = rtrim($requestPath, "/");
+        }
+        
+        $apiUrl = sprintf($apiUrl, $clientName, $requestPath);
         return $apiUrl;
     }
 }

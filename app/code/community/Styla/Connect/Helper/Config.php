@@ -10,7 +10,7 @@ class Styla_Connect_Helper_Config
      */
     public function getUsername()
     {
-        return 'amazine'; //TODO
+        return 'ecocodedev'; //TODO
     }
     
     /**

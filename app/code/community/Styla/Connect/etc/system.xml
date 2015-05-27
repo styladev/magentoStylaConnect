@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <styla translate="label" module="styla_connect">
+            <label>Styla</label>
+            <sort_order>300</sort_order>
+        </styla>
+    </tabs>
+    <sections>
+        <styla_connect translate="label" module="styla_connect">
+            <label>Styla Connect</label>
+            <tab>styla</tab>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            
+            <groups>
+                <styla_connect_group translate="label" module="styla_connect">
+                    <label>Client Configuration</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    
+                    <fields>
+                        <router_name translate="label">
+                            <label>Magazine frontend "Url"</label>
+                            <comment>Your magazine uri will start with this name. Eg. www.domain.com/{YOUR_MAGAZINE_URL}/rest_of_the_url</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </router_name>
+                    </fields>
+                </styla_connect_group>
+            </groups>
+        </styla_connect>
+    </sections>
+</config>

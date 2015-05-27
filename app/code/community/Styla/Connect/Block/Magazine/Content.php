@@ -1,7 +1,7 @@
 <?php
 class Styla_Connect_Block_Magazine_Content extends Styla_Connect_Block_Magazine
 {
-    const SCRIPT_TAG = '<script id="stylaMagazine" src="%s"></script>';
+    const SCRIPT_TAG = '<script id="amazineEmbed" src="%s"></script>';
     
     protected function _toHtml()
     {

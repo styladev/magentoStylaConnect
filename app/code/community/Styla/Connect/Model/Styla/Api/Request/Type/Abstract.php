@@ -25,12 +25,19 @@ abstract class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
     }
     
     /**
+     * Get the request path of this request
      * 
-     * @return string
+     * @param bool $urlEncoded
+     * @return type
      */
-    public function getRequestPath()
+    public function getRequestPath($urlEncoded = false)
     {
-        return $this->_requestPath;
+        $requestPath = $this->_requestPath;
+        if($urlEncoded) {
+            $requestPath = urlencode($requestPath);
+        }
+        
+        return $requestPath;
     }
     
     /**

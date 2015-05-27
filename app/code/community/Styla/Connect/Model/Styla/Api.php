@@ -4,7 +4,7 @@ class Styla_Connect_Model_Styla_Api
     const REQUEST_CLASS_ALIAS = 'styla_connect/styla_api_request_type_';
     const RESPONSE_CLASS_ALIAS = 'styla_connect/styla_api_response_type_';
     
-    const JAVASCRIPT_URL = 'http://cdn.styla.com/scripts/clients/%s.js?v=%s';
+    const JAVASCRIPT_URL = 'http://dev.styla.com/scripts/embed/%s.js';
     
     const REQUEST_TYPE_SEO = 'seo';
     const REQUEST_TYPE_VERSION = 'version';
@@ -33,10 +33,10 @@ class Styla_Connect_Model_Styla_Api
      * @return \Varien_Object|boolean
      * @throws Styla_Connect_Exception
      */
-    public function requestPageData($requestPath)
+    public function requestPageData($requestPath = "/")
     {
         if(!$requestPath) {
-            throw new Styla_Connect_Exception('No request path defined.');
+            $requestPath = "/";
         }
         
         try {
