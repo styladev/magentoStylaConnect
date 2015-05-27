@@ -63,7 +63,8 @@ class Styla_Connect_Model_Styla_Api
      */
     public function getScriptUrl()
     {
-        $scriptUrl = self::JAVASCRIPT_URL;
+        $configuredJsUrl = $this->getConfigHelper()->getApiJsUrl();
+        $scriptUrl = $configuredJsUrl ? $configuredJsUrl : self::JAVASCRIPT_URL;
         $clientName = $this->getConfigHelper()->getUsername();
         $apiVersion = $this->getCurrentApiVersion();
         

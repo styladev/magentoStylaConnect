@@ -5,7 +5,7 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
     {
         //checking before even try to find out that current module
         //should use this router
-        if (!$this->_beforeModuleMatch()) {
+        if (!$this->_beforeModuleMatch() || !$this->isModuleEnabled()) {
             return false;
         }
         
@@ -31,6 +31,11 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
     public function getRouteName()
     {
         return Mage::helper('styla_connect/config')->getRouteName();
+    }
+    
+    public function isModuleEnabled()
+    {
+        return Mage::helper('styla_connect/config')->isModuleEnabled();
     }
     
     /**

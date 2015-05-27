@@ -3,7 +3,6 @@
     <tabs>
         <styla translate="label" module="styla_connect">
             <label>Styla</label>
-            <sort_order>300</sort_order>
         </styla>
     </tabs>
     <sections>
@@ -15,23 +14,78 @@
             <show_in_store>1</show_in_store>
             
             <groups>
-                <styla_connect_group translate="label" module="styla_connect">
+                <basic translate="label" module="styla_connect">
                     <label>Client Configuration</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     
                     <fields>
-                        <router_name translate="label">
+                        <frontend_name translate="label">
                             <label>Magazine frontend "Url"</label>
-                            <comment>Your magazine uri will start with this name. Eg. www.domain.com/{YOUR_MAGAZINE_URL}/rest_of_the_url</comment>
+                            <comment>Your magazine uri will start with this name, and will be used like this: www.domain.com/[YOUR_MAGAZINE_URL]/rest_of_the_url</comment>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </router_name>
+                        </frontend_name>
+                        
+                        <username translate="label">
+                            <label>Client Name</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </username>
+                        
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                        </enabled>
+                        
+                        <use_magento_layout translate="label">
+                            <label>Use Magento Layout</label>
+                            <comment>yes - the Styla magazine page will be wrapped within a normal Magento header and footer; no - only the magazine content will be visible</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>20</sort_order>
+                        </use_magento_layout>
+                        
+                        <seo_url translate="label">
+                            <label>SEO Api Url</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Eg. http://seoapitest1.magalog.net/</comment>
+                        </seo_url>
+                        
+                        <js_url translate="label">
+                            <label>Styla Magazine Api Javascript Url</label>
+                            <comment>Eg. http://dev.styla.com/scripts/embed/%s.js (%s will be turned into your Styla API Username)</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </js_url>
+                        
+                        <cache_lifetime translate="label">
+                            <label>Cache Lifetime</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cache_lifetime>
                     </fields>
-                </styla_connect_group>
+                </basic>
             </groups>
         </styla_connect>
     </sections>

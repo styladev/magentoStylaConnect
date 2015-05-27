@@ -23,6 +23,8 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+
+$shouldIncludeLayout = Mage::helper('styla_connect/config')->isUsingMagentoLayout();
 ?>
 <?php
 /**
@@ -33,14 +35,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
     <?php echo $this->getChildHtml('magazine_head') ?>
+    <?php if($shouldIncludeLayout): ?>
+        <?php echo $this->getChildHtml('head') ?>
+    <?php endif; ?>
 </head>
-<body class="page-empty <?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
-    <div>
-        <?php echo $this->getChildHtml('after_body_start') ?>
-        <?php // echo $this->getChildHtml('global_messages') ?>
-        <?php echo $this->getChildHtml('content'); ?>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+    <?php if($shouldIncludeLayout): ?>
+    <div class="wrapper">
+        <?php echo $this->getChildHtml('global_notices') ?>
+    <?php endif; ?>
+    <div class="page">
+        <?php if($shouldIncludeLayout): ?>
+            <?php echo $this->getChildHtml('header') ?>
+            <div class="main-container col1-layout">
+                <div class="main">
+                    <?php echo $this->getChildHtml('breadcrumbs') ?>
+                    <div class="col-main">
+                        <?php echo $this->getChildHtml('global_messages') ?>
+                        <?php echo $this->getChildHtml('content') ?>
+                    </div>
+                </div>
+            </div>
+            <?php echo $this->getChildHtml('footer') ?>
+            <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php else: ?>
+            <?php echo $this->getChildHtml('content'); ?>
+        <?php endif; ?>
         <?php echo $this->getChildHtml('before_body_end') ?>
-        <?php echo $this->getAbsoluteFooter() ?>
     </div>
+    <?php if($shouldIncludeLayout): ?>
+    </div>
+    <?php endif; ?>
+    <?php echo $this->getAbsoluteFooter() ?>
 </body>
 </html>

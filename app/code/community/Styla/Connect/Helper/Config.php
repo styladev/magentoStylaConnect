@@ -10,7 +10,7 @@ class Styla_Connect_Helper_Config
      */
     public function getUsername()
     {
-        return 'ecocodedev'; //TODO
+        return Mage::getStoreConfig('styla_connect/basic/username');
     }
     
     /**
@@ -20,7 +20,10 @@ class Styla_Connect_Helper_Config
      */
     public function getRouteName()
     {
-        return trim(self::DEFAULT_ROUTE_NAME, "/") . "/"; //TODO
+        $configuredRouteName = Mage::getStoreConfig('styla_connect/basic/frontend_name');
+        $routeName = $configuredRouteName ? $configuredRouteName : self::DEFAULT_ROUTE_NAME;
+        
+        return trim($routeName, "/") . "/";
     }
     
     /**
@@ -28,7 +31,38 @@ class Styla_Connect_Helper_Config
      * 
      * @return string
      */
-    public function getLanguageCode(){
+    public function getLanguageCode()
+    {
         return Mage::getStoreConfig('general/locale/code', Mage::app()->getStore()->getId());
+    }
+    
+    public function getCacheLifetime()
+    {
+        return Mage::getStoreConfig('styla_connect/basic/cache_lifetime');
+    }
+    
+    public function isUsingMagentoLayout()
+    {
+        return (bool)Mage::getStoreConfig('styla_connect/basic/use_magento_layout');
+    }
+    
+    public function isModuleEnabled()
+    {
+        return (bool)Mage::getStoreConfig('styla_connect/basic/enabled');
+    }
+    
+    public function getApiSeoUrl()
+    {
+        return $this->parseUrl(Mage::getStoreConfig('styla_connect/basic/seo_url'));
+    }
+    
+    public function getApiJsUrl()
+    {
+        return Mage::getStoreConfig('styla_connect/basic/js_url');
+    }
+    
+    public function parseUrl($url)
+    {
+        return rtrim($url, "/") . "/";
     }
 }

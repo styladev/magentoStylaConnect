@@ -53,5 +53,36 @@
                 </styla_connect>
             </routers>
         </web>
+        
+        <styla_connect>
+            <basic>
+                <frontend_name>magazin</frontend_name>
+                <enabled>1</enabled>
+                <cache_lifetime>3600</cache_lifetime>
+                <use_magento_layout>0</use_magento_layout>
+            </basic>
+        </styla_connect>
     </default>
+    
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <styla_connect>
+                                            <title>Styla Connect</title>
+                                        </styla_connect>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
 </config>
