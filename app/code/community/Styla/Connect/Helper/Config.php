@@ -1,7 +1,7 @@
 <?php
 class Styla_Connect_Helper_Config
 {
-    const DEFAULT_ROUTE_NAME = 'magazine';
+    const DEFAULT_ROUTE_NAME = 'magazin';
     
     /**
      * Get the global Client's username
