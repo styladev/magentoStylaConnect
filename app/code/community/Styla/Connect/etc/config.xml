@@ -5,6 +5,7 @@
             <version>0.1.0</version>
         </Styla_Connect>
     </modules>
+    
     <global>
         <models>
             <styla_connect>
@@ -22,4 +23,35 @@
             </styla_connect>
         </helpers>
     </global>
+    
+    <frontend>
+        <routers>
+            <styla_connect>
+                <use>standard</use>
+                <args>
+                    <module>Styla_Connect</module>
+                    <frontName>styla_connect</frontName>
+                </args>
+            </styla_connect>
+        </routers>
+        
+        <layout>
+            <updates>
+                <styla_connect>
+                    <file>styla/connect.xml</file>
+                </styla_connect>
+            </updates>
+        </layout>
+    </frontend>
+    
+    <default>
+        <web>
+            <routers>
+                <styla_connect>
+                    <area>frontend</area>
+                    <class>Styla_Connect_Controller_Router</class>
+                </styla_connect>
+            </routers>
+        </web>
+    </default>
 </config>

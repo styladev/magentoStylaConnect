@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout>
+    <styla_connect_magazine_index>
+        <reference name="root">
+            <block type="styla_connect/magazine_head" name="magazine_head" as="magazine_head"></block>
+        </reference>
+        
+        <reference name="root">
+            <action method="setTemplate"><template>styla/connect/magazine.phtml</template></action>
+            <!-- Mark root page block that template is applied -->
+            <action method="setIsHandle"><applied>1</applied></action>
+        </reference>
+        
+        <reference name="content">
+            <block type="styla_connect/magazine_content" name="magazine_content" as="magazine_content"></block>
+        </reference>
+    </styla_connect_magazine_index>
+</layout>
