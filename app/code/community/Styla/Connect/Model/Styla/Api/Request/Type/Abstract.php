@@ -1,7 +1,6 @@
 <?php
 abstract class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
 {
-    protected $_cacheLifetime = 3600;
     protected $_requestPath;
     protected $_requestType;
     

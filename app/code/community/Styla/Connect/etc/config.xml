@@ -22,6 +22,16 @@
                 <class>Styla_Connect_Helper</class>
             </styla_connect>
         </helpers>
+        
+        <cache>
+            <types>
+                <styla_connect module="styla_connect" translate="label description">
+                    <label>Styla Connect API Responses</label>
+                    <description>Responses from the Styla API can be stored locally, for the duration defined in module's configuration.</description>
+                    <tags>STYLA_CONNECT</tags>
+                </styla_connect>
+            </types>
+        </cache>
     </global>
     
     <frontend>

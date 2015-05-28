@@ -11,6 +11,7 @@ class Styla_Connect_Model_Styla_Api
     
     protected $_service;
     protected $_currentApiVersion;
+    protected $_cache;
     
     /**
      * these options are used for initializing the connector to api service
@@ -97,7 +98,7 @@ class Styla_Connect_Model_Styla_Api
         if(!$this->_currentApiVersion) {
             $request = $this->getRequest(self::REQUEST_TYPE_VERSION);
 
-            $response = $this->callService($request);
+            $response = $this->callService($request, false);
             $this->_currentApiVersion = $response->getResult();
         }
         
@@ -108,11 +109,17 @@ class Styla_Connect_Model_Styla_Api
      * Make a call to the Styla Api
      * 
      * @param Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request
+     * @param bool $canUseCache
      * @return Styla_Connect_Model_Styla_Api_Response_Type_Abstract
      * @throws Styla_Connect_Exception
      */
-    public function callService(Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request)
+    public function callService(Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request, $canUseCache = true)
     {
+        $cache = $this->getCache();
+        if($canUseCache && $cachedResponse = $cache->getCachedApiResponse($request)) {
+            return $cachedResponse;
+        }
+        
         $requestApiUrl = $request->getApiUrl();
         $service = $this->getService();
         
@@ -128,6 +135,10 @@ class Styla_Connect_Model_Styla_Api
         
         $response = $this->getResponse($request);
         $response->initialize($result, $service);
+        
+        if($canUseCache) {
+            $cache->storeApiResponse($request, $response);
+        }
         
         return $response;
     }
@@ -191,5 +202,14 @@ class Styla_Connect_Model_Styla_Api
     public function getConfigHelper()
     {
         return Mage::helper('styla_connect/config');
+    }
+    
+    public function getCache()
+    {
+        if(!$this->_cache) {
+            $this->_cache = Mage::getSingleton('styla_connect/styla_api_cache');
+        }
+        
+        return $this->_cache;
     }
 }

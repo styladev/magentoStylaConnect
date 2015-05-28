@@ -27,6 +27,26 @@ abstract class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
     }
     
     /**
+     * Get the API response data as-is, without any processing
+     * 
+     * @return mixed
+     */
+    public function getRawResult()
+    {
+        return $this->_result;
+    }
+    
+    public function setRawResult($result)
+    {
+        $this->_result = $result;
+    }
+    
+    public function setHttpStatus($status)
+    {
+        $this->_httpStatus = $status;
+    }
+    
+    /**
      * 
      * @param mixed $apiCallResult
      * @param Styla_Connect_Model_Styla_Api $apiService

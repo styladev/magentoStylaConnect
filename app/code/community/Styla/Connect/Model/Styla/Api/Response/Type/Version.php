@@ -5,7 +5,7 @@ class Styla_Connect_Model_Styla_Api_Response_Type_Version extends Styla_Connect_
         try {
             $result = parent::getResult();
         } catch(Styla_Connect_Exception $e) {
-            $result = "";
+            $result = "1";
         }
         
         return $result;

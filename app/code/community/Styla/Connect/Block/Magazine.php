@@ -24,4 +24,6 @@ class Styla_Connect_Block_Magazine extends Mage_Core_Block_Abstract
     {
         return Mage::helper('styla_connect/config');
     }
+    
+    
 }
