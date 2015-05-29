@@ -41,7 +41,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         
         //if this is a new token, it will be authorized and converted to permanent
         if(!$token->getAuthorized()) {
-            $token->authorize($adminUser->getId(), Mage_Oauth_Model_Token::USER_TYPE_ADMIN);
+            $token->authorize($adminUser->getUserId(), Mage_Oauth_Model_Token::USER_TYPE_ADMIN);
             $token->convertToAccess();
         }
         
