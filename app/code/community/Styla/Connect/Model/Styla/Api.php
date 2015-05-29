@@ -8,6 +8,7 @@ class Styla_Connect_Model_Styla_Api
     
     const REQUEST_TYPE_SEO = 'seo';
     const REQUEST_TYPE_VERSION = 'version';
+    const REQUEST_TYPE_REGISTER_MAGENTO_API = 'register';
     
     protected $_service;
     protected $_currentApiVersion;
@@ -123,10 +124,17 @@ class Styla_Connect_Model_Styla_Api
         $requestApiUrl = $request->getApiUrl();
         $service = $this->getService();
         
-        $service->write(Zend_Http_Client::GET, $requestApiUrl, '1.1', array(
+        //fill in the post params, if this is a POST request
+        $requestMethod = $request->getConnectionType();
+        $requestBody = "";
+        if($requestMethod == Zend_Http_Client::POST) {
+            $requestBody = http_build_query($request->getParams());
+        }
+        
+        $service->write($request->getConnectionType(), $requestApiUrl, '1.1', array(
                 'Content-Type: application/json',
                 'Accept: application/json'
-            ));
+            ), $requestBody);
         
         $result = $service->read();
         if(!$result) {

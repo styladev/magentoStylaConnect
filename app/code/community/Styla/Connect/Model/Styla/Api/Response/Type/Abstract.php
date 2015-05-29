@@ -27,6 +27,20 @@ abstract class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
     }
     
     /**
+     * Did this request return a normal, valid response?
+     * 
+     * @return boolean
+     */
+    public function isOk()
+    {
+        if($this->getHttpStatus() == 200) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
      * Get the API response data as-is, without any processing
      * 
      * @return mixed

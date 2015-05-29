@@ -74,6 +74,18 @@
         </styla_connect>
     </default>
     
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Styla_Connect after="Mage_Adminhtml">Styla_Connect_Adminhtml</Styla_Connect>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    
     <adminhtml>
         <acl>
             <resources>
@@ -94,5 +106,13 @@
                 </admin>
             </resources>
         </acl>
+        
+        <layout>
+            <updates>
+                <styla_connect>
+                    <file>styla/connect.xml</file>
+                </styla_connect>
+            </updates>
+        </layout>
     </adminhtml>
 </config>

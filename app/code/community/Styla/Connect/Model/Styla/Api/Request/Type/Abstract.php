@@ -3,6 +3,9 @@ abstract class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
 {
     protected $_requestPath;
     protected $_requestType;
+    protected $_params;
+    
+    protected $_connectionType = Zend_Http_Client::GET;
     
     /**
      * 
@@ -16,11 +19,51 @@ abstract class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
      * @param string $requestPath
      * @return \Styla_Connect_Model_Styla_Api_Request_Type_Abstract
      */
-    public function initialize($requestPath)
+    public function initialize($requestPath, $params = null)
     {
         $this->_requestPath = $requestPath;
+        $this->_params = $params;
         
         return $this;
+    }
+    
+    /**
+     * Get request params (used for POST-type requests)
+     * 
+     * @param array $params
+     */
+    public function setParams(array $params)
+    {
+        $this->_params = $params;
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->_params;
+    }
+    
+    /**
+     * Get the curl connection type - GET/POST
+     * 
+     * @return string
+     */
+    public function getConnectionType()
+    {
+        return $this->_connectionType;
+    }
+    
+    /**
+     * Set the curl connection type - GET/POST
+     * 
+     * @param type $type
+     */
+    public function setConnectionType($type)
+    {
+        $this->_connectionType = $type;
     }
     
     /**

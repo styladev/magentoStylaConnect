@@ -1,0 +1,31 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?=$this->__('Styla Story Editor Connection')?></h3></td>
+            <td class="a-right">
+                <button onclick="editForm.submit()" class="scalable save" type="button"><span><?php echo $this->__('Send Login Data to Styla') ?></span></button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="edit_form" name="edit_form" method="post" action="<?=$this->getUrl('*/*/post')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__('Your Styla User Login Data')?></h4>
+        <fieldset id="my-fieldset">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?=$this->__('Your Styla Email')?> <span class="required">*</span></td>
+                    <td class="input-ele"><input class="input-text required-entry validate-email" name="styla[email]" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=$this->__('Your Styla Password')?> <span class="required">*</span></td>
+                    <td class="input-ele"><input class="input-text required-entry" name="styla[password]" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+</script>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <styla_connect_api module="styla_connect" translate="title">
+            <title>Styla Connect</title>
+            <sort_order>5000</sort_order>
+            <children>
+                <index module="styla_connect" translate="title">
+                    <title>Request Connection with Styla Story Editor</title>
+                    <action>adminhtml/styla_api/index</action>
+                </index>
+            </children>
+        </styla_connect_api>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <styla_connect_api translate="title" module="styla_connect">
+                        <title>Styla Api Controller</title>
+                        <children>
+                            <index>
+                                <title>Request Styla Connection</title>
+                            </index>
+                        </children>
+                    </styla_connect_api>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
