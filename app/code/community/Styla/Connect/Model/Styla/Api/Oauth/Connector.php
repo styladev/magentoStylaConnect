@@ -4,7 +4,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
     const ADMIN_USERNAME = "StylaApiAdminUser";
     const API2_ROLE_NAME = "StylaApi2Role";
     const CONSUMER_NAME  = "Styla Api Connector";
-    const STYLA_API_CONNECTOR_URL = "http://www.example.com/"; //TODO: what is the url for this, on Styla side???
+    const STYLA_API_CONNECTOR_URL = "http://dev.styla.com/api/magento"; //TODO: change from hard-coded to live/test
     
     protected $_stylaLoginData;
     
@@ -61,8 +61,28 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         
         $apiResponse = $stylaApi->callService($apiRequest, false);
         if(!$apiResponse->isOk()) {
-            throw new Exception("Couldn't connect to Styla API. Error result: " . $apiResponse->getHttpStatus() . " - " . $apiResponse->getError());
+            throw new Exception("Couldn't connect to Styla API. Error result: " . $apiResponse->getHttpStatus() 
+                    . ($apiResponse->getError() ? " - " . $apiResponse->getError() : ""));
         }
+        
+        //setup the api urls for this client
+        $connectionData = $apiResponse->getResult();
+        
+        $configuration = $this->getConfiguration();
+        $configuration->saveConfig('styla_connect/basic/username', $connectionData->client);
+        $configuration->saveConfig('styla_connect/basic/seo_url', $connectionData->seoUrl);
+        $configuration->saveConfig('styla_connect/basic/js_url', $connectionData->jsUrl);
+        
+        Mage::getSingleton('adminhtml/session')->addSuccess("Connection to Styla made successfully.");
+    }
+    
+    /**
+     * 
+     * @return Mage_Core_Model_Config
+     */
+    public function getConfiguration()
+    {
+        return new Mage_Core_Model_Config();
     }
     
     /**

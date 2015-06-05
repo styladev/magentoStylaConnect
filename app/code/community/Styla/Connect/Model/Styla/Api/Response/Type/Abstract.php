@@ -63,9 +63,9 @@ abstract class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
     /**
      * 
      * @param mixed $apiCallResult
-     * @param Styla_Connect_Model_Styla_Api $apiService
+     * @param Varien_Http_Adapter_Curl $apiService
      */
-    public function initialize($apiCallResult, Styla_Connect_Model_Styla_Api $apiService)
+    public function initialize($apiCallResult, Varien_Http_Adapter_Curl $apiService)
     {
         $this->_result = $apiCallResult;
         $this->_error = $apiService->getError();
