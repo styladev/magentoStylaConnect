@@ -20,7 +20,6 @@ class Styla_Connect_Model_Styla_Api
     protected $_apiConnectionOptions = array(
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
                 'Accept: application/json'
             )
         );
@@ -128,11 +127,10 @@ class Styla_Connect_Model_Styla_Api
         $requestMethod = $request->getConnectionType();
         $requestBody = "";
         if($requestMethod == Zend_Http_Client::POST) {
-            $requestBody = http_build_query($request->getParams());
+            $requestBody = $request->getParams();
         }
         
         $service->write($request->getConnectionType(), $requestApiUrl, '1.1', array(
-                'Content-Type: application/json',
                 'Accept: application/json'
             ), $requestBody);
         
