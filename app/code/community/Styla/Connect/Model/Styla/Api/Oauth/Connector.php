@@ -50,12 +50,13 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         
         //make the api request to styla api
         $apiRequest = $stylaApi->getRequest(Styla_Connect_Model_Styla_Api::REQUEST_TYPE_REGISTER_MAGENTO_API);
+        $apiRequest->setConnectionType(Zend_Http_Client::POST);
         $apiRequest->setParams(array(
             'styla_email'       => $loginData['email'],
             'styla_password'    => $loginData['password'],
             'consumer_key'      => $consumer->getKey(),
             'consumer_secret'   => $consumer->getSecret(),
-            'token'             => $token->getToken(),
+            'token_key'         => $token->getToken(),
             'token_secret'      => $token->getSecret()
         ));
         
