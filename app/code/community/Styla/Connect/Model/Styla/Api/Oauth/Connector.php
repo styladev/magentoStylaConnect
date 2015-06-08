@@ -4,6 +4,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
     const ADMIN_USERNAME = "StylaApiAdminUser";
     const API2_ROLE_NAME = "StylaApi2Role";
     const CONSUMER_NAME  = "Styla Api Connector";
+    const REST_USER_TYPE = "admin";
     const STYLA_API_CONNECTOR_URL = "http://dev.styla.com/api/magento"; //TODO: change from hard-coded to live/test
     
     protected $_stylaLoginData;
@@ -29,6 +30,9 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         if(!$adminUser) {
             throw new Exception("Couldn't create an API admin user for you. Please create the user manually, first (refer to the docs for details).");
         }
+        
+        //update admin attributes, so that styla stuff is available
+        $this->addStylaAttributesToAdminRole();
         
         $consumer = $this->getConsumer();
         
@@ -146,6 +150,56 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         }
         
         return $adminUser->getId() ? $adminUser : false;
+    }
+    
+    /**
+     * Certain attributes must be allowed for the admin role, in order for styla api to operate
+     * 
+     * @return type
+     */
+    public function addStylaAttributesToAdminRole()
+    {
+        /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
+        $collection = Mage::getModel('api2/acl_filter_attribute')->getCollection();
+        $collection->addFilterByUserType(self::REST_USER_TYPE);
+        $collection->addFieldToFilter('resource_id', 'styla_category');
+        
+        $existingAttribute = $collection->getFirstItem();
+        if($existingAttribute->getId()) {
+            return; //we already have those attributes added
+        }
+
+        $attributesToUse = $this->getAttributesForStyla();
+        foreach($attributesToUse as $group => $attributes) {
+            /** @var $attribute Mage_Api2_Model_Acl_Filter_Attribute */
+            $attribute = Mage::getModel('api2/acl_filter_attribute');
+            
+            $attribute->setData(array(
+                'user_type'     => self::REST_USER_TYPE,
+                'resource_id'   => $group,
+                'operation'     => 'read', //we're only using read operation
+                'allowed_attributes'    => $attributes,
+            ));
+            
+            $attribute->save();
+        }
+    }
+    
+    /**
+     * Will return all attributes used in this version of the Connect module
+     * 
+     * @return array
+     */
+    public function getAttributesForStyla()
+    {
+        $fieldConfiguration = Mage::getConfig()->loadModulesConfiguration("api2.xml")->getNode("api2/resources")->asArray();
+        
+        $attributes = array(
+            'styla_category' => implode(",", array_keys($fieldConfiguration['styla_category']['attributes'])),
+            'styla_product'  => implode(",", array_keys($fieldConfiguration['styla_product']['attributes'])),
+        );
+        
+        return $attributes;
     }
     
     /**
