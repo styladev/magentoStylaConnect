@@ -63,8 +63,6 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
         $this->_applySearchFilter($collection);
         $this->_applyCollectionModifiers($collection);
         
-        $this->_loadImages($collection);
-        
         return $collection;
     }
     
@@ -78,27 +76,6 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
         $searchTerm = $this->getRequest()->getParam('search');
         if($searchTerm) {
             $collection->addFulltextSearchTerm($searchTerm);
-        }
-    }
-    
-    /**
-     * Add catalog images to the loaded product collection
-     * 
-     * @param Styla_Connect_Model_Resource_Catalog_Product_Collection $collection
-     * @return null
-     */
-    protected function _loadImages(Styla_Connect_Model_Resource_Catalog_Product_Collection $collection)
-    {
-        $product = $collection->getFirstItem();
-        $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
-        $mediaGallery = isset($attributes['media_gallery']) ? $attributes['media_gallery'] : null;
-        if(!$mediaGallery) {
-            return;
-        }
-        
-        $attributeBackend = $mediaGallery->getBackend();
-        foreach($collection as $product) {
-            $attributeBackend->afterLoad($product);
         }
     }
     

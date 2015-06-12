@@ -7,16 +7,11 @@ class Styla_Connect_Model_Api2_Converter_Product_Image extends Styla_Connect_Mod
             return;
         }
         
-        $images = array();
-        foreach($objectImages as $objectImage) {
-            $images[] = $this->getImageUrl($objectImage['file']);
-        }
-        
-        if(count($images) === 1) {
-            $images = reset($images);
+        if(count($objectImages) === 1) {
+            $objectImages = reset($objectImages);
         }
         
         $stylaField = $this->getStylaField();
-        $dataObject->setData($stylaField, $images);
+        $dataObject->setData($stylaField, $objectImages);
     }
 }

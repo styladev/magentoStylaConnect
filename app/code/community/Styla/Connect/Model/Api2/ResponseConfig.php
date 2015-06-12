@@ -24,12 +24,30 @@ class Styla_Connect_Model_Api2_ResponseConfig
             $requestedObjects = array($requestedObject);
         } else {
             $requestedObjects = $requestedObject;
+            
+            //in case of a collection, we may wanna add some prequisites before trying to run the data conversion
+            $this->_addConverterCollectionRequirements($fieldConverters, $requestedObjects);
         }
         
         foreach($requestedObjects as $object) {
             foreach($fieldConverters as $converter) {
                 $converter->runConverter($object);
             }
+        }
+    }
+    
+    protected function _addConverterCollectionRequirements(array $currentConverters, $dataCollection)
+    {
+        $alreadyAddedRequirements = array();
+        
+        foreach($currentConverters as $converter) {
+            $requirementsId = $converter::REQUIREMENTS_TYPE;
+            if(in_array($requirementsId, $alreadyAddedRequirements)) {
+                continue;
+            }
+            
+            $converter->addRequirementsToDataCollection($dataCollection);
+            $alreadyAddedRequirements[] = $requirementsId;
         }
     }
     
