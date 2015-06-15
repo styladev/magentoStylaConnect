@@ -37,11 +37,6 @@ abstract class Styla_Connect_Model_Api2_Converter_Abstract
     
     protected function _emulateFrontend()
     {
-        $defaultStoreId = Mage::app()
-            ->getWebsite()
-            ->getDefaultGroup()
-            ->getDefaultStoreId();
-
         $appEmulation = Mage::getSingleton('core/app_emulation');
         return $appEmulation->startEnvironmentEmulation($this->_getDefaultStoreViewId());
     }

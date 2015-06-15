@@ -118,7 +118,7 @@
                         </arguments>
                     </images>
                     <shop>
-                        <class>styla_connect/api2_converter_const</class>
+                        <class>styla_connect/api2_converter_product_saleable</class>
                         <arguments>
                             <styla_field>shop</styla_field>
                             <value>true</value>
