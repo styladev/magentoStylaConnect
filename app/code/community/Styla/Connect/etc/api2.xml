@@ -47,12 +47,14 @@
                     </admin>
                 </privileges>
                 <attributes>
+                    <name>Name</name>
                     <pageUrl>Product Page URL</pageUrl>
                     <shopId>ShopId</shopId>
+                    <sku>SKU</sku>
                     <image>Product Image</image>
                     <images>Product Images</images>
                     <caption>Product Image Caption</caption>
-                    <shop>Is Shoppable</shop>
+                    <shop>Is buyable</shop>
                 </attributes>
                 <routes>
                     <route_entity>

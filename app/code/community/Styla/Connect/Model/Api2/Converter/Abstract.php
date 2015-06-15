@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Class Styla_Connect_Model_Api2_Converter_Abstract
+ */
 abstract class Styla_Connect_Model_Api2_Converter_Abstract
 {
     const ARGUMENT_STYLA_FIELD = "styla_field";
@@ -51,14 +55,15 @@ abstract class Styla_Connect_Model_Api2_Converter_Abstract
         $appEmulation = Mage::getSingleton('core/app_emulation');
         $appEmulation->stopEnvironmentEmulation($environmentInfo);
     }
-    
+
     /**
      * If a converter needs some special data from the collection to work,
      * it should be added to it here.
-     * 
+     *
      * This is ONLY ADDED in case of collection type data (see ResponseConfig::prepareStylaApiResponse() )
-     * 
+     *
      * @param mixed $dataCollection
+     * @return $this
      */
     public function addRequirementsToDataCollection($dataCollection)
     {

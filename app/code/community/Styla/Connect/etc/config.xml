@@ -87,10 +87,17 @@
                     <shop_id>
                         <class>styla_connect/api2_converter_simple</class>
                         <arguments>
-                            <magento_field>sku</magento_field>
+                            <magento_field>entity_id</magento_field>
                             <styla_field>shopId</styla_field>
                         </arguments>
                     </shop_id>
+                    <sku>
+                        <class>styla_connect/api2_converter_simple</class>
+                        <arguments>
+                            <magento_field>sku</magento_field>
+                            <styla_field>sku</styla_field>
+                        </arguments>
+                    </sku>
                     <page_url>
                         <class>styla_connect/api2_converter_product_url</class>
                         <arguments>
@@ -101,18 +108,16 @@
                         <class>styla_connect/api2_converter_product_image</class>
                         <arguments>
                             <styla_field>image</styla_field>
-                            <image_limit>1</image_limit>
                         </arguments>
                     </image>
                     <caption>
                         <class>styla_connect/api2_converter_product_imageCaption</class>
                         <arguments>
                             <styla_field>caption</styla_field>
-                            <image_limit>1</image_limit>
                         </arguments>
                     </caption>
                     <images>
-                        <class>styla_connect/api2_converter_product_image</class>
+                        <class>styla_connect/api2_converter_product_imageCollection</class>
                         <arguments>
                             <styla_field>images</styla_field>
                         </arguments>

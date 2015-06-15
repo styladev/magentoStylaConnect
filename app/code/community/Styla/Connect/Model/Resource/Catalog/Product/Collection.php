@@ -87,22 +87,6 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
      */
     protected function _getValidIdsForCategory(Mage_Catalog_Model_Category $category)
     {
-        $ids = array();
-        
-        //ids from this category and it's parents
-        $parents = $category->getParentCategories();
-        foreach($parents as $parent) {
-            $ids[] = $parent->getId();
-        }
-        
-        if($category->getIsAnchor()) {
-            //also ids from all it's children
-            $children = $category->getChildrenCategories();
-            foreach($children as $child) {
-                $ids[] = $child->getId();
-            }
-        }
-        
-        return $ids;
+        return explode(',', $category->getAllChildren());
     }
 }
