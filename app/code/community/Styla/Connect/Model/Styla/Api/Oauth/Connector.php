@@ -215,7 +215,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         $roleData = array(
             'in_role_users' => array($adminUser->getId()),
             'role_name'     => self::API2_ROLE_NAME,
-            'resource'      => "__root__,group-catalog,group-catalog_product,resource-product,privilege-product-retrieve,resource-product_category,privilege-product_category-retrieve,resource-product_image,privilege-product_image-retrieve,resource-product_website,privilege-product_website-retrieve",
+            'resource'      => "__root__,group-catalog,resource-styla_category,privilege-styla_category-retrieve,resource-styla_product,privilege-styla_product-retrieve",
             'all'           => "0"
         );
         
