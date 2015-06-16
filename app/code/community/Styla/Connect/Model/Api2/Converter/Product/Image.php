@@ -15,8 +15,10 @@ class Styla_Connect_Model_Api2_Converter_Product_Image extends Styla_Connect_Mod
         }
 
         //single image if you want more use the image collection
-        $objectImages = reset($objectImages);
-        
+        if (is_array($objectImages)) {
+            $objectImages = reset($objectImages);
+        }
+
         $stylaField = $this->getStylaField();
         $dataObject->setData($stylaField, $objectImages);
     }

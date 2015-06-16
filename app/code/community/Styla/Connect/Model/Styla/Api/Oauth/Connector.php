@@ -77,7 +77,10 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         $configuration->saveConfig('styla_connect/basic/username', $connectionData->client);
         $configuration->saveConfig('styla_connect/basic/seo_url', $connectionData->seoUrl);
         $configuration->saveConfig('styla_connect/basic/js_url', $connectionData->jsUrl);
-        
+
+        //refresh the config cache
+        $configuration->cleanCache();
+
         Mage::getSingleton('adminhtml/session')->addSuccess("Connection to Styla made successfully.");
     }
     

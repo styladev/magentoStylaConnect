@@ -1,5 +1,5 @@
 <div class="section-config">
-    <h2><?php echo $this->__('Please connect your Magento store to the Styla API.') ?></h2>
-    <span><?php echo $this->__("If you haven't yet done so, please grant access to your Magento catalog by filling the form available here:") ?></span>
-    <a target="_blank" href="<?php echo $this->getUrl('adminhtml/styla_api/index') ?>"><?php echo $this->__('Click here to go to the form.') ?></a>
+    <strong>
+        <?php echo $this->__('You can connect you store with Styla <a href="%s">automatically</a> or you fill out the <a href="#styla_connect_basic-head">Client Configuration</a> manually.', $this->getUrl('adminhtml/styla_api/index')) ?>
+    </strong>
 </div>

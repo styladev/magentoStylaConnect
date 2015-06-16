@@ -12,8 +12,10 @@ class Styla_Connect_Model_Api2_Converter_Product_ImageCaption extends Styla_Conn
         $imageCaptions = $this->getImageCaptions($dataObject);
 
         //in this version of styla api, we actually only care about the first image's caption, so:
-        $imageCaptions = reset($imageCaptions);
-        
+        if (is_array($imageCaptions)) {
+            $imageCaptions = reset($imageCaptions);
+        }
+
         $stylaField = $this->getStylaField();
         $dataObject->setData($stylaField, $imageCaptions);
     }

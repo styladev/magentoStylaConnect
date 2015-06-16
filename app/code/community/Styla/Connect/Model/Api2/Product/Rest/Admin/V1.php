@@ -35,12 +35,10 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
 
     protected function _addPagingHeaderData(Varien_Data_Collection $collection)
     {
-        $request = $this->getRequest();
-
         $links = array();
 
         $totalCount = $collection->getSize();
-        $pageSize   = $request->getPageSize();
+        $pageSize   = $collection->getPageSize();
 
         $totalPageCount = ceil($totalCount / $pageSize);
         $currentPage    = $collection->getCurPage();
@@ -138,6 +136,7 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
     {
         $searchTerm = $this->getRequest()->getParam('search');
         if ($searchTerm) {
+            $searchTerm = urldecode($searchTerm);
             $collection->addFulltextSearchTerm($searchTerm);
         }
     }

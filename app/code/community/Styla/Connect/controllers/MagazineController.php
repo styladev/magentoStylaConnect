@@ -6,7 +6,10 @@ class Styla_Connect_MagazineController extends Mage_Core_Controller_Front_Action
     {
         $path = $this->getRequest()->getParam('path');
         $api = $this->_getApi();
-         
+
+        if (empty($path)) {
+            $path = '/';
+        }
         if(!($pageData = $api->requestPageData($path))) {
             $this->_forward('noRoute');
             return;
