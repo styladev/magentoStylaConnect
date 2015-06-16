@@ -30,8 +30,12 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
     {
         $select = $this->getSelect();
         
+        $preparedTerms = Mage::getResourceHelper('catalogsearch')
+                ->prepareTerms($searchTerm);
+        $preparedTerms = implode(' ', $preparedTerms[0]);
+
         $select->join(array('fs' => 'catalogsearch_fulltext'), 'fs.product_id = e.entity_id', array());
-        $select->where(new Zend_Db_Expr('MATCH (fs.data_index) AGAINST ("' . $searchTerm . '" IN BOOLEAN MODE)'));
+        $select->where(new Zend_Db_Expr('MATCH (fs.data_index) AGAINST (' . $preparedTerms . ' IN BOOLEAN MODE)'));
         
         $select->group('e.entity_id');
     }
