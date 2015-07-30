@@ -24,11 +24,22 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
      */
     protected function _retrieveCollection()
     {
+        /**
+         * in order to get the proper data (especially the stock-related data) we need to load the products
+         * in the proper context, i.e. the context of some frontend store. In admin, some values are wrongly
+         * filled in as null.
+         * 
+         * We'll be using the default frontend store view for this.
+         */
+        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $environmentInfo = $appEmulation->startEnvironmentEmulation(Mage::app()->getDefaultStoreView()->getId());
+        
         $productCollection = $this->_getProductCollection();
 
         $this->_addPagingHeaderData($productCollection);
         $this->_getResponseConfig()->prepareStylaApiResponse($productCollection, "product");
 
+        $appEmulation->stopEnvironmentEmulation($environmentInfo);
 
         return $this->_getCollectionData($productCollection);
     }
@@ -111,6 +122,7 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
      */
     protected function _getProductCollection()
     {
+        
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('styla_connect/catalog_product_collection');
         $store      = $this->_getStore();
@@ -123,6 +135,8 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
         $this->_applyCategoryFilter($collection);
         $this->_applySearchFilter($collection);
         $this->_applyCollectionModifiers($collection);
+        
+        
         
         return $collection;
     }
