@@ -22,4 +22,19 @@ class Styla_Connect_Model_Api2_Converter_Product_Image extends Styla_Connect_Mod
         $stylaField = $this->getStylaField();
         $dataObject->setData($stylaField, $objectImages);
     }
+    
+    /**
+     * Loads the image, but allows you to define a specific collection column to load it from.
+     * Used to get the "main_image" from the collection.
+     * 
+     * @param \Varien_Object $dataObject
+     * @return type
+     */
+    public function getImages(\Varien_Object $dataObject) {
+        if($specificImageColumn = $this->getArgument('collection_field')) {
+            return array($this->getImageUrl($dataObject->getData($specificImageColumn)));
+        }
+        
+        return parent::getImages($dataObject);
+    }
 }
