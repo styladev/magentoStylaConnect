@@ -115,6 +115,7 @@
                         <class>styla_connect/api2_converter_product_image</class>
                         <arguments>
                             <styla_field>image</styla_field>
+                            <collection_field>main_image</collection_field>
                         </arguments>
                     </image>
                     <caption>

@@ -132,14 +132,25 @@ abstract class Styla_Connect_Model_Api2_Converter_Product_ImageAbstract extends 
 
         $dataSelect->columns(
             array(
-                'all_images'       => new Zend_Db_Expr("GROUP_CONCAT(img.value SEPARATOR '|')"),
+                'all_images'       => new Zend_Db_Expr("GROUP_CONCAT(img.value ORDER BY imginfo.position SEPARATOR '|')"),
                 'all_image_labels' => new Zend_Db_Expr("GROUP_CONCAT(IFNULL(imginfo.label, '') SEPARATOR '|')")
             ));
 
         $dataSelect->where("img.attribute_id = ?", $mediaGalleryAttributeId);
 
         $dataSelect->group("e.entity_id");
-
+        
+        /*
+         * we're also separately adding the main image, as it's the one supposed to be representing the whole product
+         * and it can't be properly taken from the grouped images that we already have
+         * 
+         */
+        $imageAttribute = Mage::getSingleton('eav/config')->getCollectionAttribute('catalog_product', 'image');
+        $imageTable = $imageAttribute->getBackendTable();
+        $imageAttributeId = $imageAttribute->getAttributeId();
+        
+        $dataSelect->joinLeft(array('mainimage' => $imageTable), 'mainimage.attribute_id = ' . $imageAttributeId . " AND mainimage.entity_id = e.entity_id", array('value as main_image'));
+        
         return $this;
     }
 }
