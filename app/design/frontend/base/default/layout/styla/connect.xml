@@ -15,4 +15,15 @@
             <block type="styla_connect/magazine_content" name="magazine_content" as="magazine_content"></block>
         </reference>
     </styla_connect_magazine_index>
+    
+    <styla_connect_product_cart_add>
+        <block type="styla_connect/cart_contentlist" name="cart_update_content" as="cart_update_content">
+            <action method="insert">
+                <block>minicart_head</block> <!-- here we're returning updated content from the normal magento mini cart -->
+            </action>
+            
+            <!-- Blocks defined here will be called and rendered to html after a product is added to cart in Styla. -->
+            <!-- Please use this block to add any other children you need to -->
+        </block>
+    </styla_connect_product_cart_add>
 </layout>
