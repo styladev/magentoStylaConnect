@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <layout>
+    <default>
+        <reference name="head">
+            <block type="core/template" name="styla.cart.update.js" as="styla.cart.update.js" template="styla/connect/cart/updatejs.phtml" />
+        </reference>
+    </default>
+    
     <styla_connect_magazine_index>
         <reference name="root">
             <block type="styla_connect/magazine_head" name="magazine_head" as="magazine_head"></block>
@@ -19,11 +25,14 @@
     <styla_connect_product_cart_add>
         <block type="styla_connect/cart_contentlist" name="cart_update_content" as="cart_update_content">
             <action method="insert">
-                <block>minicart_head</block> <!-- here we're returning updated content from the normal magento mini cart -->
+                <block>minicart_content</block> <!-- here we're returning updated content from the original magento minicart -->
             </action>
             
             <!-- Blocks defined here will be called and rendered to html after a product is added to cart in Styla. -->
             <!-- Please use this block to add any other children you need to -->
+            
+            <!-- Later, the values returned from here can be processed by the styla/connect/cart/updatejs.phtml script, called
+                 on a js event 'styla_cart_add_after' -->
         </block>
     </styla_connect_product_cart_add>
 </layout>

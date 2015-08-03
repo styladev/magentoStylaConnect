@@ -14,12 +14,6 @@ class Styla_Connect_CartController extends Mage_Checkout_CartController
      */
     public function addAction()
     {
-        //@TODO: we may wanna implement and pass the form key:
-        /* if (!$this->_validateFormKey()) {
-            $this->_goBack();
-            return;
-        } */
-        
         $cart   = $this->_getCart();
         $params = $this->getRequest()->getParams();
         try {
@@ -72,8 +66,8 @@ class Styla_Connect_CartController extends Mage_Checkout_CartController
         }
         
         $resultArray = array(
-            'cart_html' => $this->_getCartHtmlContent(),
-            'cart_meta' => $this->_getCartMetaData(),
+            'html' => $this->_getCartHtmlContent(),
+            'meta' => $this->_getCartMetaData(),
         );
         
         $this->getResponse()->setHeader('Content-type', 'application/json');
