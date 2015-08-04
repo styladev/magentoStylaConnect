@@ -1,4 +1,4 @@
-$j(document).on('styla:cart:add_after', function(event, eventData) {
+window.stylaUpdateCart = function stylaUpdateCart(data) {
     /**
      * This script is waiting for an event "styla_cart_add_after" to fire.
      * The event is fired after a user successfully adds a new product to his cart, using the styla product story page.
@@ -11,8 +11,8 @@ $j(document).on('styla:cart:add_after', function(event, eventData) {
      * Look for the default minicart block, and if it's found - update it's content with the data we got from this event
      */
     var $minicartContentElement = $j("#header-cart");
-    if ($minicartContentElement && eventData.html !== undefined && eventData.html.minicart_content !== undefined) {
-        $minicartContentElement.html(eventData.html.minicart_content);
+    if ($minicartContentElement && data.html !== undefined && data.html.minicart_content !== undefined) {
+        $minicartContentElement.html(data.html.minicart_content);
     }
 
     /**
@@ -20,7 +20,7 @@ $j(document).on('styla:cart:add_after', function(event, eventData) {
      * cart "metadata".
      */
     var $cartCountElement = $j(".skip-cart .count");
-    if ($cartCountElement && eventData.hasOwnProperty('meta')) {
-        $cartCountElement.html(eventData.meta.num_items);
+    if ($cartCountElement && data.hasOwnProperty('meta')) {
+        $cartCountElement.html(data.meta.num_items);
     }
-});
+};
