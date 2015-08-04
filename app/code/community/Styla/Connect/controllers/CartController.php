@@ -55,7 +55,7 @@ class Styla_Connect_CartController extends Mage_Checkout_CartController
             foreach ($messages as $message) {
                 $this->_getSession()->addError(Mage::helper('core')->escapeHtml($message));
             } */
-
+            Mage::logException($e);
             $this->getResponse()->setHeader('HTTP/1.0','404',true);
             return;
         } catch (Exception $e) {
