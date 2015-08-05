@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Styla_Connect>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Styla_Connect>
     </modules>
     
@@ -17,6 +17,16 @@
                 <class>Styla_Connect_Model_Resource</class>
             </styla_connect_resource>
         </models>
+        <resources>
+            <styla_connect_setup>
+                <setup>
+                    <module>Styla_Connect</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </styla_connect_setup>
+        </resources>
         <blocks>
             <styla_connect>
                 <class>Styla_Connect_Block</class>
@@ -137,6 +147,13 @@
                             <value>true</value>
                         </arguments>
                     </shop>
+                    <type_id>
+                        <class>styla_connect/api2_converter_simple</class>
+                        <arguments>
+                            <magento_field>type_id</magento_field>
+                            <styla_field>type_id</styla_field>
+                        </arguments>
+                    </type_id>
                 </product>
                 <category>
                     <name>

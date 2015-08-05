@@ -10,7 +10,7 @@
     
     <styla_connect_magazine_index>
         <reference name="root">
-            <block type="styla_connect/magazine_head" name="magazine_head" as="magazine_head"></block>
+            <block type="styla_connect/magazine_head" name="magazine_head" as="magazine_head" template="styla/connect/head.phtml" />
         </reference>
         
         <reference name="root">
@@ -20,7 +20,7 @@
         </reference>
         
         <reference name="content">
-            <block type="styla_connect/magazine_content" name="magazine_content" as="magazine_content"></block>
+            <block type="styla_connect/magazine_content" name="magazine_content" as="magazine_content" template="styla/connect/content.phtml" />
         </reference>
     </styla_connect_magazine_index>
     

@@ -55,6 +55,7 @@
                     <images>Product Images</images>
                     <caption>Product Image Caption</caption>
                     <shop>Is buyable</shop>
+                    <type_id>Product Type</type_id>
                 </attributes>
                 <routes>
                     <route_entity>

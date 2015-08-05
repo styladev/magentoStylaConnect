@@ -3,22 +3,7 @@ class Styla_Connect_Block_Magazine_Content extends Styla_Connect_Block_Magazine
 {
     const SCRIPT_TAG = '<div id="stylaMagazine"></div><script defer="defer" id="amazineEmbed" src="%s" data-language="%s" data-rootpath="%s"></script>';
     
-    protected function _toHtml()
-    {
-        $html = "";
-        
-        if($scriptHtml = $this->_getScript()) {
-            $html .= $scriptHtml;
-        }
-        
-        if($noscriptHtml = $this->_getNoscript()) {
-            $html .= $noscriptHtml;
-        }
-        
-        return $html;
-    }
-    
-    protected function _getNoscript()
+    public function getNoscript()
     {
         $html = "";
         
@@ -33,7 +18,7 @@ class Styla_Connect_Block_Magazine_Content extends Styla_Connect_Block_Magazine
         return $html;
     }
     
-    protected function _getScript()
+    public function getScript()
     {
         $html = "";
         

@@ -1,5 +1,5 @@
 <?php
-class Styla_Connect_Block_Magazine extends Mage_Core_Block_Abstract
+class Styla_Connect_Block_Magazine extends Mage_Core_Block_Template
 {
     protected $_magazineData;
     

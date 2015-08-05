@@ -1,18 +1,16 @@
 <?php
 class Styla_Connect_Block_Magazine_Head extends Styla_Connect_Block_Magazine
 {
-    protected function _toHtml()
+    public function getHeadData()
     {
-        $headHtml = "";
-        
         $magazineData = $this->getMagazineData();
         if($magazineData) {
             $seoJson = $magazineData->getSeoData();
             if(isset($seoJson->html) && $seoJson->html->head) {
-                $headHtml = (string)$seoJson->html->head;
+                return (string)$seoJson->html->head;
             }
         }
         
-        return $headHtml;
+        return "";
     }
 }

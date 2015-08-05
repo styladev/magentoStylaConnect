@@ -124,13 +124,13 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
      * 
      * @return Mage_Admin_Model_User
      */
-    public function getAdminUser()
+    public function getAdminUser($createIfNotExist = true)
     {
         $adminUsers = Mage::getModel('admin/user')->getCollection()
                 ->addFieldToFilter('username', self::ADMIN_USERNAME);
         
         $adminUser = $adminUsers->getFirstItem();
-        if(!$adminUser->getId()) {
+        if(!$adminUser->getId() && $createIfNotExist) {
             $stylaLoginData = $this->getStylaLoginData();
             
             //create a new admin user for Styla
@@ -163,15 +163,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
      */
     public function addStylaAttributesToAdminRole()
     {
-        /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
-        $collection = Mage::getModel('api2/acl_filter_attribute')->getCollection();
-        $collection->addFilterByUserType(self::REST_USER_TYPE);
-        $collection->addFieldToFilter('resource_id', 'styla_category');
-        
-        $existingAttribute = $collection->getFirstItem();
-        if($existingAttribute->getId()) {
-            return; //we already have those attributes added
-        }
+        $this->resetStylaAttributesInAdminRole();
 
         $attributesToUse = $this->getAttributesForStyla();
         foreach($attributesToUse as $group => $attributes) {
@@ -187,6 +179,24 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
             
             $attribute->save();
         }
+    }
+    
+    /**
+     * If we have existing attributes assigned to our admin user, delete them all
+     * 
+     */
+    public function resetStylaAttributesInAdminRole()
+    {
+        /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
+        $collection = Mage::getModel('api2/acl_filter_attribute')->getCollection();
+        $collection->addFilterByUserType(self::REST_USER_TYPE);
+        $collection->addFieldToFilter('resource_id', array('in' => array('styla_product','styla_category')));
+        
+        foreach($collection as $item) {
+            $item->delete();
+        }
+        
+        return $this;
     }
     
     /**
