@@ -46,7 +46,10 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
      */
     public function getRouteSettings($path)
     {
-        return str_replace($this->getRouteName(), "", $path);
+        //the path should not contain the trailing slash, the styla api is not expecting it
+        $path = rtrim(str_replace($this->getRouteName(), "", $path), '/');
+        
+        return $path;
     }
     
     /**

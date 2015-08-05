@@ -48,6 +48,13 @@
                     <frontName>styla_connect</frontName>
                 </args>
             </styla_connect>
+            <styla_connect_product>
+                <use>standard</use>
+                <args>
+                    <module>Styla_Connect</module>
+                    <frontName>styla</frontName>
+                </args>
+            </styla_connect_product>
         </routers>
         
         <layout>

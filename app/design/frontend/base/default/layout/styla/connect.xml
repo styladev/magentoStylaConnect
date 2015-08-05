@@ -1,5 +1,13 @@
 <?xml version="1.0"?>
 <layout>
+    <default>
+        <reference name="head">
+            <reference name="head">
+                <action method="addItem"><type>skin_js</type><name>js/styla/connect.js</name></action>
+            </reference>
+        </reference>
+    </default>
+    
     <styla_connect_magazine_index>
         <reference name="root">
             <block type="styla_connect/magazine_head" name="magazine_head" as="magazine_head"></block>
@@ -15,4 +23,18 @@
             <block type="styla_connect/magazine_content" name="magazine_content" as="magazine_content"></block>
         </reference>
     </styla_connect_magazine_index>
+    
+    <styla_connect_product_cart_add>
+        <block type="styla_connect/cart_contentlist" name="cart_update_content" as="cart_update_content">
+            <action method="insert">
+                <block>minicart_content</block> <!-- here we're returning updated content from the original magento minicart -->
+            </action>
+            
+            <!-- Blocks defined here will be called and rendered to html after a product is added to cart in Styla. -->
+            <!-- Please use this block to add any other children you need to -->
+            
+            <!-- Later, the values returned from here can be processed by the styla/connect/cart/updatejs.phtml script, called
+                 on a js event 'styla_cart_add_after' -->
+        </block>
+    </styla_connect_product_cart_add>
 </layout>
