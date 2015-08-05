@@ -29,6 +29,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
         //basic product info, same for every possible product type
         $productInfo = array(
             'id' => $product->getId(),
+            'type'  => $product->getTypeId(),
             'name' => $product->getName(),
             'saleable' => $product->isSaleable(),
             'price' => Mage::helper('tax')->getPrice($product, $product->getFinalPrice()),
