@@ -25,7 +25,7 @@ class Styla_Connect_Block_Magazine_Content extends Styla_Connect_Block_Magazine
         $magazineData = $this->getMagazineData();
         if($magazineData) {
             $seoJson = $magazineData->getSeoData();
-            if($seoJson->html && $seoJson->html->body) {
+            if(isset($seoJson->html) && $seoJson->html->body) {
                 $html = (string)$seoJson->html->body;
             }
         }

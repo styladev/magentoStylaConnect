@@ -9,8 +9,13 @@ class Styla_Connect_Model_Styla_Api_Response_Type_Seo extends Styla_Connect_Mode
      * @return string
      */
     public function getResult() {
-        $result = parent::getResult();
+        $result = new stdClass();
         
+        if($this->getHttpStatus() != 200) {
+            return $result;
+        }
+        
+        $result = $this->getProcessedResult();
         return $result;
     }
 }
