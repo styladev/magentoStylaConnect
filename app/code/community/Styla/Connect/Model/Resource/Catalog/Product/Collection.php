@@ -23,6 +23,18 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
     }
     
     /**
+     * will only return products that are in at least one website
+     * 
+     */
+    public function addInWebsiteFilter()
+    {
+       $select = $this->getSelect();
+       $select->joinRight(array('inwebs' => $this->getTable('catalog/product_website')), 'inwebs.product_id = e.entity_id', array());
+       
+       return $this;
+    }
+    
+    /**
      * 
      * @param string $searchTerm
      */

@@ -136,7 +136,8 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
         $this->_applySearchFilter($collection);
         $this->_applyCollectionModifiers($collection);
         
-        
+        //only return products that have at least one website defined
+        $collection->addInWebsiteFilter();
         
         return $collection;
     }
