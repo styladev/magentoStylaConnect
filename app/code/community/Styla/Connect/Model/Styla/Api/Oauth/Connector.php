@@ -5,9 +5,30 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
     const API2_ROLE_NAME = "StylaApi2Role";
     const CONSUMER_NAME  = "Styla Api Connector";
     const REST_USER_TYPE = "admin";
-    const STYLA_API_CONNECTOR_URL = "http://dev.styla.com/api/magento"; //TODO: change from hard-coded to live/test
+    const STYLA_API_CONNECTOR_URL_STAGE             = "http://dev.styla.com/api/magento";
+    const STYLA_API_CONNECTOR_URL_PRODUCTION        = "http://styla.com/api/magento";
     
     protected $_stylaLoginData;
+    
+    /**
+     * Get the URL for connecting with Styla, by module's operating mode
+     * 
+     * @return string
+     * @throws Exception
+     */
+    public function getConnectorApiUrl()
+    {
+        $mode = Mage::helper('styla_connect/config')->getMode();
+        
+        switch($mode) {
+            case Styla_Connect_Helper_Config::MODE_PRODUCTION:
+                return self::STYLA_API_CONNECTOR_URL_PRODUCTION;
+            case Styla_Connect_Helper_Config::MODE_STAGE:
+                return self::STYLA_API_CONNECTOR_URL_STAGE;
+            default:
+                throw new Exception("Wrong module configuration.");
+        }
+    }
     
     public function getStylaLoginData()
     {
@@ -40,7 +61,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
                 ->addFieldToFilter('consumer_id', $consumer->getId());
         $token = $token->getFirstItem();
         if(!$token->getId()) {
-            $token = Mage::getModel('oauth/token')->createRequestToken($consumer->getId(), self::STYLA_API_CONNECTOR_URL);
+            $token = Mage::getModel('oauth/token')->createRequestToken($consumer->getId(), $this->getConnectorApiUrl());
         }
         
         //if this is a new token, it will be authorized and converted to permanent
@@ -49,6 +70,74 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
             $token->convertToAccess();
         }
         
+        /**
+         * Try to load cached module configuration (based on the current module's operating mode),
+         * and if none is available - try calling the Styla Api to get the configuration for this mode
+         * 
+         */
+        if(false === ($connectionData = $this->getCachedConnectionData())) {
+            $connectionData = $this->sendRegistrationRequest($loginData, $consumer, $token);
+        }
+        
+        Mage::helper('styla_connect/config')->updateConnectionConfiguration($connectionData);
+
+        Mage::getSingleton('adminhtml/session')->addSuccess("Connection to Styla made successfully.");
+    }
+    
+    /**
+     * Use this method to get the module to re-save it's configuration to the one matching the current operation mode (stage/ prod).
+     * It will try using a cached Styla connection API response.
+     * 
+     * @return boolean
+     */
+    public function tryUpdatingStylaAccessConfiguration()
+    {
+        /**
+         * if we already have stored the api response for this module configuration (prod/ stage) - update the access configuration
+         * automatically. If not, then return false so we can let the client know he has to open the registration page
+         * 
+         */
+        $helper = Mage::helper('styla_connect/config');
+        $mode = $helper->getMode();
+
+        if(false !== ($connectionData = $helper->getCachedConnectionData())) {
+            $helper->updateConnectionConfiguration($connectionData);
+            
+            return true;
+        } else {
+            /**
+             * there's no cached connection data available, so the client will have to open the registration form manually
+             */
+            
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @return stdClass|bool
+     */
+    public function getCachedConnectionData()
+    {
+        return Mage::helper('styla_connect/config')->getCachedConnectionData();
+    }
+    
+    public function cacheConnectionData(stdClass $connectionData, $moduleMode)
+    {
+        Mage::helper('styla_connect/config')->cacheConnectionData($connectionData, $moduleMode);
+    }
+    
+    /**
+     * Send the registration data to Styla and request module configuration
+     * 
+     * @param array $loginData
+     * @param Mage_Oauth_Model_Consumer $consumer
+     * @param Mage_Oauth_Model_Token $token
+     * @return stdClass
+     * @throws Exception
+     */
+    public function sendRegistrationRequest($loginData, $consumer, $token)
+    {
         //at this point we have all the login data we need for styla to access our api
         $stylaApi = Mage::getSingleton('styla_connect/styla_api');
         
@@ -71,17 +160,16 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         }
         
         //setup the api urls for this client
+        /** @var stdClass $connectionData */
         $connectionData = $apiResponse->getResult();
         
-        $configuration = $this->getConfiguration();
-        $configuration->saveConfig('styla_connect/basic/username', $connectionData->client);
-        $configuration->saveConfig('styla_connect/basic/seo_url', $connectionData->seoUrl);
-        $configuration->saveConfig('styla_connect/basic/js_url', $connectionData->jsUrl);
-
-        //refresh the config cache
-        $configuration->cleanCache();
-
-        Mage::getSingleton('adminhtml/session')->addSuccess("Connection to Styla made successfully.");
+        /**
+         * store the result data, so we don't have to call the api anymore in the future (on every change of the module's operating mode
+         * the configuration gets overwritten, so otherwise we'd have to call the api every time we change it)
+         */
+        $this->cacheConnectionData($connectionData, Mage::helper('styla_connect/config')->getMode());
+        
+        return $connectionData;
     }
     
     /**

@@ -76,6 +76,20 @@
         </layout>
     </frontend>
     
+    <adminhtml>
+        <events>
+            <admin_system_config_changed_section_styla_connect>
+                <observers>
+                    <styla_connect_config_change>
+                        <class>styla_connect/adminhtml_observer</class>
+                        <type>singleton</type>
+                        <method>checkModuleConfiguration</method>
+                    </styla_connect_config_change>
+                </observers>
+            </admin_system_config_changed_section_styla_connect>
+        </events>
+    </adminhtml>
+    
     <default>
         <web>
             <routers>

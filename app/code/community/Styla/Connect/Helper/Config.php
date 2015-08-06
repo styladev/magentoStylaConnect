@@ -3,6 +3,30 @@ class Styla_Connect_Helper_Config
 {
     const DEFAULT_ROUTE_NAME = 'magazin';
     
+    const MODE_STAGE = "stage";
+    const MODE_PRODUCTION = "prod";
+    
+    protected $_apiConfigurationFields = array(
+        'client' => 'styla_connect/basic/username',
+        'seoUrl' => 'styla_connect/basic/seo_url',
+        'jsUrl'  => 'styla_connect/basic/js_url',
+    );
+    
+    protected $_configuration;
+    
+    /**
+     * 
+     * @return Mage_Core_Model_Config
+     */
+    public function getConfiguration()
+    {
+        if(!$this->_configuration) {
+            $this->_configuration = new Mage_Core_Model_Config();
+        }
+        
+        return $this->_configuration;
+    }
+    
     /**
      * Get the global Client's username
      * 
@@ -64,5 +88,122 @@ class Styla_Connect_Helper_Config
     public function parseUrl($url)
     {
         return rtrim($url, "/") . "/";
+    }
+    
+    /**
+     * Return the current operating mode STAGE/PROD of the module
+     * 
+     * @return string
+     */
+    public function getMode()
+    {
+        $configuredMode = Mage::getStoreConfig('styla_connect/basic/mode');
+        return $configuredMode ? $configuredMode : self::MODE_PRODUCTION;
+    }
+    
+    /**
+     * Is the module already registered with Styla in the operating mode in question (stage, prod)
+     * 
+     * @return bool
+     */
+    public function isConfiguredForThisMode()
+    {
+        $currentMode = $this->getMode();
+        $configuredFor = Mage::getStoreConfig('styla_connect/basic/configured_for_mode');
+
+        return $currentMode == $configuredFor;
+    }
+    
+    /**
+     * Save the connection configuration for the module. This data is taken from a response to the Styla API.
+     * See the Api Connector for more details.
+     * 
+     * @param stdClass $connectionData
+     */
+    public function updateConnectionConfiguration(stdClass $connectionData)
+    {
+        $configuration = $this->getConfiguration();
+        
+        foreach($this->_apiConfigurationFields as $fieldName => $configurationPath) {
+            if(!isset($connectionData->$fieldName)) {
+                throw new Styla_Connect_Exception("The configuration is missing required data: " . $fieldName);
+            }   
+            
+            $configuration->saveConfig($configurationPath, $connectionData->$fieldName);
+        }
+        
+        $configuration->saveConfig('styla_connect/basic/configured_for_mode', $this->getMode());
+
+        //refresh the config cache
+        $configuration->cleanCache();
+    }
+    
+    /**
+     * Get cached connection configuration for module operation mode $mode
+     * 
+     * @param string $mode
+     * @return bool|stdClass
+     */
+    public function getConnectionDataForMode($mode)
+    {
+        $connectionData = new stdClass();
+        
+        $hasConfigurationData = false;
+        foreach($this->_apiConfigurationFields as $fieldName => $configurationPath) {
+            /**
+             * try loading the cached connection data for this $mode
+             * 
+             */
+            $configurationPathByMode = $configurationPath . "_" . $mode;
+            
+            $savedConfigurationValue = Mage::getStoreConfig($configurationPathByMode);
+            if($savedConfigurationValue) {
+                $hasConfigurationData = true;
+                
+                $connectionData->$fieldName = $savedConfigurationValue;
+            }
+        }
+        
+        return $hasConfigurationData ? $connectionData : false;
+    }
+    
+    /**
+     * Returns false if no configuration found for current mode
+     * 
+     * @return bool|stdClass
+     */
+    public function getCachedConnectionData()
+    {
+        $mode = $this->getMode();
+        
+        $cachedConnectionData = $this->getConnectionDataForMode($mode);
+        return $cachedConnectionData;
+    }
+    
+    /**
+     * Store the response from the Styla API Connector for the $moduleMode operation mode, so we don't have to call
+     * styla again to get the same data
+     * 
+     * @param stdClass $connectionData
+     * @param string $moduleMode prod/stage
+     */
+    public function cacheConnectionData(stdClass $connectionData, $moduleMode)
+    {
+        $configuration = $this->getConfiguration();
+        
+        foreach($this->_apiConfigurationFields as $fieldName => $configurationPath) {
+            if(!isset($connectionData->$fieldName)) {
+                throw new Styla_Connect_Exception("Invalid response from Styla API. Couldn't find required configuration value for " . $fieldName);
+            }
+            
+            /**
+             * save the cached value for this $moduleMode mode
+             */
+            $configurationPathByMode = $configurationPath . "_" . $moduleMode;            
+            $configuration->saveConfig($configurationPathByMode, $connectionData->$fieldName);
+        }
+        
+        //refresh the config cache
+        $configuration->cleanCache();
     }
 }
