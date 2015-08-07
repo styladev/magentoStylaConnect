@@ -10,7 +10,13 @@
     
     <styla_connect_magazine_index>
         <reference name="root">
-            <block type="styla_connect/magazine_head" name="magazine_head" as="magazine_head" template="styla/connect/head.phtml" />
+            <block type="styla_connect/magazine_head" name="magazine_head" as="magazine_head" template="styla/connect/styla_head.phtml" />
+        </reference>
+        
+        <reference name="head">
+            <action method="setTemplate">
+                <template>styla/connect/magento_head.phtml</template>
+            </action>
         </reference>
         
         <reference name="root">

@@ -1,19 +1,13 @@
 <?php
 class Styla_Connect_Block_Magazine extends Mage_Core_Block_Template
 {
-    protected $_magazineData;
-    
     /**
      * 
      * @return Varien_Object|null
      */
     public function getMagazineData()
     {
-        if(!$this->_magazineData) {
-            $this->_magazineData = Mage::registry('current_magazine_data');
-        }
-        
-        return $this->_magazineData;
+        return Mage::helper('styla_connect')->getMagazineData();
     }
     
     /**
@@ -24,6 +18,4 @@ class Styla_Connect_Block_Magazine extends Mage_Core_Block_Template
     {
         return Mage::helper('styla_connect/config');
     }
-    
-    
 }
