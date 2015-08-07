@@ -24,7 +24,7 @@ class Styla_Connect_Adminhtml_Styla_ApiController extends Mage_Adminhtml_Control
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
         
-        $this->_redirect("*/*");
+        $this->_redirect("adminhtml/system_config/edit/section/styla_connect");
     }
     
     protected function _validateData($data)

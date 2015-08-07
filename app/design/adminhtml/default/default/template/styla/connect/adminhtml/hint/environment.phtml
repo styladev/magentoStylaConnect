@@ -7,4 +7,8 @@
         
         <p><?php echo $this->__('Please click here to connect your store with Styla') ?>: <a href="<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/styla_api/index') ?>"><?php echo $this->__('click here to connect.') ?></a></p>
     </div>
+<?php else: ?>
+    <div class="section-config">
+        <p><a href="<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/styla_api/index') ?>"><?php echo $this->__('Click here if you need to re-connect your store to the Styla API') ?>.</a></p>
+    </div>
 <?php endif; ?>
