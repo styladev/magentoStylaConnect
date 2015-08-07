@@ -101,7 +101,7 @@
                         
                         <js_url translate="label">
                             <label>Styla Magazine Api Javascript Url</label>
-                            <comment>Eg. //live.styla.com/scripts/embed/%s.js (%s will be turned into your Styla API Username)</comment>
+                            <comment>Eg. //live.styla.com/preloader/embed/%s.js (%s will be turned into your Styla API Username)</comment>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
