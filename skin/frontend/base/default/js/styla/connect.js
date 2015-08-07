@@ -1,7 +1,6 @@
 window.stylaUpdateCart = function stylaUpdateCart(data) {
     /**
-     * This script is waiting for an event "styla_cart_add_after" to fire.
-     * The event is fired after a user successfully adds a new product to his cart, using the styla product story page.
+     * This function is called after a user successfully adds a new product to his cart, using the styla product story page.
      *
      * It's used to load updated minicart content and (possibly) open the minicart window, if possible.
      * You can rewrite this to suit your needs better.
