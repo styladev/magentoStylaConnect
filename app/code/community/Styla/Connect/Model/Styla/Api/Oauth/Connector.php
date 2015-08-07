@@ -251,6 +251,13 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
      */
     public function addStylaAttributesToAdminRole()
     {
+        /*
+         * check if the admin user already has "all" attributes, and if he does - skip
+         */
+        if($this->adminUserHasAllAttributes()) {
+            return;
+        }
+        
         $this->resetStylaAttributesInAdminRole();
 
         $attributesToUse = $this->getAttributesForStyla();
@@ -267,6 +274,22 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
             
             $attribute->save();
         }
+    }
+    
+    /**
+     * Check if the admin user already has "all" ACL attributes assigned
+     * 
+     * @return bool
+     */
+    public function adminUserHasAllAttributes()
+    {
+        /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
+        $collection = Mage::getModel('api2/acl_filter_attribute')->getCollection();
+        $collection->addFilterByUserType(self::REST_USER_TYPE);
+        $collection->addFieldToFilter('resource_id', 'all');
+        
+        $firstAttribute = $collection->getFirstItem();
+        return $firstAttribute->getId() ? true : false;
     }
     
     /**
