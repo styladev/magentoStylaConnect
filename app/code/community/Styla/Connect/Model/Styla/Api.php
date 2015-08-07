@@ -4,7 +4,7 @@ class Styla_Connect_Model_Styla_Api
     const REQUEST_CLASS_ALIAS = 'styla_connect/styla_api_request_type_';
     const RESPONSE_CLASS_ALIAS = 'styla_connect/styla_api_response_type_';
     
-    const JAVASCRIPT_URL = 'http://styla.com/scripts/embed/%s.js';
+    const JAVASCRIPT_URL = '//live.styla.com/scripts/embed/%s.js';
     
     const REQUEST_TYPE_SEO = 'seo';
     const REQUEST_TYPE_VERSION = 'version';

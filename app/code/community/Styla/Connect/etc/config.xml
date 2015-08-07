@@ -103,6 +103,8 @@
         <styla_connect>
             <basic>
                 <frontend_name>magazin</frontend_name>
+                <js_url>//live.styla.com/scripts/embed/%s.js</js_url>
+                <seo_url>http://seo.styla.com/</seo_url>
                 <enabled>1</enabled>
                 <cache_lifetime>3600</cache_lifetime>
                 <use_magento_layout>0</use_magento_layout>

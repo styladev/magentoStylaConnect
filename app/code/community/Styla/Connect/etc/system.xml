@@ -95,13 +95,13 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Eg. http://seoapitest1.magalog.net/</comment>
+                            <comment>Eg. http://seo.styla.com/</comment>
                             <sort_order>70</sort_order>
                         </seo_url>
                         
                         <js_url translate="label">
                             <label>Styla Magazine Api Javascript Url</label>
-                            <comment>Eg. http://dev.styla.com/scripts/embed/%s.js (%s will be turned into your Styla API Username)</comment>
+                            <comment>Eg. //live.styla.com/scripts/embed/%s.js (%s will be turned into your Styla API Username)</comment>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
