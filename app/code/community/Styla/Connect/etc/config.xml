@@ -5,14 +5,14 @@
             <version>0.1.1</version>
         </Styla_Connect>
     </modules>
-    
+
     <global>
         <models>
             <styla_connect>
                 <class>Styla_Connect_Model</class>
                 <resourceModel>styla_connect_resource</resourceModel>
             </styla_connect>
-            
+
             <styla_connect_resource>
                 <class>Styla_Connect_Model_Resource</class>
             </styla_connect_resource>
@@ -37,7 +37,7 @@
                 <class>Styla_Connect_Helper</class>
             </styla_connect>
         </helpers>
-        
+
         <cache>
             <types>
                 <styla_connect module="styla_connect" translate="label description">
@@ -48,7 +48,7 @@
             </types>
         </cache>
     </global>
-    
+
     <frontend>
         <routers>
             <styla_connect>
@@ -66,7 +66,7 @@
                 </args>
             </styla_connect_product>
         </routers>
-        
+
         <layout>
             <updates>
                 <styla_connect>
@@ -75,7 +75,7 @@
             </updates>
         </layout>
     </frontend>
-    
+
     <adminhtml>
         <events>
             <admin_system_config_changed_section_styla_connect>
@@ -89,7 +89,7 @@
             </admin_system_config_changed_section_styla_connect>
         </events>
     </adminhtml>
-    
+
     <default>
         <web>
             <routers>
@@ -99,7 +99,7 @@
                 </styla_connect>
             </routers>
         </web>
-        
+
         <styla_connect>
             <basic>
                 <frontend_name>magazin</frontend_name>
@@ -109,7 +109,7 @@
                 <cache_lifetime>3600</cache_lifetime>
                 <use_magento_layout>0</use_magento_layout>
             </basic>
-            
+
             <response_fields>
                 <!-- If you add new fields here, remember that these new fields must also be added to the
                      Styla rest user's access rights as well. 
@@ -117,6 +117,9 @@
                      Otherwise, the additional fields will be filtered out by magento api.
                 -->
                 <product>
+                    <!-- Use the converters to overwrite the values you want to return.
+                         check out the readme for details
+                     -->
                     <shop_id>
                         <class>styla_connect/api2_converter_simple</class>
                         <arguments>
@@ -196,7 +199,7 @@
             </response_fields>
         </styla_connect>
     </default>
-    
+
     <admin>
         <routers>
             <adminhtml>
@@ -208,7 +211,7 @@
             </adminhtml>
         </routers>
     </admin>
-    
+
     <adminhtml>
         <acl>
             <resources>
@@ -229,7 +232,7 @@
                 </admin>
             </resources>
         </acl>
-        
+
         <layout>
             <updates>
                 <styla_connect>

@@ -1,7 +1,7 @@
 <div class="content-header">
     <table cellspacing="0" class="grid-header">
         <tr>
-            <td><h3><?=$this->__('Styla Story Editor Connection')?></h3></td>
+            <td><h3><?=$this->__('Styla Connect Assistant')?></h3></td>
             <td class="a-right">
                 <button onclick="editForm.submit()" class="scalable save" type="button"><span><?php echo $this->__('Send Login Data to Styla') ?></span></button>
             </td>
@@ -13,6 +13,9 @@
         <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
         <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__('Your Styla User Login Data')?></h4>
         <fieldset id="my-fieldset">
+            <div class="comment">
+                <?php echo $this->__('The connect assistant will use you styla login to retrieve the necessary configuration data directly form styla.')?>
+            </div>
             <table cellspacing="0" class="form-list">
                 <tr>
                     <td class="label"><?=$this->__('Your Styla Email')?> <span class="required">*</span></td>

@@ -60,9 +60,8 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
      */
     protected function _isValidPath(Zend_Controller_Request_Http $request)
     {
-        $path = ltrim($request->getPathInfo(), '/');
-        $path = rtrim($path, '/') . '/';
-        
+        $path = trim($request->getPathInfo(), '/') . '/';
+
         if(strpos($path, $this->getRouteName()) === 0) {
             return $path;
         }
