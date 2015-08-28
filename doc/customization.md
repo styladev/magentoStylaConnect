@@ -53,54 +53,54 @@ Example response:
 ### Returning Additional html (like for an overlay)
 
 1. Add a new layout xml file to your `{namespace}_Styla` configuration
-```xml
-    <frontend>
-        <layout>
-            <updates>
-                <{namespace}_styla>
-                    <file>{namespace}_styla.xml</file>
-                </{namespace}_styla>
-            </updates>
-        </layout>
-    </frontend>
-```
+    ```xml
+        <frontend>
+            <layout>
+                <updates>
+                    <{namespace}_styla>
+                        <file>{namespace}_styla.xml</file>
+                    </{namespace}_styla>
+                </updates>
+            </layout>
+        </frontend>
+    ```
+    
+2. Create `{namespace}_styla.xml` file in your themes layout directory with for example this content:
+    ```xml
+    <?xml version="1.0"?>
+    <layout version="0.1.0">
+        <styla_connect_product_cart_add>
+            <reference name="styla.cart_update_content">
+                <block type="core/text" name="example">
+                    <action method="setText">
+                        <text>test-text-content</text>
+                    </action>
+                </block>
+            </reference>
+        </styla_connect_product_cart_add>
+    </layout>
+    ```
+    
+3. Clear the cache
+4. If you now add a product from the magazine to your cart the response `html` part should have an additional entry `example`
+    ```json
+    {
+        "html" : {
+            "minicart_content" : "…",
+            "example": "test-text-content"
+        },
+        "meta" : "..."
+    }
+    ```
 
-- Create `{namespace}_styla.xml` file in your themes layout directory with for example this content:
-```xml
-<?xml version="1.0"?>
-<layout version="0.1.0">
-    <styla_connect_product_cart_add>
-        <reference name="styla.cart_update_content">
-            <block type="core/text" name="example">
-                <action method="setText">
-                    <text>test-text-content</text>
-                </action>
-            </block>
-        </reference>
-    </styla_connect_product_cart_add>
-</layout>
-```
-
-- Clear the cache
-- If you now add a product from the magazine to your cart the response `html` part should have an additional entry `example`
-```json
-{
-    "html" : {
-        "minicart_content" : "…",
-        "example": "test-text-content"
-    },
-    "meta" : "..."
-}
-```
-
-- You can now access the new html within the `stylaUpdateCart` for example you could add
-```javascript
-window.stylaUpdateCart = function stylaUpdateCart(data) {
-    //...
-    alert(data.html.example);
-    //...
-};
-```
+5. You can now access the new html within the `stylaUpdateCart` for example you could add
+    ```javascript
+    window.stylaUpdateCart = function stylaUpdateCart(data) {
+        //...
+        alert(data.html.example);
+        //...
+    };
+    ```
 
 which should prompt you with an alert box after you have added a product to the cart.
 
