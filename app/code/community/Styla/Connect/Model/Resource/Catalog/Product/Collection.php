@@ -13,7 +13,7 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
     {
         $this->_productLimitationFilters[self::CATEGORY_FILTER] = $category;
 
-        if ($this->getStoreId() == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+        if (Mage::registry('_singleton/api2/server')) {
             $this->_applyZeroStoreProductLimitations();
         } else {
             Mage::throwException("This resource model should only be used in the API context.");
@@ -29,7 +29,7 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
     public function addInWebsiteFilter()
     {
        $select = $this->getSelect();
-       $select->joinRight(array('inwebs' => $this->getTable('catalog/product_website')), 'inwebs.product_id = e.entity_id', array());
+       $select->join(array('inwebs' => $this->getTable('catalog/product_website')), 'inwebs.product_id = e.entity_id', array());
        
        return $this;
     }

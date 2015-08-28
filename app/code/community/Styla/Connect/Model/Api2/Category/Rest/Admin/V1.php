@@ -9,6 +9,12 @@ class Styla_Connect_Model_Api2_Category_Rest_Admin_v1 extends Mage_Catalog_Model
     protected function _retrieve()
     {
         $categoryTree = $this->_getCategoryTree();
+
+        Mage::dispatchEvent('styla_connect_api_retrieve_category_tree', array(
+            'category_tree' => $categoryTree
+        ));
+
+
         $categoryTree = $this->_getCollectionData($categoryTree);
         
         //perform filtering on every level of the result tree

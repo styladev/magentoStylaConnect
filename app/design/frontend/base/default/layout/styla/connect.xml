@@ -31,7 +31,7 @@
     </styla_connect_magazine_index>
     
     <styla_connect_product_cart_add>
-        <block type="styla_connect/cart_contentlist" name="cart_update_content" as="cart_update_content">
+        <block type="styla_connect/cart_contentlist" name="styla.cart_update_content" as="cart_update_content">
             <action method="insert">
                 <block>minicart_content</block> <!-- here we're returning updated content from the original magento minicart -->
             </action>
@@ -39,8 +39,8 @@
             <!-- Blocks defined here will be called and rendered to html after a product is added to cart in Styla. -->
             <!-- Please use this block to add any other children you need to -->
             
-            <!-- Later, the values returned from here can be processed by the styla/connect/cart/updatejs.phtml script, called
-                 on a js event 'styla_cart_add_after' -->
+            <!-- Later, the values returned from here can be processed by the styla/connect.js script, called
+                 after a product was added to the cart -->
         </block>
     </styla_connect_product_cart_add>
 </layout>

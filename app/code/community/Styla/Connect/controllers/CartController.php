@@ -33,13 +33,17 @@ class Styla_Connect_CartController extends Mage_Checkout_CartController
                 throw new Exception('Error initializing product.');
             }
 
-            $cart->addProduct($product, $params);
-            $cart->save();
+            $cart->addProduct($product, $params)
+                ->save();
 
             $this->_getSession()->setCartWasUpdated(true);
 
             Mage::dispatchEvent('checkout_cart_add_product_complete',
-                array('product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse())
+                array(
+                    'product' => $product,
+                    'request' => $this->getRequest(),
+                    'response' => $this->getResponse()
+                )
             );
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
@@ -86,8 +90,9 @@ class Styla_Connect_CartController extends Mage_Checkout_CartController
     {
         $this->loadLayout();
         $layout = $this->getLayout();
-        
-        $block = $layout->getBlock('cart_update_content');
+
+        /** @var Styla_Connect_Block_Cart_Contentlist $block */
+        $block = $layout->getBlock('styla.cart_update_content');
         $blockHtmlArray = $block->toHtmlArray();
         
         $transportObject = new Varien_Object();

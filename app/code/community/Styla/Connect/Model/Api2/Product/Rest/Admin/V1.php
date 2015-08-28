@@ -24,26 +24,22 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
      */
     protected function _retrieveCollection()
     {
-        /**
-         * in order to get the proper data (especially the stock-related data) we need to load the products
-         * in the proper context, i.e. the context of some frontend store. In admin, some values are wrongly
-         * filled in as null.
-         * 
-         * We'll be using the default frontend store view for this.
-         */
-        $appEmulation = Mage::getSingleton('core/app_emulation');
-        $environmentInfo = $appEmulation->startEnvironmentEmulation(Mage::app()->getDefaultStoreView()->getId());
-        
         $productCollection = $this->_getProductCollection();
+
+        Mage::dispatchEvent('styla_connect_api_retrieve_collection_product', array(
+            'product_collection' => $productCollection
+        ));
 
         $this->_addPagingHeaderData($productCollection);
         $this->_getResponseConfig()->prepareStylaApiResponse($productCollection, "product");
 
-        $appEmulation->stopEnvironmentEmulation($environmentInfo);
-
         return $this->_getCollectionData($productCollection);
     }
 
+    /**
+     * @param Varien_Data_Collection $collection
+     * @throws Exception
+     */
     protected function _addPagingHeaderData(Varien_Data_Collection $collection)
     {
         $links = array();
@@ -163,5 +159,27 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
     protected function _getResponseConfig()
     {
         return Mage::getSingleton('styla_connect/api2_responseConfig');
+    }
+
+    /**
+     * Retrieve current store according to request and API user type
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getStore()
+    {
+        $store = $this->getRequest()->getParam('store');
+        try {
+            // customer or guest role
+            if (!$store) {
+                $store = Mage::app()->getDefaultStoreView();
+            } else {
+                $store = Mage::app()->getStore($store);
+            }
+        } catch (Mage_Core_Model_Store_Exception $e) {
+            // store does not exist
+            $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        return $store;
     }
 }
