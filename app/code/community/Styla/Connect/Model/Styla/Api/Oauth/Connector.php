@@ -2,6 +2,7 @@
 class Styla_Connect_Model_Styla_Api_Oauth_Connector
 {
     const ADMIN_USERNAME = "StylaApiAdminUser";
+    const ADMIN_EMAIL_PREPEND = 'stylaapiadmin.';
     const API2_ROLE_NAME = "StylaApi2Role";
     const CONSUMER_NAME  = "Styla Api Connector";
     const REST_USER_TYPE = "admin";
@@ -221,11 +222,17 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         if(!$adminUser->getId() && $createIfNotExist) {
             $stylaLoginData = $this->getStylaLoginData();
             
+            /**
+             * the admin email needs to be unique, so we'll take user's email and prepend to it, in case
+             * the same email is already used as magento admin
+             */
+            $adminEmail = self::ADMIN_EMAIL_PREPEND . $stylaLoginData['email'];
+            
             //create a new admin user for Styla
             $adminUser->setUsername(self::ADMIN_USERNAME)
                     ->setFirstname('Styla')
                     ->setLastname('Api Connector')
-                    ->setEmail($stylaLoginData['email'])
+                    ->setEmail($adminEmail)
                     ->setPassword($stylaLoginData['password'])
                     ->save();
             
