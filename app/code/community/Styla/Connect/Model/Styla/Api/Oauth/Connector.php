@@ -42,9 +42,10 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
      * create the consumer and permanent token for this new user and send this data to Styla.
      * 
      * @param array $loginData
+     * @param bool $forceSendingDataToStylaApi Should the connection data be always sent to Styla, even if cached locally
      * @throws Exception
      */
-    public function grantStylaApiAccess(array $loginData)
+    public function grantStylaApiAccess(array $loginData, $forceSendingDataToStylaApi = false)
     {
         $this->_stylaLoginData = $loginData;
         
@@ -71,15 +72,20 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
             $token->convertToAccess();
         }
         
-        /**
-         * Try to load cached module configuration (based on the current module's operating mode),
-         * and if none is available - try calling the Styla Api to get the configuration for this mode
-         * 
-         */
-        if(false === ($connectionData = $this->getCachedConnectionData())) {
+        //we're gonna need the styla connection data. if this is a (re-)connect request, we'll be forcing the
+        //use of the remote styla api to get this. otherwise, we'll try loading from local cache, if possible
+        if($forceSendingDataToStylaApi == true) {
+            $connectionData = $this->sendRegistrationRequest($loginData, $consumer, $token);
+        } else {
+            /**
+             * Try to load cached module configuration (based on the current module's operating mode),
+             * and if none is available - try calling the Styla Api to get the configuration for this mode
+             * 
+             */
+            $connectionData = $this->getCachedConnectionData();
             $connectionData = $this->sendRegistrationRequest($loginData, $consumer, $token);
         }
-        
+
         Mage::helper('styla_connect/config')->updateConnectionConfiguration($connectionData);
 
         Mage::getSingleton('adminhtml/session')->addSuccess("Connection to Styla made successfully.");

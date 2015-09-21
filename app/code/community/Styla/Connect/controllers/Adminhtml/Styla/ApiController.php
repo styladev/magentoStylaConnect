@@ -17,7 +17,7 @@ class Styla_Connect_Adminhtml_Styla_ApiController extends Mage_Adminhtml_Control
             $stylaData = $post['styla'];
             $this->_validateData($stylaData);
             
-            $this->_getOauthConnector()->grantStylaApiAccess($stylaData);
+            $this->_getOauthConnector()->grantStylaApiAccess($stylaData, true);
             
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Magento API OAuth login data sent successfully to Styla."));
         } catch(Exception $e) {
