@@ -70,6 +70,11 @@ class Styla_Connect_Helper_Config
         return (bool)Mage::getStoreConfig('styla_connect/basic/use_magento_layout');
     }
     
+    public function isUsingRelativeProductUrls()
+    {
+        return (bool)Mage::getStoreConfig('styla_connect/basic/use_relative_product_url');
+    }
+    
     public function isModuleEnabled()
     {
         return (bool)Mage::getStoreConfig('styla_connect/basic/enabled');

@@ -17,11 +17,26 @@ class Styla_Connect_Model_Api2_Converter_Product_Url extends Styla_Connect_Model
         $oldId = $dataObject->getStoreId();
         
         $dataObject->setStoreId($this->_getDefaultStoreViewId());
+        
         $productUrl = $dataObject->getProductUrl();
+        if($this->_useRelativeUrls()) {
+            $productUrl = str_replace(Mage::getBaseUrl(), "/", $productUrl);
+        }
+        
         $dataObject->setStoreId($oldId);
         
         $this->_stopEmulation($environmentInfo);
         
         $dataObject->setData($stylaField, $productUrl);
+    }
+    
+    /**
+     * Should only return the relative part of the urls
+     * 
+     * @return bool
+     */
+    protected function _useRelativeUrls()
+    {
+        return Mage::helper('styla_connect/config')->isUsingRelativeProductUrls();
     }
 }

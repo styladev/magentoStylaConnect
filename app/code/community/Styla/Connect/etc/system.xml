@@ -89,6 +89,17 @@
                             <sort_order>60</sort_order>
                         </use_magento_layout>
                         
+                        <use_relative_product_url translate="label">
+                            <label>Use Relative Product Urls</label>
+                            <comment>yes - the product urls generated for the stories will be relative to store domain; no - full urls will be generated</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>61</sort_order>
+                        </use_relative_product_url>
+                        
                         <seo_url translate="label">
                             <label>SEO Api Url</label>
                             <frontend_type>text</frontend_type>
