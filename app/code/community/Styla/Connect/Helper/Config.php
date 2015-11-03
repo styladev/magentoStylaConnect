@@ -67,17 +67,17 @@ class Styla_Connect_Helper_Config
     
     public function isUsingMagentoLayout()
     {
-        return (bool)Mage::getStoreConfig('styla_connect/basic/use_magento_layout');
+        return Mage::getStoreConfigFlag('styla_connect/basic/use_magento_layout');
     }
     
     public function isUsingRelativeProductUrls()
     {
-        return (bool)Mage::getStoreConfig('styla_connect/basic/use_relative_product_url');
+        return Mage::getStoreConfigFlag('styla_connect/basic/use_relative_product_url');
     }
     
     public function isModuleEnabled()
     {
-        return (bool)Mage::getStoreConfig('styla_connect/basic/enabled');
+        return Mage::getStoreConfigFlag('styla_connect/basic/enabled');
     }
     
     public function getApiSeoUrl()
