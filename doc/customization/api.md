@@ -33,7 +33,7 @@ check the new attribute. If the "Resource Access" is set to "All" it should work
 
 Sometime its need to change a value returned to styla.
 A good example is the product image attribute in case you are using a cdn you may want to manipulate the image url
-before returning it. One way to do this are "converters" anther is the usage of events.
+before returning it. One way to do this are [converters](#converters) anther is the usage of events.
 
 ## Converters
 **Converters** are an easy way to change values or keys for the data returned by the api without the need to use magento rewrites.
