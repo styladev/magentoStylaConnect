@@ -182,4 +182,26 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_v1 extends Mage_Catalog_Model_
         }
         return $store;
     }
+
+    /**
+     * Get available attributes of API resource
+     *
+     * @param string $userType
+     * @param string $operation
+     * @return array
+     */
+    public function getAvailableAttributes($userType, $operation)
+    {
+        $attributes = $this->getAvailableAttributesFromConfig();
+        /** @var $entityType Mage_Eav_Model_Entity_Type */
+        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        $includedAttrs = $this->getIncludedAttributes($userType, $operation);
+        foreach ($attributes as $code => $label) {
+            if (in_array($code, $excludedAttrs) || ($includedAttrs && !in_array($code, $includedAttrs))) {
+                unset($attributes[$code]);
+            }
+        }
+
+        return $attributes;
+    }
 }

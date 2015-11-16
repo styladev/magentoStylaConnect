@@ -127,13 +127,6 @@
                             <styla_field>shopId</styla_field>
                         </arguments>
                     </shop_id>
-                    <sku>
-                        <class>styla_connect/api2_converter_simple</class>
-                        <arguments>
-                            <magento_field>sku</magento_field>
-                            <styla_field>sku</styla_field>
-                        </arguments>
-                    </sku>
                     <page_url>
                         <class>styla_connect/api2_converter_product_url</class>
                         <arguments>
@@ -166,22 +159,8 @@
                             <value>true</value>
                         </arguments>
                     </shop>
-                    <type_id>
-                        <class>styla_connect/api2_converter_simple</class>
-                        <arguments>
-                            <magento_field>type_id</magento_field>
-                            <styla_field>type_id</styla_field>
-                        </arguments>
-                    </type_id>
                 </product>
                 <category>
-                    <name>
-                        <class>styla_connect/api2_converter_simple</class>
-                        <arguments>
-                            <styla_field>name</styla_field>
-                            <magento_field>name</magento_field>
-                        </arguments>
-                    </name>
                     <id>
                         <class>styla_connect/api2_converter_simple</class>
                         <arguments>
