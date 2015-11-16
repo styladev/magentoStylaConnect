@@ -22,8 +22,8 @@ do not omit the `depends` tag it will assure that your customization's will work
 
 ## Customization's
 
- * [Add To Cart](/customization/add-to-cart.md)
- * [Changes Api](/customization/api.md)
+ * [Add To Cart](customization/add-to-cart.md)
+ * [Changes Api](customization/api.md)
  
 
 
