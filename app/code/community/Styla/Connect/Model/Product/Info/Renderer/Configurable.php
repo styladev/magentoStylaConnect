@@ -62,7 +62,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable extends Styla_Conne
             
             $attributeInfo = array(
                 'id' => $attributeId,
-                'label' => $productAttribute->getName(),
+                'label' => $productAttribute->getFrontendLabel(),
             );
             
             $attributeOptions = array();
