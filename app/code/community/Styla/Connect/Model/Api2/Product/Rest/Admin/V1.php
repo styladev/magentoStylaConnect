@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Styla_Connect_Model_Api2_Product_Rest_Admin_V1
+ */
 class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Product_Rest_Admin_V1
 {
     /**
@@ -26,9 +29,12 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
     {
         $productCollection = $this->_getProductCollection();
 
-        Mage::dispatchEvent('styla_connect_api_retrieve_collection_product', array(
-            'product_collection' => $productCollection
-        ));
+        Mage::dispatchEvent(
+            'styla_connect_api_retrieve_collection_product',
+            array(
+                'product_collection' => $productCollection,
+            )
+        );
 
         $this->_addPagingHeaderData($productCollection);
         $this->_getResponseConfig()->prepareStylaApiResponse($productCollection, "product");
@@ -91,13 +97,13 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
         unset($queryParameters['type']);
 
         //try to force ssl for paging urls
-        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, true) . 'rest/api';
+        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, true).'rest/api';
 
         $baseUrl .= $this->getRequest()->getPathInfo();
 
         $queryParameters[$request::QUERY_PARAM_PAGE_NUM] = $page;
 
-        return $baseUrl . '?' . http_build_query($queryParameters);
+        return $baseUrl.'?'.http_build_query($queryParameters);
     }
 
     /**
@@ -118,23 +124,25 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
      */
     protected function _getProductCollection()
     {
-        
+
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('styla_connect/catalog_product_collection');
         $store      = $this->_getStore();
-        
+
         $collection->setStoreId($store->getId());
-        $collection->addAttributeToSelect(array_keys(
-            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
-        ));
+        $collection->addAttributeToSelect(
+            array_keys(
+                $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
+            )
+        );
 
         $this->_applyCategoryFilter($collection);
         $this->_applySearchFilter($collection);
         $this->_applyCollectionModifiers($collection);
-        
+
         //only return products that have at least one website defined
         $collection->addInWebsiteFilter();
-        
+
         return $collection;
     }
 
@@ -180,6 +188,7 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
             // store does not exist
             $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
+
         return $store;
     }
 

@@ -1,10 +1,15 @@
 <?php
+
+/**
+ * Class Styla_Connect_Model_Api2_Category_Tree
+ *
+ */
 class Styla_Connect_Model_Api2_Category_Tree extends Mage_Catalog_Model_Category_Api
 {
     /**
      * Retrieve category tree
      *
-     * @param int $parent
+     * @param int        $parentId
      * @param string|int $store
      * @return array
      */
@@ -22,7 +27,7 @@ class Styla_Connect_Model_Api2_Category_Tree extends Mage_Catalog_Model_Category
 
         $root = $tree->getNodeById($parentId);
 
-        if($root && $root->getId() == 1) {
+        if ($root && $root->getId() == 1) {
             $root->setName(Mage::helper('catalog')->__('Root'));
         }
 

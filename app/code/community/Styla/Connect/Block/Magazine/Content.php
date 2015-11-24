@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Styla_Connect_Block_Magazine_Content
+ */
 class Styla_Connect_Block_Magazine_Content extends Styla_Connect_Block_Magazine
 {
 

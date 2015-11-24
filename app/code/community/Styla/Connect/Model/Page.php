@@ -9,7 +9,7 @@
 class Styla_Connect_Model_Page
     extends Varien_Object
 {
-    const JAVASCRIPT_URL = '//live.styla.com/scripts/preloader/%s.js';
+    const JAVASCRIPT_URL = '//live.styla.com/scripts/preloader/%.js?v=%s';
 
     protected $tags;
     protected $baseTags;
@@ -24,7 +24,7 @@ class Styla_Connect_Model_Page
         $data = $this->_getApi()
             ->requestPageData($path);
 
-        if ($data) {
+        if ($data !== false) {
             $this->setData($data);
             $this->setData('exist', true);
         } else {
@@ -79,7 +79,13 @@ class Styla_Connect_Model_Page
     {
         if (!$this->tags) {
             $this->tags = array();
-            foreach ($this->getData('tags') as $data) {
+            $tags = $this->getData('tags');
+
+            if (!$tags) {
+                $tags = array();
+            }
+
+            foreach ($tags as $data) {
                 $tagName = $data['tag'];
 
                 $added = false;

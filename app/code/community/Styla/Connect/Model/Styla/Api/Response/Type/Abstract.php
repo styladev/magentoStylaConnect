@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
+ *
+ */
 abstract class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
 {
     const CONTENT_TYPE_PLAIN = 'plain';

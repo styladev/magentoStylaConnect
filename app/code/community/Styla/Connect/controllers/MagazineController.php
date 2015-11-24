@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Styla_Connect_MagazineController
+ */
 class Styla_Connect_MagazineController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()

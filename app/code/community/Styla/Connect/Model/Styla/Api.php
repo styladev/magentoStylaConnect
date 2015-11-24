@@ -43,6 +43,9 @@ class Styla_Connect_Model_Styla_Api
 
         try {
             $data = $this->getPageSeoData($requestPath);
+            if (isset($data['status']) && $data['status'] !== 200) {
+                return false;
+            }
             unset($data['code'], $data['status']);
 
             return $data;
@@ -69,6 +72,11 @@ class Styla_Connect_Model_Styla_Api
         return $response->getResult();
     }
 
+    public function save($data, $id = null, $tags = array(), $specificLifetime = false, $priority = 8)
+    {
+
+    }
+
     /**
      * Get the current cache version number from the Styla api
      *
@@ -77,10 +85,19 @@ class Styla_Connect_Model_Styla_Api
     public function getCurrentApiVersion()
     {
         if (!$this->_currentApiVersion) {
-            $request = $this->getRequest(self::REQUEST_TYPE_VERSION);
+            $cache      = $this->getCache();
+            $apiVersion = $cache->load('styla-api-version');
 
-            $response                 = $this->callService($request, false);
-            $this->_currentApiVersion = $response->getResult();
+            if (!$apiVersion) {
+                $request = $this->getRequest(self::REQUEST_TYPE_VERSION);
+
+                $response   = $this->callService($request, false);
+                $apiVersion = $response->getResult();
+
+                //cache for 1 hour
+                $cache->save($apiVersion, 'styla-api-version', array(), 3600);
+            }
+            $this->_currentApiVersion = $apiVersion;
         }
 
         return $this->_currentApiVersion;
@@ -129,7 +146,7 @@ class Styla_Connect_Model_Styla_Api
         $response = $this->getResponse($request);
         $response->initialize($result, $service);
 
-        if ($canUseCache) {
+        if ($canUseCache && $response->getHttpStatus() === 200) {
             $cache->storeApiResponse($request, $response);
         }
 
@@ -188,6 +205,9 @@ class Styla_Connect_Model_Styla_Api
         return $request;
     }
 
+    /**
+     * @return Styla_Connect_Model_Styla_Api_Cache
+     */
     public function getCache()
     {
         if (!$this->_cache) {

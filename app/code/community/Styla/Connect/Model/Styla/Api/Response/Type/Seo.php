@@ -20,7 +20,7 @@ class Styla_Connect_Model_Styla_Api_Response_Type_Seo extends Styla_Connect_Mode
 
         $result = array();
 
-        //if there was an invalid result - we'll return an empty seo reuslt and move on
+        //if there was an invalid result - we'll return an empty seo result and move on
         if ($this->getHttpStatus() != 200) {
             return $result;
         }

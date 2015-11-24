@@ -1,5 +1,10 @@
 <?php
-class Styla_Connect_Block_Magazine_Head extends Styla_Connect_Block_Magazine
+
+/**
+ * Class Styla_Connect_Block_Magazine_Head
+ */
+class Styla_Connect_Block_Magazine_Head
+    extends Styla_Connect_Block_Magazine
 {
     public function getMetaTags()
     {
