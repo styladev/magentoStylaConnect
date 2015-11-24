@@ -1,4 +1,4 @@
-# Styla Connect (v 0.1.1)
+# Styla Connect (v 0.1.1.2)
 ---
 
 Styla Connect is a module to connect your Magento Store with [Styla](http://www.styla.com/).

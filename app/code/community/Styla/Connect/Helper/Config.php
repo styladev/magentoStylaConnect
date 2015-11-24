@@ -55,6 +55,14 @@ class Styla_Connect_Helper_Config
     }
 
     /**
+     * @return mixed
+     */
+    public function getPluginVersion()
+    {
+        return (string) Mage::getConfig()->getModuleConfig("Styla_Connect")->version;
+    }
+
+    /**
      * Get the content language code
      *
      * @return string

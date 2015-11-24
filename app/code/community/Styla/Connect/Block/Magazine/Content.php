@@ -17,4 +17,9 @@ class Styla_Connect_Block_Magazine_Content extends Styla_Connect_Block_Magazine
     {
         return $this->getConfigHelper()->getRouteName();
     }
+
+    public function getPluginVersion()
+    {
+        return $this->getConfigHelper()->getPluginVersion();
+    }
 }
