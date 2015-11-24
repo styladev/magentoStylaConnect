@@ -1,57 +1,25 @@
 <?php
+
 /**
- * Created by IntelliJ IDEA.
- * User: justus
- * Date: 22.05.15
- * Time: 18:57
- */ 
+ * Class Styla_Connect_Helper_Data
+ *
+ * @author ecocode GmbH <jk@ecocode.de>
+ * @author Justus Krapp <jk@ecocode.de>
+ */
 class Styla_Connect_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    protected $_magazineData;
-    
+    protected $_currentPage;
+
     /**
-     * 
+     *
      * @return Varien_Object|null
      */
-    public function getMagazineData()
+    public function getCurrentPage()
     {
-        if(!$this->_magazineData) {
-            $this->_magazineData = Mage::registry('current_magazine_data');
+        if (!$this->_currentPage) {
+            $this->_currentPage = Mage::registry('current_magazine_page');
         }
-        
-        return $this->_magazineData;
-    }
-    
-    /**
-     * Get the SEO tags from the Styla API magazine response
-     * 
-     * @return array
-     */
-    public function getMagazineSeoTagNames()
-    {
-        $magazineData = $this->getMagazineData();
-        if(!$magazineData) {
-            return array();
-        }
-        
-        $seoData = $magazineData->getSeoData();
-        if(!$seoData) {
-            return array();
-        }
-        
-        $seoTags = array();
-        if(isset($seoData->tags)) {
-            foreach($seoData->tags as $tag) {
-                $tagId = $tag->tag;
-                
-                if(isset($tag->attributes->name)) {
-                    $tagId .= "-" . $tag->attributes->name;
-                }
-                
-                $seoTags[$tagId] = $tag;
-            }
-        }
-        
-        return $seoTags;
+
+        return $this->_currentPage;
     }
 }

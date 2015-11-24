@@ -1,5 +1,13 @@
-<?php /** @var $this Styla_Connect_Block_Magazine_Head */ ?>
+<?php /** @var $this Styla_Connect_Block_Magazine_Content */ ?>
 
-<?php echo $this->getScript() ?>
-
+<?php $page = $this->getPage(); ?>
 <?php echo $this->getNoscript() ?>
+
+<div id="stylaMagazine"></div>
+<script
+    defer="defer"
+    id="amazineEmbed"
+    src="<?php echo $page->getScriptUrl()?>"
+    data-language="<?php echo $page->getLanguageCode() ?>"
+    data-rootpath="<?php echo $this->getRootPath()?>">
+</script>
