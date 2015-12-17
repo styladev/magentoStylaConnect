@@ -30,7 +30,7 @@
         </reference>
     </styla_connect_magazine_index>
     
-    <styla_connect_product_cart_add>
+    <styla_connect_cart_add>
         <block type="styla_connect/cart_contentlist" name="styla.cart_update_content" as="cart_update_content">
             <action method="insert">
                 <block>minicart_content</block> <!-- here we're returning updated content from the original magento minicart -->
@@ -42,5 +42,5 @@
             <!-- Later, the values returned from here can be processed by the styla/connect.js script, called
                  after a product was added to the cart -->
         </block>
-    </styla_connect_product_cart_add>
+    </styla_connect_cart_add>
 </layout>
