@@ -1,5 +1,10 @@
 <?php
-class Styla_Connect_Block_Adminhtml_Hint extends Mage_Adminhtml_Block_Abstract
+
+/**
+ * Class Styla_Connect_Block_Adminhtml_Hint
+ */
+class Styla_Connect_Block_Adminhtml_Hint
+    extends Mage_Adminhtml_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected $_template = 'styla/connect/adminhtml/hint.phtml';

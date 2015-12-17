@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Class Styla_Connect_Adminhtml_Styla_ApiController
+ */
 class Styla_Connect_Adminhtml_Styla_ApiController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()

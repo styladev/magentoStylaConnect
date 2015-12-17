@@ -8,19 +8,19 @@ class Styla_Connect_Model_Api2_Converter_Product_ImageCollection
 {
     public function runConverter(Varien_Object $dataObject)
     {
-        $objectImageSrcs   = $this->getImages($dataObject);
+        $objectImageSrcs     = $this->getImages($dataObject);
         $objectImageCaptions = $this->getImageCaptions($dataObject);
 
         if (!$objectImageSrcs) {
             return;
         }
 
-        $images = [];
+        $images = array();
 
         foreach ($objectImageSrcs as $index => $src) {
             $image = array(
-                'src' => $src,
-                'caption' => ''
+                'src'     => $src,
+                'caption' => '',
             );
             if (isset($objectImageCaptions[$index])) {
                 $image['caption'] = $objectImageCaptions[$index];

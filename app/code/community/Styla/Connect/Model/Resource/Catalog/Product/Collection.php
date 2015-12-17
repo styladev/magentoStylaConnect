@@ -1,8 +1,16 @@
 <?php
-class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+
+/**
+ * Class Styla_Connect_Model_Resource_Catalog_Product_Collection
+ *
+ * @author ecocode GmbH <jk@ecocode.de>
+ * @author Justus Krapp <jk@ecocode.de>
+ */
+class Styla_Connect_Model_Resource_Catalog_Product_Collection
+    extends Mage_Catalog_Model_Resource_Product_Collection
 {
     const CATEGORY_FILTER = "styla_category_filter";
-    
+
     /**
      * Specify category filter for product collection
      *
@@ -21,29 +29,33 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
 
         return $this;
     }
-    
+
     /**
      * will only return products that are in at least one website
-     * 
+     *
      */
     public function addInWebsiteFilter()
     {
-       $select = $this->getSelect();
-       $select->join(array('inwebs' => $this->getTable('catalog/product_website')), 'inwebs.product_id = e.entity_id', array());
-       
-       return $this;
+        $select = $this->getSelect();
+        $select->join(
+            array('inwebs' => $this->getTable('catalog/product_website')),
+            'inwebs.product_id = e.entity_id',
+            array()
+        );
+
+        return $this;
     }
-    
+
     /**
-     * 
+     *
      * @param string $searchTerm
      */
     public function addFulltextSearchTerm($searchTerm)
     {
         $select = $this->getSelect();
-        
+
         $preparedTerms = Mage::getResourceHelper('catalogsearch')
-                ->prepareTerms($searchTerm);
+            ->prepareTerms($searchTerm);
 
         $select->join(array('fs' => 'catalogsearch_fulltext'), 'fs.product_id = e.entity_id', array());
         $select->where(new Zend_Db_Expr('MATCH (fs.data_index) AGAINST (:query IN BOOLEAN MODE)'));
@@ -51,7 +63,7 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
 
         $select->group('e.entity_id');
     }
-    
+
     /**
      * Apply limitation filters to collection base on API
      * Method allows using one time category product table
@@ -62,22 +74,21 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
     protected function _applyZeroStoreProductLimitations()
     {
         $filters = $this->_productLimitationFilters;
-        
+
         $category = $filters[self::CATEGORY_FILTER];
         $categoryIds = $this->_getValidIdsForCategory($category);
 
         $conditions = array(
             'cat_pro.product_id=e.entity_id',
-            $this->getConnection()->quoteInto('cat_pro.category_id IN(?)', $categoryIds)
+            $this->getConnection()->quoteInto('cat_pro.category_id IN(?)', $categoryIds),
         );
-        $joinCond = join(' AND ', $conditions);
+        $joinCond   = join(' AND ', $conditions);
 
         $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
         if (isset($fromPart['cat_pro'])) {
             $fromPart['cat_pro']['joinCondition'] = $joinCond;
             $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
-        }
-        else {
+        } else {
             $this->getSelect()->join(
                 array('cat_pro' => $this->getTable('catalog/category_product')),
                 $joinCond,
@@ -91,13 +102,13 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection extends Mage_Catal
 
         return $this;
     }
-    
+
     /**
      * For a given category, get all ids to other categories related to it.
-     * 
+     *
      * For a normal category, add ids of all it's parents
      * For an anchor - also add all it's children
-     * 
+     *
      * @param Mage_Catalog_Model_Category $category
      * @return array
      */

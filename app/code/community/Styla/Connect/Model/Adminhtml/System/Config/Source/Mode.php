@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Class Styla_Connect_Model_Adminhtml_System_Config_Source_Mode
+ *
+ */
 class Styla_Connect_Model_Adminhtml_System_Config_Source_Mode
 {
 
@@ -10,8 +15,14 @@ class Styla_Connect_Model_Adminhtml_System_Config_Source_Mode
     public function toOptionArray()
     {
         return array(
-            array('value' => Styla_Connect_Helper_Config::MODE_PRODUCTION, 'label'=>Mage::helper('styla_connect')->__('Production')),
-            array('value' => Styla_Connect_Helper_Config::MODE_STAGE, 'label'=>Mage::helper('styla_connect')->__('Stage')),
+            array(
+                'value' => Styla_Connect_Helper_Config::MODE_PRODUCTION,
+                'label' => Mage::helper('styla_connect')->__('Production'),
+            ),
+            array(
+                'value' => Styla_Connect_Helper_Config::MODE_STAGE,
+                'label' => Mage::helper('styla_connect')->__('Stage'),
+            ),
         );
     }
 
@@ -24,7 +35,7 @@ class Styla_Connect_Model_Adminhtml_System_Config_Source_Mode
     {
         return array(
             Styla_Connect_Helper_Config::MODE_PRODUCTION => Mage::helper('styla_connect')->__('Production'),
-            Styla_Connect_Helper_Config::MODE_STAGE => Mage::helper('styla_connect')->__('Stage'),
+            Styla_Connect_Helper_Config::MODE_STAGE      => Mage::helper('styla_connect')->__('Stage'),
         );
     }
 

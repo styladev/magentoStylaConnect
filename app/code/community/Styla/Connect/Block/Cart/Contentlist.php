@@ -1,5 +1,10 @@
 <?php
-class Styla_Connect_Block_Cart_Contentlist extends Mage_Core_Block_Abstract
+
+/**
+ * Class Styla_Connect_Block_Cart_Contentlist
+ */
+class Styla_Connect_Block_Cart_Contentlist
+    extends Mage_Core_Block_Abstract
 {
     /**
      * Load all child blocks and return their html content as individual array elements

@@ -1,8 +1,14 @@
 <?php
-class Styla_Connect_Model_Api2_Converter_Category_Image extends Styla_Connect_Model_Api2_Converter_Abstract
+
+/**
+ * Class Styla_Connect_Model_Api2_Converter_Category_Image
+ *
+ */
+class Styla_Connect_Model_Api2_Converter_Category_Image
+    extends Styla_Connect_Model_Api2_Converter_Abstract
 {
     public function runConverter(Varien_Object $dataObject) {
-        $imageFile = $dataObject->getImage();
+        $imageFile = $dataObject->getData('image');
         if(!$imageFile) {
             return;
         }

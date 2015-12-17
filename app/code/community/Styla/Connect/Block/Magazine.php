@@ -1,13 +1,17 @@
 <?php
+
+/**
+ * Class Styla_Connect_Block_Magazine
+ */
 class Styla_Connect_Block_Magazine extends Mage_Core_Block_Template
 {
     /**
      * 
-     * @return Varien_Object|null
+     * @return Styla_Connect_Model_Page
      */
-    public function getMagazineData()
+    public function getPage()
     {
-        return Mage::helper('styla_connect')->getMagazineData();
+        return Mage::helper('styla_connect')->getCurrentPage();
     }
     
     /**
