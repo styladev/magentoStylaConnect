@@ -1,6 +1,8 @@
 # Styla Connect (v 0.1.1.2)
 ---
 
+Requires PHP >= 5.3
+
 Styla Connect is a module to connect your Magento Store with [Styla](http://www.styla.com/).
 
 * [Installation](doc/installation.md)

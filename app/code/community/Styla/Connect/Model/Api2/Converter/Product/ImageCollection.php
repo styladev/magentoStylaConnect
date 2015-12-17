@@ -15,7 +15,7 @@ class Styla_Connect_Model_Api2_Converter_Product_ImageCollection
             return;
         }
 
-        $images = [];
+        $images = array();
 
         foreach ($objectImageSrcs as $index => $src) {
             $image = array(
