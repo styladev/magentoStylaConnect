@@ -1,42 +1,91 @@
-# Api - Customization's
+# Add To Cart
 
 **Before continue please make sure you read the "[Customization’s Guide](./../customization.md)"**
 
-* [Adding Additional Attributes](#adding-additional-attributes)
-* [Modify Values Returned By The Api](#modify-values-returned-by-the-api)
+* [Update Mini Cart](#update-mini-cart)
+* [Returning Additional html](#returning-additional-html)
 
+## Update Mini Cart
+Styla allows the customer to directly add products from the magazin into the cart.
+While adding the product to the cart should work out of the box, 
+the feedback to the customer like an overlay or an increment of the numbers in the cart the customer does not. 
+However we tried to make it as easy as possible for you to make the adjustments while maintaining the update 
+capability of the module.
 
-## Adding Additional Attributes
+To run your own javascript instead of the default one please copy `/skin/frontend/base/default/js/styla/connect.js` 
+into your own theme folder and change it in the way you need it.
+The function `stylaUpdateCart` will be called from the styla javascript directly after a product was added. 
+The `data` argument contains all the data returned by the ajax call.
 
-Additional attributes can easily be added by creating a new `api2.xml` under you local styla module.
-For example if you like to also return the product `description`attribute you want your `api2.xml` to look like this:
-```xml
-<?xml version="1.0"?>
-<config>
-    <api2>
-        <resources>
-            <styla_product>
-                <attributes>
-                    <description>Description</description>
-                </attributes>
-            </styla_product>
-        </resources>
-    </api2>
-</config>
+Example response:
+
+```json
+{
+    "html" : {
+        "minicart_content" : "…"
+    },
+    "meta" : {
+        "grand_total" : 173.2,
+        "subtotal" : 160,
+        "subtotal_with_discount" : 160,
+        "num_items" : 2,
+        "items_qty" : 1
+    }
+}
 ```
 
-## Modify Values Returned By The Api
+### Returning Additional html
 
-Sometime its need to change a value returned to styla.
-A good example is the product image attribute in case you are using a cdn you may want to manipulate the image url
-before returning it. One way to do this are "converters" anther is the usage of events.
+For example if you want to use an overlay.
 
-### Converters
-**Converters** are an easy way to change values or keys for the data returned by the api without the need to use magento rewrites.
-Every converter must always extend `Styla_Connect_Model_Api2_Converter_Abstract`
+1. Add a new layout xml file to your `{namespace}_Styla` configuration
+    ```xml
+        <frontend>
+            <layout>
+                <updates>
+                    <{namespace}_styla>
+                        <file>{namespace}_styla.xml</file>
+                    </{namespace}_styla>
+                </updates>
+            </layout>
+        </frontend>
+    ```
+    
+2. Create `{namespace}_styla.xml` file in your themes layout directory with for example this content:
+    ```xml
+    <?xml version="1.0"?>
+    <layout version="0.1.0">
+        <styla_connect_product_cart_add>
+            <reference name="styla.cart_update_content">
+                <block type="core/text" name="example">
+                    <action method="setText">
+                        <text>test-text-content</text>
+                    </action>
+                </block>
+            </reference>
+        </styla_connect_product_cart_add>
+    </layout>
+    ```
+    
+3. Clear the cache
+4. If you now add a product from the magazine to your cart the response `html` part should have an additional entry `example`
+    ```json
+    {
+        "html" : {
+            "minicart_content" : "…",
+            "example": "test-text-content"
+        },
+        "meta" : "..."
+    }
+    ```
 
-Converters do not return a value but change the object itself to allow max flexibility.
+5. You can now access the new html within the `stylaUpdateCart` for example you could add
+    ```javascript
+    window.stylaUpdateCart = function stylaUpdateCart(data) {
+        //...
+        alert(data.html.example);
+        //...
+    };
+    ```
 
-The basic value converters are defined int the `config.xml` of the styla module.
-
-A basic example for an image converter can be found [here](/example/converter-image.md)
+which should prompt you with an alert box after you have added a product to the cart.
