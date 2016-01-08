@@ -88,6 +88,7 @@ class Styla_Connect_WishlistController extends Mage_Wishlist_IndexController
         );
 
         Mage::helper('wishlist')->calculate();
+        return true;
     }
 
     /**
