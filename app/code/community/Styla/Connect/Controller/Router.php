@@ -16,7 +16,8 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
         if ($path = $this->_isValidPath($request)) {
             $routeSettings = $this->getRouteSettings($path);
 
-            $request->setModuleName('styla_connect')
+            //setModule name is the front name
+            $request->setModuleName('styla')
                 ->setControllerName('magazine')
                 ->setActionName('index')
                 ->setParam('path', $routeSettings);
@@ -66,7 +67,7 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
     {
         $path = trim($request->getPathInfo(), '/').'/';
 
-        if (strpos($path, $this->getRouteName()) === 0) {
+        if(strpos($path, $this->getRouteName()) === 0) {
             return $path;
         }
 
