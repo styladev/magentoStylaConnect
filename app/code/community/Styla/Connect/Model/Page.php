@@ -89,7 +89,7 @@ class Styla_Connect_Model_Page
                 $tagName = $data['tag'];
 
                 $added = false;
-                foreach (['name', 'property'] as $key) {
+                foreach (array('name', 'property') as $key) {
                     if (isset($data['attributes'][$key])) {
                         $added = true;
                         $this->addTag($tagName.'-'.$data['attributes'][$key], $data);
