@@ -48,6 +48,7 @@
                 </privileges>
                 <attributes>
                     <name>Name</name>
+                    <manufacturer>Manufacturer</manufacturer>
                     <pageUrl>Product Page URL</pageUrl>
                     <shopId>ShopId</shopId>
                     <sku>SKU</sku>

@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Styla_Connect>
-            <version>0.1.1.3</version>
+            <version>0.1.1.4</version>
         </Styla_Connect>
     </modules>
 
@@ -101,6 +101,7 @@
                 <enabled>1</enabled>
                 <cache_lifetime>3600</cache_lifetime>
                 <use_magento_layout>0</use_magento_layout>
+                <manufacturer_attribute>manufacturer</manufacturer_attribute>
             </basic>
 
             <response_fields>
@@ -139,6 +140,13 @@
                             <styla_field>caption</styla_field>
                         </arguments>
                     </caption>
+                    <manufacturer>
+                        <class>styla_connect/api2_converter_product_attribute</class>
+                        <arguments>
+                            <attribute_code>manufacturer</attribute_code>
+                            <styla_field>manufacturer</styla_field>
+                        </arguments>
+                    </manufacturer>
                     <images>
                         <class>styla_connect/api2_converter_product_imageCollection</class>
                         <arguments>

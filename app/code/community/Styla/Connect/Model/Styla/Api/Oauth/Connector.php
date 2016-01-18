@@ -226,7 +226,9 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
      * Get/create a special-purpose admin user.
      * This user will connect to Styla api.
      *
+     * @param bool $createIfNotExist
      * @return Mage_Admin_Model_User
+     * @throws Exception
      */
     public function getAdminUser($createIfNotExist = true)
     {

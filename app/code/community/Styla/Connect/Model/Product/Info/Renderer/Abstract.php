@@ -9,6 +9,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
     const EVENT_COLLECT_ADDITIONAL_INFO = 'styla_connect_product_info_renderer_collect_additional';
 
     protected $_store;
+    protected $manufacturerAttribute;
 
     /**
      * Collect the data and return it as array, ready to be turned into json
@@ -40,6 +41,11 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
             'price'         => Mage::helper('tax')->getPrice($product, $product->getFinalPrice()),
             'priceTemplate' => $this->getPriceTemplate(),
         );
+
+        $manufacturer = $this->_getManufacturer($product);
+        if ($manufacturer) {
+            $productInfo['manufacturer'] = $manufacturer;
+        }
 
         //if product has active special price
         if ($oldPrice = $this->getOldPrice($product)) {
@@ -206,5 +212,31 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
         $productInfo = $transportObject->getProductInfo();
 
         return $productInfo;
+    }
+
+    protected function _getManufacturer(Mage_Catalog_Model_Product $product)
+    {
+        $manufacturerAttribute = $this->_getManufacturerAttribute();
+        if (!$manufacturerAttribute) {
+            return false;
+        }
+        if (!$product->getData($manufacturerAttribute->getAttributeCode())) {
+            //if its not set return null instead of a default select value
+            return null;
+        }
+        return $manufacturerAttribute->getFrontend()->getValue($product);
+    }
+
+    protected function _getManufacturerAttribute()
+    {
+        if (!$this->manufacturerAttribute) {
+            $attributeCode               = Mage::getStoreConfig('styla_connect/basic/manufacturer_attribute');
+            $this->manufacturerAttribute = Mage::getSingleton("eav/config")->getAttribute(
+                Mage_Catalog_Model_Product::ENTITY,
+                $attributeCode
+            );
+        }
+
+        return $this->manufacturerAttribute;
     }
 }
