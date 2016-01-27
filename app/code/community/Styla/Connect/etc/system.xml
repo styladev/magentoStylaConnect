@@ -140,6 +140,37 @@
                         </cache_lifetime>
                     </fields>
                 </basic>
+                
+                <frontend translate="label" module="styla_connect">
+                    <sort_order>20</sort_order>
+                    <label>Frontend Configuration</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    
+                    <fields>
+                        <menu_link_enabled translate="label">
+                            <label>Add Magazine Link to Navigation</label>
+                            <comment>If enabled, a "magazine" link will be added to the main (top) navigation menu.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                        </menu_link_enabled>
+                        
+                        <menu_link_label translate="label">
+                            <label>Label for the Magazine Menu Link</label>
+                            <comment>The label used for the navigation menu link.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>100</sort_order>
+                        </menu_link_label>
+                    </fields>
+                </frontend>
             </groups>
         </styla_connect>
     </sections>

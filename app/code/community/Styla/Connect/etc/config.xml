@@ -67,6 +67,17 @@
                 </styla_connect>
             </updates>
         </layout>
+        
+        <events>
+            <page_block_html_topmenu_gethtml_before>
+                <observers>
+                    <styla_connect>
+                        <class>Styla_Connect_Model_Observer</class>
+                        <method>addNavigationLink</method>
+                    </styla_connect>
+                </observers>
+            </page_block_html_topmenu_gethtml_before>
+        </events>
     </frontend>
 
     <adminhtml>
@@ -103,6 +114,10 @@
                 <use_magento_layout>0</use_magento_layout>
                 <manufacturer_attribute>manufacturer</manufacturer_attribute>
             </basic>
+            
+            <frontend>
+                <menu_link_label>Magazine</menu_link_label>
+            </frontend>
 
             <response_fields>
                 <!-- If you add new fields here, remember that these new fields must also be added to the
