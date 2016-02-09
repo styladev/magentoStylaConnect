@@ -16,7 +16,22 @@
             <div class="comment">
                 <?php echo $this->__('The connect assistant will use your styla login to retrieve the necessary configuration data directly form styla.')?>
             </div>
+            <div>
+                <?php echo $this->getChildHtml('switcher'); ?>
+            </div>
             <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?=$this->__('Mode')?> <span class="required">*</span></td>
+                    <td class="input-ele">
+                        <select class="input-text required-entry" name="styla[mode]">
+                            <?php $currentMode = $this->getRequest()->getParam('mode'); ?>
+                            <?php foreach(Styla_Connect_Model_Adminhtml_System_Config_Source_Mode::toOptionArray() as $option): ?>
+                                <option <?php if($currentMode == $option['value']): ?>selected="selected"<?php endif ?> value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div><?php echo $this->__('Note: each Mode (stage/production) needs to be connected separately.') ?></div>
+                    </td>
+                </tr>
                 <tr>
                     <td class="label"><?=$this->__('Your Styla Email')?> <span class="required">*</span></td>
                     <td class="input-ele"><input class="input-text required-entry validate-email" name="styla[email]" /></td>

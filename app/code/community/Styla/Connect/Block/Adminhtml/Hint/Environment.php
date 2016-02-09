@@ -29,8 +29,35 @@ class Styla_Connect_Block_Adminhtml_Hint_Environment
         return !Mage::helper('styla_connect/config')->isConfiguredForThisMode();
     }
 
+    /**
+     * Get the current mode the module is operating in, in regard to the currently selected admin configuration scope
+     * 
+     * @return string
+     */
     public function getMode()
     {
-        return Mage::helper('styla_connect/config')->getMode();
+        return Mage::helper('styla_connect/config')->getAdminMode();
+    }
+    
+    /**
+     * Get styla connect assistant url
+     * 
+     * @return string
+     */
+    public function getConnectUrl()
+    {
+        $request = $this->getRequest();
+        
+        $params = array();
+        if($website = $request->getParam('website')) {
+            $params['website'] = $website;
+        }
+        if($store = $request->getParam('store')) {
+            $params['store'] = $store;
+        }
+        $params['mode'] = $this->getMode();
+        
+        $url = Mage::helper("adminhtml")->getUrl('adminhtml/styla_api/index', $params);
+        return $url;
     }
 }

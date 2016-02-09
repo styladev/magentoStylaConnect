@@ -2,7 +2,9 @@
 <layout>
     <adminhtml_styla_api_index>
         <reference name="content">
-            <block type="adminhtml/template" name="connect.form" as="connect.form" template="styla/connect/form.phtml"/>
+            <block type="adminhtml/template" name="connect.form" as="connect.form" template="styla/connect/form.phtml">
+                <block type="adminhtml/system_config_switcher" name="switcher" as="switcher" template="styla/connect/form/switcher.phtml" />
+            </block>
         </reference>
     </adminhtml_styla_api_index>
 </layout>

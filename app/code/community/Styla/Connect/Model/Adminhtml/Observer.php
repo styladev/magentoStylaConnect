@@ -6,6 +6,9 @@
  */
 class Styla_Connect_Model_Adminhtml_Observer
 {
+    /**
+     * @deprecated after 0.1.1.4
+     */
     public function checkModuleConfiguration()
     {
         $configHelper = Mage::helper('styla_connect/config');
