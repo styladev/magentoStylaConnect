@@ -55,6 +55,25 @@ class Styla_Connect_Helper_Config
     }
 
     /**
+     * Is the frontend navigation menu button enabled?
+     * 
+     * @return bool
+     */
+    public function isNavigationLinkEnabled()
+    {
+        return (bool)Mage::getStoreConfig("styla_connect/frontend/menu_link_enabled");
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getNavigationLinkLabel()
+    {
+        return Mage::getStoreConfig("styla_connect/frontend/menu_link_label");
+    }
+    
+    /**
      * @return mixed
      */
     public function getPluginVersion()
