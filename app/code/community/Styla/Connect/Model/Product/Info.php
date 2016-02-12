@@ -61,10 +61,11 @@ class Styla_Connect_Model_Product_Info
         }
 
         $transportObject = new Varien_Object();
-        $transportObject->setRendererAlias($rendererAlias);
+        $transportObject->setData('renderer_alias', $rendererAlias);
+        $transportObject->setData('product', $this->getProduct());
         Mage::dispatchEvent(self::EVENT_GET_RENDERER, array('transport_object' => $transportObject));
 
-        $rendererAlias = $transportObject->getRendererAlias();
+        $rendererAlias = $transportObject->getData('renderer_alias');
         $renderer      = Mage::getSingleton($rendererAlias);
 
         return $renderer;
