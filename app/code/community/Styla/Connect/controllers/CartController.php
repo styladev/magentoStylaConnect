@@ -64,13 +64,16 @@ class Styla_Connect_CartController extends Mage_Checkout_CartController
                 $this->_getSession()->addError(Mage::helper('core')->escapeHtml($message));
             } */
             Mage::logException($e);
-            $this->getResponse()->setHeader('HTTP/1.0', '404', true);
+            $this->getResponse()->setHeader('HTTP/1.0', '500', true);
+            if($e->getMessage()) {
+                $this->getResponse()->setBody(json_encode($e->getMessage()));
+            }
 
             return;
         } catch (Exception $e) {
             Mage::logException($e);
 
-            $this->getResponse()->setHeader('HTTP/1.0', '404', true);
+            $this->getResponse()->setHeader('HTTP/1.0', '500', true);
 
             return;
         }
