@@ -12,7 +12,7 @@ class Styla_Connect_Model_Adminhtml_System_Config_Source_Mode
      *
      * @return array
      */
-    public function toOptionArray()
+    static public function toOptionArray()
     {
         return array(
             array(

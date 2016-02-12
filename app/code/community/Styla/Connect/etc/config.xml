@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Styla_Connect>
-            <version>0.1.1.4</version>
+            <version>0.1.1.5</version>
         </Styla_Connect>
     </modules>
 
@@ -80,6 +80,8 @@
         </events>
     </frontend>
 
+    <!-- @deprecated after 0.1.1.4 -->
+    <!--    
     <adminhtml>
         <events>
             <admin_system_config_changed_section_styla_connect>
@@ -93,6 +95,7 @@
             </admin_system_config_changed_section_styla_connect>
         </events>
     </adminhtml>
+    -->
 
     <default>
         <web>
