@@ -58,17 +58,33 @@ class Styla_Connect_Model_Styla_Api
 
     /**
      * Get the magazine's SEO data - header, noscript tag, etc.
+     * 
+     * Can return an empty array, if the SEO api is not responding.
      *
      * @param string $requestPath
-     * @return string
+     * @return mixed
      */
     public function getPageSeoData($requestPath)
     {
+        //check if a no-response status was cached
+        $cache = $this->getCache();
+        if($cache->load('styla_seo_unreachable')) {
+            return array();
+        }
+        
         $seoRequest = $this->getRequest(self::REQUEST_TYPE_SEO)
             ->initialize($requestPath);
 
-        $response = $this->callService($seoRequest);
-
+        try {
+            $response = $this->callService($seoRequest);
+        } catch(Styla_Connect_Exception $e) {
+            //in case of the SEO request, we don't mind if the connection was failed. we'll just save this failed status for 5 minutes
+            //and not return anything.
+            $cache->save("1", 'styla_seo_unreachable', array(), 5*60); //save for 5 minutes
+            
+            return array();
+        }
+        
         return $response->getResult();
     }
 
@@ -119,8 +135,15 @@ class Styla_Connect_Model_Styla_Api
         }
 
         $requestApiUrl = $request->getApiUrl();
+        /** @var Varien_Http_Adapter_Curl $service */
         $service       = $this->getService();
 
+        //include the request timeout, if set
+        $requestTimeoutOptions = $request->getConnectionTimeoutOptions();
+        if($requestTimeoutOptions) {
+            $service->setOptions($requestTimeoutOptions);
+        }
+        
         //fill in the post params, if this is a POST request
         $requestMethod = $request->getConnectionType();
         $requestBody   = "";
@@ -184,7 +207,7 @@ class Styla_Connect_Model_Styla_Api
             $this->_service->setOptions($this->_apiConnectionOptions);
             $this->_service->setConfig(array('header' => false)); //this will tell curl to omit headers in result
         }
-
+        
         return $this->_service;
     }
 

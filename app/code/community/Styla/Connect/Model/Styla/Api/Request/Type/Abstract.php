@@ -11,7 +11,10 @@ abstract class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
     protected $_params;
 
     protected $_connectionType = Zend_Http_Client::GET;
-
+    
+    protected $_requestTimeout;
+    protected $_requestConnectTimeout;
+    
     /**
      *
      * @return string
@@ -124,5 +127,24 @@ abstract class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
     public function getConfigHelper()
     {
         return Mage::helper('styla_connect/config');
+    }
+    
+    /**
+     * Get the connection timeout settings for this request.
+     * 
+     * @return false|array
+     */
+    public function getConnectionTimeoutOptions()
+    {
+        $options = array();
+        
+        if(null !== $this->_requestConnectTimeout) {
+            $options[CURLOPT_CONNECTTIMEOUT] = $this->_requestConnectTimeout;
+        }
+        if(null !== $this->_requestTimeout) {
+            $options[CURLOPT_TIMEOUT] = $this->_requestTimeout;
+        }
+        
+        return empty($options) ? false : $options;
     }
 }
