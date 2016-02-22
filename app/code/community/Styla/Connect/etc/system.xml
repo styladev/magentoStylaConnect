@@ -173,6 +173,27 @@
                     </fields>
                 </basic>
                 
+                <admin translate="label" module="styla_connect">
+                    <sort_order>15</sort_order>
+                    <label>Adminhtml Configuration</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    
+                    <fields>
+                        <max_category_children translate="label">
+                            <label>Maximum Levels of Categories Loaded at Once</label>
+                            <comment>If you're running a store with a category tree consisting of multiple levels, you may choose to limit the number of the branches loaded into the editor at once, for performance reasons.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>styla_connect/adminhtml_system_config_source_category_levels</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>90</sort_order>
+                        </max_category_children>
+                    </fields>
+                </admin>
+                
                 <frontend translate="label" module="styla_connect">
                     <sort_order>20</sort_order>
                     <label>Frontend Configuration</label>
