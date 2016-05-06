@@ -9,11 +9,21 @@
 class Styla_Connect_Model_Page
     extends Varien_Object
 {
-    const JAVASCRIPT_URL = '//live.styla.com/scripts/preloader/%.js?v=%s';
+    const JAVASCRIPT_URL = 'https://%s.styla.com/scripts/clients/%s.js?v=%s';
+    const CSS_URL        = 'https://%s.styla.com/styles/clients/%s.css?v=%s';
+    
+    const URL_CDN_PREFIX_PRODUCTION = "cdn";
+    const URL_CDN_PREFIX_STAGE      = "dev";
+    protected $_urlCdnPrefix = array(
+        Styla_Connect_Helper_Config::MODE_PRODUCTION => self::URL_CDN_PREFIX_PRODUCTION,
+        Styla_Connect_Helper_Config::MODE_STAGE      => self::URL_CDN_PREFIX_STAGE,
+    );
 
     protected $tags;
     protected $baseTags;
-
+    protected $_username;
+    protected $_apiVersion;
+    
     public function save()
     {
         throw new Exception('save is not supported!');
@@ -206,20 +216,77 @@ class Styla_Connect_Model_Page
     }
 
     /**
+     * 
+     * @return string
+     */
+    public function getCssUrl()
+    {
+        $cssUrl       = self::CSS_URL;
+        $repository = $this->getContentRepositoryPrefix();
+        $clientName      = $this->getUsername();
+        $apiVersion      = $this->getCurrentApiVersion();
+
+        $cssUrl = sprintf($cssUrl, $repository, $clientName, $apiVersion);
+        return $cssUrl;
+    }
+    
+    /**
+     * The CDN used to download the js/css has a different domain,
+     * depending on the current mode of operation (stage/prod).
+     * This method returns this prefix.
+     * 
+     * @return string
+     */
+    public function getContentRepositoryPrefix()
+    {
+        $mode = $this->getConfigHelper()->getCurrentMode();
+        
+        $prefix = isset($this->_urlCdnPrefix[$mode]) ? $this->_urlCdnPrefix[$mode] : self::URL_CDN_PREFIX_STAGE;
+        return $prefix;
+    }
+    
+    /**
+     * Get Styla client name
+     * 
+     * @return string
+     */
+    public function getUsername()
+    {
+        if(null === $this->_username) {
+            $this->_username = $this->getConfigHelper()->getUsername();
+        }
+        
+        return $this->_username;
+    }
+    
+    /**
      * Get the current url for Styla's JS script, used for loading the magazine page
      *
      * @return string
      */
     public function getScriptUrl()
     {
-        $configuredJsUrl = $this->getConfigHelper()->getApiJsUrl();
-        $scriptUrl       = $configuredJsUrl ? $configuredJsUrl : self::JAVASCRIPT_URL;
-        $clientName      = $this->getConfigHelper()->getUsername();
-        $apiVersion      = $this->_getApi()->getCurrentApiVersion();
+        $scriptUrl       = self::JAVASCRIPT_URL;
+        $repository = $this->getContentRepositoryPrefix();
+        $clientName      = $this->getUsername();
+        $apiVersion      = $this->getCurrentApiVersion();
 
-        $scriptUrl = sprintf($scriptUrl, $clientName, $apiVersion);
+        $scriptUrl = sprintf($scriptUrl, $repository, $clientName, $apiVersion);
 
         return $scriptUrl;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getCurrentApiVersion()
+    {
+        if(null === $this->_apiVersion) {
+            $this->_apiVersion = $this->_getApi()->getCurrentApiVersion();
+        }
+        
+        return $this->_apiVersion;
     }
 
     /**

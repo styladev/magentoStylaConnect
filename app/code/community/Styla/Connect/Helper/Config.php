@@ -13,10 +13,11 @@ class Styla_Connect_Helper_Config
     protected $_apiConfigurationFields = array(
         'client' => 'styla_connect/basic/username',
         'seoUrl' => 'styla_connect/basic/seo_url',
-        'jsUrl'  => 'styla_connect/basic/js_url',
+        //'jsUrl'  => 'styla_connect/basic/js_url', @deprecated
     );
 
     protected $_configuration;
+    protected $_currentMode;
     
     /**
      * 
@@ -157,6 +158,11 @@ class Styla_Connect_Helper_Config
         return $seoUrl;
     }
 
+    /**
+     * @deprecated There's a new method for it in the Page model, getScriptUrl()
+     * The preloader is no longer used.
+     * 
+     */
     public function getApiJsUrl($mode = null, $store = null)
     {
         $mode = $this->getMode($mode);
@@ -185,6 +191,23 @@ class Styla_Connect_Helper_Config
         $configuredMode = Mage::getStoreConfig('styla_connect/basic/mode', $store);
 
         return $configuredMode ? $configuredMode : self::MODE_PRODUCTION;
+    }
+    
+    /**
+     * Get the current mode of operation, for the currently loaded store
+     * The result is saved for later.
+     * 
+     */
+    public function getCurrentMode()
+    {
+        if(null === $this->_currentMode) {
+            $currentStore = Mage::app()->getStore();
+            $mode = $this->getMode(null, $currentStore->getId()); 
+            
+            $this->_currentMode = $mode;
+        }
+        
+        return $this->_currentMode;
     }
     
     /**

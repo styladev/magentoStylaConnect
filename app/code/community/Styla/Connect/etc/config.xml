@@ -110,6 +110,7 @@
         <styla_connect>
             <basic>
                 <frontend_name>magazin</frontend_name>
+                <!-- js_url is now @deprecated, don't use it anymore -->
                 <js_url>//live.styla.com/scripts/preloader/%s.js</js_url>
                 <seo_url>http://seo.styla.com/</seo_url>
                 <enabled>1</enabled>

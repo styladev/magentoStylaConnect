@@ -108,6 +108,7 @@
                             <depends><mode>stage</mode></depends>
                         </seo_url_stage>
                         
+                        <!-- @deprecated
                         <js_url_prod translate="label">
                             <label>Styla Magazine Api Javascript Url (Production)</label>
                             <comment>Eg. //live.styla.com/preloader/embed/%s.js (%s will be turned into your Styla API Username)</comment>
@@ -129,6 +130,7 @@
                             <sort_order>55</sort_order>
                             <depends><mode>stage</mode></depends>
                         </js_url_stage>
+                        -->
                         
                         <use_magento_layout translate="label">
                             <label>Use Magento Layout</label>

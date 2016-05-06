@@ -91,11 +91,17 @@ class Styla_Connect_Model_Styla_Api
             if (!$apiVersion) {
                 $request = $this->getRequest(self::REQUEST_TYPE_VERSION);
 
-                $response   = $this->callService($request, false);
+                $response   = $this->callService($request, false, true);
                 $apiVersion = $response->getResult();
-
-                //cache for 1 hour
-                $cache->save($apiVersion, 'styla-api-version', array(), 3600);
+                
+                //if returned by the response, use the cache-control set lifetime
+                $cacheTime = $response->getCacheControlValue();
+                if(false === $cacheTime) {
+                    $cacheTime = 3600;
+                }
+                
+                //cache for $cacheTime seconds
+                $cache->save($apiVersion, 'styla-api-version', array(), $cacheTime);
             }
             $this->_currentApiVersion = $apiVersion;
         }
@@ -108,10 +114,11 @@ class Styla_Connect_Model_Styla_Api
      *
      * @param Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request
      * @param bool                                                $canUseCache
+     * @param bool                                                $useResultHeadersInResponse add the http headers to response
      * @return Styla_Connect_Model_Styla_Api_Response_Type_Abstract
      * @throws Styla_Connect_Exception
      */
-    public function callService(Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request, $canUseCache = true)
+    public function callService(Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request, $canUseCache = true, $useResultHeadersInResponse = false)
     {
         $cache = $this->getCache();
         if ($canUseCache && $cachedResponse = $cache->getCachedApiResponse($request)) {
@@ -119,7 +126,7 @@ class Styla_Connect_Model_Styla_Api
         }
 
         $requestApiUrl = $request->getApiUrl();
-        $service       = $this->getService();
+        $service       = $this->getService($useResultHeadersInResponse);
 
         //fill in the post params, if this is a POST request
         $requestMethod = $request->getConnectionType();
@@ -142,15 +149,61 @@ class Styla_Connect_Model_Styla_Api
         if (!$result) {
             throw new Styla_Connect_Exception("Couldn't get a result from the API.");
         }
-
+        
+        /**
+         * the result can contain both the body and http headers, if the $addResultHeaders var is active.
+         * we'll need to parse this info, before giving it to the response object
+         */
+        $resultBody = $result;
+        $resultHeaders = false;
+        if($useResultHeadersInResponse) {
+            $result = $this->parseHttpResponse($result);
+            $resultBody = $result['body'];
+            $resultHeaders = $result['headers'];
+        }
+        
         $response = $this->getResponse($request);
-        $response->initialize($result, $service);
+        $response->initialize($resultBody, $service);
+        
+        if($resultHeaders) {
+            $response->setResponseHeaders($resultHeaders);
+        }
 
         if ($canUseCache && $response->getHttpStatus() === 200) {
             $cache->storeApiResponse($request, $response);
         }
 
         return $response;
+    }
+    
+    /**
+     * Parse a http response, containing both the headers and content and return it as array
+     * 
+     * @param string $response
+     * @return array
+     */
+    public function parseHttpResponse($response)
+    {
+        $headers = array();
+        if(false === strpos($response, "\r\n\r\n")) {
+            return array('headers' => array(), 'body' => $response);
+        }
+        
+        list($headerContent, $bodyContent) = explode("\r\n\r\n", $response, 2);
+        
+        foreach(explode("\r\n", $headerContent) as $i => $header) {
+            if ($i === 0) {
+                $headers['http_code'] = $header;
+            } else {
+                list($headerName, $value) = explode(': ', $header);
+                $headers[$headerName] = $value;
+            }
+        }
+        
+        return array(
+            'headers' => $headers,
+            'body'    => $bodyContent,
+        );
     }
 
     /**
@@ -176,15 +229,17 @@ class Styla_Connect_Model_Styla_Api
      *
      * @return Varien_Http_Adapter_Curl
      */
-    public function getService()
+    public function getService($addResultHeaders = false)
     {
         if (!$this->_service) {
             $this->_service = new Varien_Http_Adapter_Curl();
 
             $this->_service->setOptions($this->_apiConnectionOptions);
-            $this->_service->setConfig(array('header' => false)); //this will tell curl to omit headers in result
         }
 
+        //this will tell curl to omit headers in result, if false
+        $this->_service->setConfig(array('header' => $addResultHeaders));
+        
         return $this->_service;
     }
 
