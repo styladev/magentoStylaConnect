@@ -103,9 +103,9 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
 
         $taxRate = $taxCalculation->getRate($taxRequest->setProductClassId($taxId)); //get calculated default rate
 
-        //get defailed tax info
+        //get detailed tax info
         $taxRateInfo = $taxCalculation->getResource()->getRateInfo($taxRequest);
-        $taxLabel    = isset($taxRateInfo['process'][0]['id']) ? $taxRateInfo['process'][0]['id'] : "";
+        $taxLabel    = isset($taxRateInfo['process'][0]['id']) ? $taxRateInfo['process'][0]['id'] : '';
 
         $isTaxIncluded = Mage::helper('tax')->priceIncludesTax($store);
 
@@ -130,7 +130,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
         $minQty = null;
         $maxQty = null;
 
-        $stockItem = Mage::getModel("cataloginventory/stock_item")
+        $stockItem = Mage::getModel('cataloginventory/stock_item')
             ->loadByProduct($product->getId());
 
         if ($stockItem) {
@@ -171,7 +171,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
 
         //convert to a format acceptable for Styla
         //normally is contains %s for inserting the price value
-        return str_replace("%s", "#{price}", $currencyFormat);
+        return str_replace('%s', '#{price}', $currencyFormat);
     }
 
     /**
@@ -201,7 +201,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
      */
     protected function _collectAdditionalProductInfo($product, $productInfo)
     {
-        //can be overriden and used in productType-specific classes to get more detailed attributes
+        //can be overridden and used in productType-specific classes to get more detailed attributes
 
         //allow for collecting additional data outside of the renderer
         $transportObject = new Varien_Object();
@@ -231,7 +231,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
     {
         if (!$this->manufacturerAttribute) {
             $attributeCode               = Mage::getStoreConfig('styla_connect/basic/manufacturer_attribute');
-            $this->manufacturerAttribute = Mage::getSingleton("eav/config")->getAttribute(
+            $this->manufacturerAttribute = Mage::getSingleton('eav/config')->getAttribute(
                 Mage_Catalog_Model_Product::ENTITY,
                 $attributeCode
             );

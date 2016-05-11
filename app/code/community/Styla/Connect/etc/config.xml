@@ -67,7 +67,7 @@
                 </styla_connect>
             </updates>
         </layout>
-        
+
         <events>
             <page_block_html_topmenu_gethtml_before>
                 <observers>
@@ -110,6 +110,7 @@
         <styla_connect>
             <basic>
                 <frontend_name>magazin</frontend_name>
+                <!-- js_url is now @deprecated, don't use it anymore -->
                 <js_url>//live.styla.com/scripts/preloader/%s.js</js_url>
                 <seo_url>http://seo.styla.com/</seo_url>
                 <enabled>1</enabled>
@@ -117,7 +118,7 @@
                 <use_magento_layout>1</use_magento_layout>
                 <manufacturer_attribute>manufacturer</manufacturer_attribute>
             </basic>
-            
+
             <frontend>
                 <menu_link_label>Magazine</menu_link_label>
             </frontend>

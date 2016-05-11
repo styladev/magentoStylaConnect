@@ -8,7 +8,7 @@ abstract class Styla_Connect_Model_Api2_Converter_Abstract
     const ARGUMENT_STYLA_FIELD   = "styla_field";
     const ARGUMENT_MAGENTO_FIELD = "magento_field";
 
-    const REQUIREMENTS_TYPE = ""; //this is an identifier for collection requirements. used to only add the same reqs once
+    const REQUIREMENTS_TYPE = ''; //this is an identifier for collection requirements. used to only add the same reqs once
 
     protected $_arguments;
 
@@ -73,6 +73,8 @@ abstract class Styla_Connect_Model_Api2_Converter_Abstract
 
     /**
      * use this method in your own converter, to process input data object and set styla fields in it
+     * @param Varien_Object $dataObject
+     * @return
      */
     abstract public function runConverter(Varien_Object $dataObject);
 }

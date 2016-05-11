@@ -16,7 +16,7 @@ class Styla_Connect_Model_Adminhtml_System_Config_Source_Product_Attribute
     {
         /** @var Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection $collection */
         $collection = Mage::getResourceModel('catalog/eav_mysql4_product_attribute_collection');
-        $options = array();
+        $options    = array();
 
 
         foreach ($collection as $attribute) {

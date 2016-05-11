@@ -14,7 +14,7 @@ class Styla_Connect_Model_Styla_Api_Response_Type_Seo extends Styla_Connect_Mode
         //if the request returned 404 - that's an exception and we will not process anything further
         if ($this->getHttpStatus() == 404) {
             throw new Styla_Connect_Exception(
-                "The Styla Api SEO request failed: ".$this->getHttpStatus()." - ".$this->getError()
+                'The Styla Api SEO request failed: ' . $this->getHttpStatus() . ' - ' . $this->getError()
             );
         }
 

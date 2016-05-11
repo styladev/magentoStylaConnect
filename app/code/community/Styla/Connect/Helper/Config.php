@@ -7,42 +7,43 @@ class Styla_Connect_Helper_Config
 {
     const DEFAULT_ROUTE_NAME = 'magazin';
 
-    const MODE_STAGE      = "stage";
-    const MODE_PRODUCTION = "prod";
+    const MODE_STAGE      = 'stage';
+    const MODE_PRODUCTION = 'prod';
 
     protected $_apiConfigurationFields = array(
         'client' => 'styla_connect/basic/username',
         'seoUrl' => 'styla_connect/basic/seo_url',
-        'jsUrl'  => 'styla_connect/basic/js_url',
+        //'jsUrl'  => 'styla_connect/basic/js_url', @deprecated
     );
 
     protected $_configuration;
-    
+    protected $_currentMode;
+
     /**
-     * 
+     *
      * @return array
      */
     public function getApiConfigurationFields()
     {
         return $this->_apiConfigurationFields;
     }
-    
+
     /**
      * Get the proper field configuration path, according to module's operating mode (stage,prod)
-     * 
+     *
      * @param string $fieldName
      * @param string $mode
-     * @param bool $usingNameAsPath
+     * @param bool   $usingNameAsPath
      * @return boolean|string
      */
     public function getApiConfigurationFieldByMode($fieldName, $mode, $usingNameAsPath = false)
     {
         $path = $usingNameAsPath ? $fieldName : (isset($this->_apiConfigurationFields[$fieldName]) ? $this->_apiConfigurationFields[$fieldName] : false);
-        if(!$path) {
+        if (!$path) {
             return false;
         }
-        
-        return $path . "_" . $mode;
+
+        return $path . '_' . $mode;
     }
 
     /**
@@ -67,7 +68,7 @@ class Styla_Connect_Helper_Config
     {
         $mode = $this->getMode($mode, $store);
         $path = $this->getApiConfigurationFieldByMode('styla_connect/basic/username', $mode, true);
-        
+
         $username = Mage::getStoreConfig($path, $store);
         return $username;
     }
@@ -82,34 +83,34 @@ class Styla_Connect_Helper_Config
         $configuredRouteName = Mage::getStoreConfig('styla_connect/basic/frontend_name');
         $routeName           = $configuredRouteName ? $configuredRouteName : self::DEFAULT_ROUTE_NAME;
 
-        return trim($routeName, "/")."/";
+        return trim($routeName, '/') . '/';
     }
 
     /**
      * Is the frontend navigation menu button enabled?
-     * 
+     *
      * @return bool
      */
     public function isNavigationLinkEnabled()
     {
-        return (bool)Mage::getStoreConfig("styla_connect/frontend/menu_link_enabled");
+        return (bool)Mage::getStoreConfig('styla_connect/frontend/menu_link_enabled');
     }
-    
+
     /**
-     * 
+     *
      * @return string
      */
     public function getNavigationLinkLabel()
     {
-        return Mage::getStoreConfig("styla_connect/frontend/menu_link_label");
+        return Mage::getStoreConfig('styla_connect/frontend/menu_link_label');
     }
-    
+
     /**
      * @return mixed
      */
     public function getPluginVersion()
     {
-        return (string) Mage::getConfig()->getModuleConfig("Styla_Connect")->version;
+        return (string)Mage::getConfig()->getModuleConfig('Styla_Connect')->version;
     }
 
     /**
@@ -143,7 +144,7 @@ class Styla_Connect_Helper_Config
     }
 
     /**
-     * 
+     *
      * @param string|null $mode
      * @param string|null $store
      * @return string
@@ -152,23 +153,28 @@ class Styla_Connect_Helper_Config
     {
         $mode = $this->getMode($mode);
         $path = $this->getApiConfigurationFieldByMode('styla_connect/basic/seo_url', $mode, true);
-        
+
         $seoUrl = Mage::getStoreConfig($path, $store);
         return $seoUrl;
     }
 
+    /**
+     * @deprecated There's a new method for it in the Page model, getScriptUrl()
+     * The preloader is no longer used.
+     *
+     */
     public function getApiJsUrl($mode = null, $store = null)
     {
         $mode = $this->getMode($mode);
         $path = $this->getApiConfigurationFieldByMode('styla_connect/basic/js_url', $mode, true);
-        
+
         $jsUrl = Mage::getStoreConfig($path, $store);
         return $jsUrl;
     }
 
     public function parseUrl($url)
     {
-        return rtrim($url, "/")."/";
+        return rtrim($url, '/') . '/';
     }
 
     /**
@@ -178,27 +184,44 @@ class Styla_Connect_Helper_Config
      */
     public function getMode($mode = null, $store = null)
     {
-        if($mode) {
+        if ($mode) {
             return $mode;
         }
-        
+
         $configuredMode = Mage::getStoreConfig('styla_connect/basic/mode', $store);
 
         return $configuredMode ? $configuredMode : self::MODE_PRODUCTION;
     }
-    
+
     /**
-     * 
+     * Get the current mode of operation, for the currently loaded store
+     * The result is saved for later.
+     *
+     */
+    public function getCurrentMode()
+    {
+        if (null === $this->_currentMode) {
+            $currentStore = Mage::app()->getStore();
+            $mode         = $this->getMode(null, $currentStore->getId());
+
+            $this->_currentMode = $mode;
+        }
+
+        return $this->_currentMode;
+    }
+
+    /**
+     *
      * @deprecated
      * @param mixed $scopeData
      * @return array
      */
     public function getScope($scopeData = null)
     {
-        if($scopeData) {
+        if ($scopeData) {
             return $scopeData;
         }
-        
+
         return array('scope' => 'default', 'scope_id' => null);
     }
 
@@ -211,32 +234,32 @@ class Styla_Connect_Helper_Config
     {
         $website = Mage::app()->getRequest()->getParam('website');
         $store   = Mage::app()->getRequest()->getParam('store');
-        $scope = $this->resolveScope($website, $store);
+        $scope   = $this->resolveScope($website, $store);
 
-        if(!$mode) {
+        if (!$mode) {
             $mode = $this->getAdminMode($scope);
         }
 
         $clientPath = $this->getApiConfigurationFieldByMode('client', $mode);
-        $client = $this->getConfigurationNode($clientPath, $scope->getScope(), $scope->getScopeId());
+        $client     = $this->getConfigurationNode($clientPath, $scope->getScope(), $scope->getScopeId());
 
         return $client ? true : false;
     }
-    
+
     /**
      * Get the module's operating mode, as in the current scope selected in admin configuration
-     * 
+     *
      * @param mixed $scope
      * @return string
      */
     public function getAdminMode($scope = null)
     {
-        if(!$scope) {
+        if (!$scope) {
             $website = Mage::app()->getRequest()->getParam('website');
             $store   = Mage::app()->getRequest()->getParam('store');
-            $scope = $this->resolveScope($website, $store);
+            $scope   = $this->resolveScope($website, $store);
         }
-        
+
         return $this->getConfigurationNode('styla_connect/basic/mode', $scope->getScope(), $scope->getScopeId());
     }
 
@@ -244,9 +267,9 @@ class Styla_Connect_Helper_Config
      * Save the connection configuration for the module. This data is taken from a response to the Styla API.
      * See the Api Connector for more details.
      *
-     * @param array $connectionData
+     * @param array  $connectionData
      * @param string $mode
-     * @param array $scopeData array('scope' => X, 'scope_id' => Y)
+     * @param array  $scopeData array('scope' => X, 'scope_id' => Y)
      * @throws Styla_Connect_Exception
      */
     public function updateConnectionConfiguration(array $connectionData, $mode, $scopeData)
@@ -255,11 +278,16 @@ class Styla_Connect_Helper_Config
 
         foreach ($this->_apiConfigurationFields as $fieldName => $configurationPath) {
             if (!isset($connectionData[$fieldName])) {
-                throw new Styla_Connect_Exception("The configuration is missing required data: ".$fieldName);
+                throw new Styla_Connect_Exception('The configuration is missing required data: ' . $fieldName);
             }
 
             $configurationPathByMode = $this->getApiConfigurationFieldByMode($fieldName, $mode);
-            $configuration->saveConfig($configurationPathByMode, $connectionData[$fieldName], $scopeData['scope'], $scopeData['scope_id']);
+            $configuration->saveConfig(
+                $configurationPathByMode,
+                $connectionData[$fieldName],
+                $scopeData['scope'],
+                $scopeData['scope_id']
+            );
         }
 
         /**
@@ -271,24 +299,25 @@ class Styla_Connect_Helper_Config
         //refresh the config cache
         $configuration->cleanCache();
     }
-    
+
     /**
      * Get the website and store identifier.
      * Convert it to scope and scope_id identifiers.
-     * 
+     *
      * Returns array('scope' => SCOPE, 'scope_id' => SCOPE_ID)
-     * 
+     *
      * @param mixed $website
      * @param mixed $store
      * @return array
      */
     public function resolveScope($website, $store)
     {
+        /** @var Styla_Connect_Model_Adminhtml_Config_Data $configModel */
         $configModel = Mage::getSingleton('styla_connect/adminhtml_config_data');
         $configModel->setWebsite($website);
         $configModel->setStore($store);
         $configModel->resolveScope();
-        
+
         return $configModel;
     }
 
@@ -297,6 +326,7 @@ class Styla_Connect_Helper_Config
      *
      * @deprecated after 0.1.1.4 as we now can store multiple configurations in the db
      * @param string $mode
+     * @param        $scopeData
      * @return bool|stdClass
      */
     public function getConnectionDataForMode($mode, $scopeData)
@@ -311,7 +341,11 @@ class Styla_Connect_Helper_Config
              */
             $configurationPathByMode = $this->getApiConfigurationFieldByMode($configurationPath, $mode, true);
 
-            $savedConfigurationValue = $this->getConfigurationNode($configurationPathByMode, $scopeData['scope'], $scopeData['scope_id']);
+            $savedConfigurationValue = $this->getConfigurationNode(
+                $configurationPathByMode,
+                $scopeData['scope'],
+                $scopeData['scope_id']
+            );
             if ($savedConfigurationValue) {
                 $hasConfigurationData = true;
 
@@ -321,20 +355,20 @@ class Styla_Connect_Helper_Config
 
         return $hasConfigurationData ? $connectionData : false;
     }
-    
+
     /**
      * Get a raw configuration value from the Magento Config, for the specifically selected scope and scope_id
-     * 
+     *
      * @param string $path
-     * @param mixed $scope
-     * @param mixed $scopeId
+     * @param mixed  $scope
+     * @param mixed  $scopeId
      * @return null|string
      */
     public function getConfigurationNode($path = null, $scope = '', $scopeId = null)
     {
         $configuration = $this->getConfiguration();
-        $value = $configuration->getNode($path, $scope, $scopeId);
-        
+        $value         = $configuration->getNode($path, $scope, $scopeId);
+
         return $value instanceof Mage_Core_Model_Config_Element ? $value->asArray() : null;
     }
 
@@ -345,7 +379,7 @@ class Styla_Connect_Helper_Config
      */
     public function getCachedConnectionData($mode = null, $scopeData = null)
     {
-        $mode = $this->getMode($mode);
+        $mode      = $this->getMode($mode);
         $scopeData = $this->getScope($scopeData);
 
         $cachedConnectionData = $this->getConnectionDataForMode($mode, $scopeData);
@@ -367,7 +401,7 @@ class Styla_Connect_Helper_Config
         foreach ($this->_apiConfigurationFields as $fieldName => $configurationPath) {
             if (!isset($connectionData[$fieldName])) {
                 throw new Styla_Connect_Exception(
-                    "Invalid response from Styla API. Couldn't find required configuration value for ".$fieldName
+                    "Invalid response from Styla API. Couldn't find required configuration value for " . $fieldName
                 );
             }
 
@@ -375,7 +409,12 @@ class Styla_Connect_Helper_Config
              * save the cached value for this $moduleMode mode
              */
             $configurationPathByMode = $this->getApiConfigurationFieldByMode($fieldName, $moduleMode);
-            $configuration->saveConfig($configurationPathByMode, $connectionData[$fieldName], $scopeData['scope'], $scopeData['scope_id']);
+            $configuration->saveConfig(
+                $configurationPathByMode,
+                $connectionData[$fieldName],
+                $scopeData['scope'],
+                $scopeData['scope_id']
+            );
         }
 
         //refresh the config cache

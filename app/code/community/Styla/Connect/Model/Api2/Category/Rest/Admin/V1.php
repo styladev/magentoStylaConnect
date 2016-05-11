@@ -59,9 +59,9 @@ class Styla_Connect_Model_Api2_Category_Rest_Admin_V1
 
     public function dispatch()
     {
-        switch ($this->getActionType().$this->getOperation()) {
+        switch ($this->getActionType() . $this->getOperation()) {
             /* Retrieve */
-            case self::ACTION_TYPE_ENTITY.self::OPERATION_RETRIEVE:
+            case self::ACTION_TYPE_ENTITY . self::OPERATION_RETRIEVE:
                 $this->_errorIfMethodNotExist('_retrieve');
                 $retrievedData = $this->_retrieve();
 

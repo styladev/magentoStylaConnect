@@ -8,7 +8,6 @@ class Styla_Connect_ProductController extends Mage_Core_Controller_Front_Action
     /**
      * Load the product's details and return them as a json
      * This is used in ajax calls from the magazine.
-     *
      */
     public function infoAction()
     {
@@ -40,7 +39,6 @@ class Styla_Connect_ProductController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     *
      * @return boolean|Mage_Catalog_Model_Product
      */
     protected function _initProduct()
