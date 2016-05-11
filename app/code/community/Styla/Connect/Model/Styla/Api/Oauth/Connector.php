@@ -167,7 +167,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
 
         Mage::helper('styla_connect/config')->updateConnectionConfiguration($connectionData, $mode, $connectionScope);
 
-        Mage::getSingleton('adminhtml/session')->addSuccess("Connection to Styla made successfully.");
+        Mage::getSingleton('adminhtml/session')->addSuccess('Connection to Styla made successfully.');
     }
 
     /**
@@ -414,13 +414,13 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
      */
     public function getAttributesForStyla()
     {
-        $fieldConfiguration = Mage::getConfig()->loadModulesConfiguration("api2.xml")->getNode(
-            "api2/resources"
-        )->asArray();
+        $fieldConfiguration = Mage::getConfig()
+            ->loadModulesConfiguration('api2.xml')
+            ->getNode('api2/resources')->asArray();
 
         $attributes = array(
-            'styla_category' => implode(",", array_keys($fieldConfiguration['styla_category']['attributes'])),
-            'styla_product'  => implode(",", array_keys($fieldConfiguration['styla_product']['attributes'])),
+            'styla_category' => implode(',', array_keys($fieldConfiguration['styla_category']['attributes'])),
+            'styla_product'  => implode(',', array_keys($fieldConfiguration['styla_product']['attributes'])),
         );
 
         return $attributes;
@@ -438,8 +438,8 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         $roleData = array(
             'in_role_users' => array($adminUser->getId()),
             'role_name'     => self::API2_ROLE_NAME,
-            'resource'      => "__root__,group-catalog,resource-styla_category,privilege-styla_category-retrieve,resource-styla_product,privilege-styla_product-retrieve",
-            'all'           => "0",
+            'resource'      => '__root__,group-catalog,resource-styla_category,privilege-styla_category-retrieve,resource-styla_product,privilege-styla_product-retrieve',
+            'all'           => '0',
         );
 
         //a little trick - mage implementation needs these params to be in POST....
