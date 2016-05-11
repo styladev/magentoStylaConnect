@@ -5,7 +5,7 @@
  */
 class Styla_Connect_Model_Api2_Converter_Product_Attribute extends Styla_Connect_Model_Api2_Converter_Abstract
 {
-    const ARGUMENT_ATTRIBUTE_CODE = "attribute_code";
+    const ARGUMENT_ATTRIBUTE_CODE = 'attribute_code';
 
     /**
      * @param Varien_Object $dataObject
@@ -30,7 +30,7 @@ class Styla_Connect_Model_Api2_Converter_Product_Attribute extends Styla_Connect
     {
         $attributeCode = $this->getAttributeCode();
 
-        return Mage::getSingleton("eav/config")->getAttribute(
+        return Mage::getSingleton('eav/config')->getAttribute(
             Mage_Catalog_Model_Product::ENTITY,
             $attributeCode
         );

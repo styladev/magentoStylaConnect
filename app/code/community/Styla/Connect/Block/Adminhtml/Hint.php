@@ -8,7 +8,7 @@ class Styla_Connect_Block_Adminhtml_Hint
     implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected $_template = 'styla/connect/adminhtml/hint.phtml';
-    
+
     /**
      * Render fieldset html
      *

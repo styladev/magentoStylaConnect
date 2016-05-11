@@ -103,6 +103,7 @@ class Styla_Connect_CartController extends Mage_Checkout_CartController
 
         $transportObject = new Varien_Object();
         $transportObject->setBlockHtmlArray($blockHtmlArray);
+
         Mage::dispatchEvent(
             self::EVENT_GET_CART_UPDATE_HTML,
             array('transport_object' => $transportObject, 'block' => $block)
@@ -133,6 +134,7 @@ class Styla_Connect_CartController extends Mage_Checkout_CartController
 
         $transportObject = new Varien_Object();
         $transportObject->setCartMetaData($cartMetaData);
+
         Mage::dispatchEvent(
             self::EVENT_GET_CART_METADATA,
             array('transportObject' => $transportObject, 'cart' => $cart)

@@ -67,7 +67,7 @@
                 </styla_connect>
             </updates>
         </layout>
-        
+
         <events>
             <page_block_html_topmenu_gethtml_before>
                 <observers>
@@ -118,7 +118,7 @@
                 <use_magento_layout>1</use_magento_layout>
                 <manufacturer_attribute>manufacturer</manufacturer_attribute>
             </basic>
-            
+
             <frontend>
                 <menu_link_label>Magazine</menu_link_label>
             </frontend>

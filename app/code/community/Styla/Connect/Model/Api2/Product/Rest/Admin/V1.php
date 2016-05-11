@@ -97,13 +97,13 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
         unset($queryParameters['type']);
 
         //try to force ssl for paging urls
-        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, true).'rest/api';
+        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, true) . 'rest/api';
 
         $baseUrl .= $this->getRequest()->getPathInfo();
 
         $queryParameters[$request::QUERY_PARAM_PAGE_NUM] = $page;
 
-        return $baseUrl.'?'.http_build_query($queryParameters);
+        return $baseUrl . '?' . http_build_query($queryParameters);
     }
 
     /**

@@ -35,10 +35,10 @@ class Styla_Connect_Model_Styla_Api
      * @return \Varien_Object|boolean
      * @throws Styla_Connect_Exception
      */
-    public function requestPageData($requestPath = "/")
+    public function requestPageData($requestPath = '/')
     {
         if (!$requestPath) {
-            $requestPath = "/";
+            $requestPath = '/';
         }
 
         try {
@@ -93,15 +93,20 @@ class Styla_Connect_Model_Styla_Api
 
                 $response   = $this->callService($request, false, true);
                 $apiVersion = $response->getResult();
-                
+
                 //if returned by the response, use the cache-control set lifetime
                 $cacheTime = $response->getCacheControlValue();
-                if(false === $cacheTime) {
+                if (false === $cacheTime) {
                     $cacheTime = 3600;
                 }
-                
+
                 //cache for $cacheTime seconds
-                $cache->save($apiVersion, 'styla-api-version', array(), $cacheTime);
+                $cache->save(
+                    $apiVersion,
+                    'styla-api-version',
+                    array(Styla_Connect_Model_Styla_Api_Cache::CACHE_TAG),
+                    $cacheTime
+                );
             }
             $this->_currentApiVersion = $apiVersion;
         }
@@ -118,7 +123,11 @@ class Styla_Connect_Model_Styla_Api
      * @return Styla_Connect_Model_Styla_Api_Response_Type_Abstract
      * @throws Styla_Connect_Exception
      */
-    public function callService(Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request, $canUseCache = true, $useResultHeadersInResponse = false)
+    public function callService(
+        Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request,
+        $canUseCache = true,
+        $useResultHeadersInResponse = false
+    )
     {
         $cache = $this->getCache();
         if ($canUseCache && $cachedResponse = $cache->getCachedApiResponse($request)) {
@@ -130,7 +139,7 @@ class Styla_Connect_Model_Styla_Api
 
         //fill in the post params, if this is a POST request
         $requestMethod = $request->getConnectionType();
-        $requestBody   = "";
+        $requestBody   = '';
 
         if ($requestMethod == Zend_Http_Client::POST) {
             $requestBody = $request->getParams();
@@ -139,8 +148,7 @@ class Styla_Connect_Model_Styla_Api
         $service->write(
             $request->getConnectionType(),
             $requestApiUrl,
-            '
-            1.1',
+            '1.1',
             array('Accept: application/json'),
             $requestBody
         );
@@ -149,23 +157,23 @@ class Styla_Connect_Model_Styla_Api
         if (!$result) {
             throw new Styla_Connect_Exception("Couldn't get a result from the API.");
         }
-        
+
         /**
          * the result can contain both the body and http headers, if the $addResultHeaders var is active.
          * we'll need to parse this info, before giving it to the response object
          */
-        $resultBody = $result;
+        $resultBody    = $result;
         $resultHeaders = false;
-        if($useResultHeadersInResponse) {
-            $result = $this->parseHttpResponse($result);
-            $resultBody = $result['body'];
+        if ($useResultHeadersInResponse) {
+            $result        = $this->parseHttpResponse($result);
+            $resultBody    = $result['body'];
             $resultHeaders = $result['headers'];
         }
-        
+
         $response = $this->getResponse($request);
         $response->initialize($resultBody, $service);
-        
-        if($resultHeaders) {
+
+        if ($resultHeaders) {
             $response->setResponseHeaders($resultHeaders);
         }
 
@@ -175,23 +183,23 @@ class Styla_Connect_Model_Styla_Api
 
         return $response;
     }
-    
+
     /**
      * Parse a http response, containing both the headers and content and return it as array
-     * 
+     *
      * @param string $response
      * @return array
      */
     public function parseHttpResponse($response)
     {
         $headers = array();
-        if(false === strpos($response, "\r\n\r\n")) {
+        if (false === strpos($response, "\r\n\r\n")) {
             return array('headers' => array(), 'body' => $response);
         }
-        
+
         list($headerContent, $bodyContent) = explode("\r\n\r\n", $response, 2);
-        
-        foreach(explode("\r\n", $headerContent) as $i => $header) {
+
+        foreach (explode("\r\n", $headerContent) as $i => $header) {
             if ($i === 0) {
                 $headers['http_code'] = $header;
             } else {
@@ -199,7 +207,7 @@ class Styla_Connect_Model_Styla_Api
                 $headers[$headerName] = $value;
             }
         }
-        
+
         return array(
             'headers' => $headers,
             'body'    => $bodyContent,
@@ -216,9 +224,9 @@ class Styla_Connect_Model_Styla_Api
     public function getResponse(Styla_Connect_Model_Styla_Api_Request_Type_Abstract $request)
     {
         $responseType = $request->getResponseType();
-        $response     = Mage::getModel(self::RESPONSE_CLASS_ALIAS.$responseType);
+        $response     = Mage::getModel(self::RESPONSE_CLASS_ALIAS . $responseType);
         if (!$response) {
-            throw new Styla_Connect_Exception("Unknown response type requested: ".$responseType);
+            throw new Styla_Connect_Exception('Unknown response type requested: ' . $responseType);
         }
 
         return $response;
@@ -239,7 +247,7 @@ class Styla_Connect_Model_Styla_Api
 
         //this will tell curl to omit headers in result, if false
         $this->_service->setConfig(array('header' => $addResultHeaders));
-        
+
         return $this->_service;
     }
 
@@ -252,9 +260,9 @@ class Styla_Connect_Model_Styla_Api
      */
     public function getRequest($requestType)
     {
-        $request = Mage::getModel(self::REQUEST_CLASS_ALIAS.$requestType);
+        $request = Mage::getModel(self::REQUEST_CLASS_ALIAS . $requestType);
         if (!$request) {
-            throw new Styla_Connect_Exception("Unknown request type: ".$requestType);
+            throw new Styla_Connect_Exception('Unknown request type: ' . $requestType);
         }
 
         return $request;

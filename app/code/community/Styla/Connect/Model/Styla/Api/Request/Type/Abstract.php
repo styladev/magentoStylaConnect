@@ -2,7 +2,6 @@
 
 /**
  * Class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
- *
  */
 abstract class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
 {

@@ -11,7 +11,6 @@ class Styla_Connect_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_currentPage;
 
     /**
-     *
      * @return Varien_Object|null
      */
     public function getCurrentPage()

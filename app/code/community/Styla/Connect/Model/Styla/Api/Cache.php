@@ -103,7 +103,7 @@ class Styla_Connect_Model_Styla_Api_Cache
      */
     public function getCacheKey($request)
     {
-        $key = $request->getRequestType().$request->getRequestPath()."_".$this->getApiVersion();
+        $key = $request->getRequestType() . $request->getRequestPath() . "_" . $this->getApiVersion();
 
         return $key;
     }

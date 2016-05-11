@@ -8,9 +8,9 @@ abstract class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
 {
     const CONTENT_TYPE_PLAIN = 'plain';
     const CONTENT_TYPE_JSON  = 'json';
-    
-    const HEADER_CACHE_CONTROL = 'Cache-Control';
-    const HEADER_CACHE_CONTROL_MAXAGE = "max-age";
+
+    const HEADER_CACHE_CONTROL        = 'Cache-Control';
+    const HEADER_CACHE_CONTROL_MAXAGE = 'max-age';
 
     protected $_httpStatus;
     protected $_error;
@@ -18,55 +18,57 @@ abstract class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
     protected $_responseHeaders;
 
     protected $_contentType = self::CONTENT_TYPE_PLAIN;
-    
+
     /**
      * Set the headers from this response, already parsed to an array
-     * 
+     *
      * @param array $headers
      * @return \Styla_Connect_Model_Styla_Api_Response_Type_Abstract
      */
     public function setResponseHeaders(array $headers)
     {
         $this->_responseHeaders = $headers;
-        
+
         return $this;
     }
-    
+
     /**
      * Get a response header by name
-     * 
+     *
      * @param string $headerName
      * @return bool|string
      */
     public function getResponseHeader($headerName)
     {
-        return is_array($this->_responseHeaders) && isset($this->_responseHeaders[$headerName]) ? $this->_responseHeaders[$headerName] : false;
+        return is_array(
+            $this->_responseHeaders
+        ) && isset($this->_responseHeaders[$headerName]) ? $this->_responseHeaders[$headerName] : false;
     }
-    
+
     /**
      * Get the value of the cache control header for this response
-     * 
+     *
      * @param string $key
      * @return boolean|string
      */
     public function getCacheControlValue($key = self::HEADER_CACHE_CONTROL_MAXAGE)
     {
         $header = $this->getResponseHeader(self::HEADER_CACHE_CONTROL);
-        if(!$header) {
+        if (!$header) {
             return false;
         }
-        
-        $values = explode(" ", $header);
-        if(empty($values)) {
+
+        $values = explode(' ', $header);
+        if (empty($values)) {
             return false;
         }
-        
+
         $cacheControl = array();
-        foreach($values as $line) {
-            list($name, $value) = explode("=", $line);
+        foreach ($values as $line) {
+            list($name, $value) = explode('=', $line);
             $cacheControl[$name] = $value;
         }
-        
+
         return isset($cacheControl[$key]) ? $cacheControl[$key] : false;
     }
 
@@ -80,7 +82,7 @@ abstract class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
     {
         if ($this->getHttpStatus() != 200) {
             throw new Styla_Connect_Exception(
-                "The Styla Api request didn't return results: ".$this->getHttpStatus()." - ".$this->getError()
+                "The Styla Api request didn't return results: " . $this->getHttpStatus() . ' - ' . $this->getError()
             );
         }
 
@@ -169,7 +171,7 @@ abstract class Styla_Connect_Model_Styla_Api_Response_Type_Abstract
     {
         $jsonResult = json_decode($this->_result, true);
         if ($jsonResult === null) {
-            throw new Exception("Error parsing a JSON Api result.");
+            throw new Exception('Error parsing a JSON Api result.');
         }
 
         return $jsonResult;

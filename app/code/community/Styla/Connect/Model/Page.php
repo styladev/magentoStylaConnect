@@ -11,9 +11,10 @@ class Styla_Connect_Model_Page
 {
     const JAVASCRIPT_URL = 'https://%s.styla.com/scripts/clients/%s.js?v=%s';
     const CSS_URL        = 'https://%s.styla.com/styles/clients/%s.css?v=%s';
-    
-    const URL_CDN_PREFIX_PRODUCTION = "cdn";
-    const URL_CDN_PREFIX_STAGE      = "dev";
+
+    const URL_CDN_PREFIX_PRODUCTION = 'cdn';
+    const URL_CDN_PREFIX_STAGE      = 'dev';
+
     protected $_urlCdnPrefix = array(
         Styla_Connect_Helper_Config::MODE_PRODUCTION => self::URL_CDN_PREFIX_PRODUCTION,
         Styla_Connect_Helper_Config::MODE_STAGE      => self::URL_CDN_PREFIX_STAGE,
@@ -23,7 +24,7 @@ class Styla_Connect_Model_Page
     protected $baseTags;
     protected $_username;
     protected $_apiVersion;
-    
+
     public function save()
     {
         throw new Exception('save is not supported!');
@@ -89,7 +90,7 @@ class Styla_Connect_Model_Page
     {
         if (!$this->tags) {
             $this->tags = array();
-            $tags = $this->getData('tags');
+            $tags       = $this->getData('tags');
 
             if (!$tags) {
                 $tags = array();
@@ -102,7 +103,7 @@ class Styla_Connect_Model_Page
                 foreach (array('name', 'property') as $key) {
                     if (isset($data['attributes'][$key])) {
                         $added = true;
-                        $this->addTag($tagName.'-'.$data['attributes'][$key], $data);
+                        $this->addTag($tagName . '-' . $data['attributes'][$key], $data);
                     }
                 }
 
@@ -216,49 +217,49 @@ class Styla_Connect_Model_Page
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getCssUrl()
     {
-        $cssUrl       = self::CSS_URL;
+        $cssUrl     = self::CSS_URL;
         $repository = $this->getContentRepositoryPrefix();
-        $clientName      = $this->getUsername();
-        $apiVersion      = $this->getCurrentApiVersion();
+        $clientName = $this->getUsername();
+        $apiVersion = $this->getCurrentApiVersion();
 
         $cssUrl = sprintf($cssUrl, $repository, $clientName, $apiVersion);
         return $cssUrl;
     }
-    
+
     /**
      * The CDN used to download the js/css has a different domain,
      * depending on the current mode of operation (stage/prod).
      * This method returns this prefix.
-     * 
+     *
      * @return string
      */
     public function getContentRepositoryPrefix()
     {
         $mode = $this->getConfigHelper()->getCurrentMode();
-        
+
         $prefix = isset($this->_urlCdnPrefix[$mode]) ? $this->_urlCdnPrefix[$mode] : self::URL_CDN_PREFIX_STAGE;
         return $prefix;
     }
-    
+
     /**
      * Get Styla client name
-     * 
+     *
      * @return string
      */
     public function getUsername()
     {
-        if(null === $this->_username) {
+        if (null === $this->_username) {
             $this->_username = $this->getConfigHelper()->getUsername();
         }
-        
+
         return $this->_username;
     }
-    
+
     /**
      * Get the current url for Styla's JS script, used for loading the magazine page
      *
@@ -266,26 +267,26 @@ class Styla_Connect_Model_Page
      */
     public function getScriptUrl()
     {
-        $scriptUrl       = self::JAVASCRIPT_URL;
+        $scriptUrl  = self::JAVASCRIPT_URL;
         $repository = $this->getContentRepositoryPrefix();
-        $clientName      = $this->getUsername();
-        $apiVersion      = $this->getCurrentApiVersion();
+        $clientName = $this->getUsername();
+        $apiVersion = $this->getCurrentApiVersion();
 
         $scriptUrl = sprintf($scriptUrl, $repository, $clientName, $apiVersion);
 
         return $scriptUrl;
     }
-    
+
     /**
-     * 
+     *
      * @return string
      */
     public function getCurrentApiVersion()
     {
-        if(null === $this->_apiVersion) {
+        if (null === $this->_apiVersion) {
             $this->_apiVersion = $this->_getApi()->getCurrentApiVersion();
         }
-        
+
         return $this->_apiVersion;
     }
 
