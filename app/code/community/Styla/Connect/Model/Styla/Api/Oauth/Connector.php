@@ -10,7 +10,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
     const API2_ROLE_NAME                     = 'StylaApi2Role';
     const CONSUMER_NAME                      = 'Styla Api Connector';
     const REST_USER_TYPE                     = 'admin';
-    const STYLA_API_CONNECTOR_URL_STAGE      = 'http://dev.styla.com/api/magento';
+    const STYLA_API_CONNECTOR_URL_STAGE      = 'http://stage.magalog.net/api/magento';
     const STYLA_API_CONNECTOR_URL_PRODUCTION = 'http://live.styla.com/api/magento';
 
     protected $_stylaLoginData;
