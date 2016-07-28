@@ -3,6 +3,8 @@
 class Styla_Connect_Block_Adminhtml_Hint_Summary extends Mage_Adminhtml_Block_Store_Switcher
     implements Varien_Data_Form_Element_Renderer_Interface
 {
+    protected $_summaryFields;
+    
     /**
      * Render fieldset html
      *
@@ -29,12 +31,11 @@ class Styla_Connect_Block_Adminhtml_Hint_Summary extends Mage_Adminhtml_Block_St
     /**
      * Get the html for the configuration of the module, per specific website and store scope
      *
-     * @param string $mode
      * @param mixed  $website
      * @param mixed  $store
      * @return string
      */
-    public function getConfiguration($mode, $website = null, $store = null)
+    public function getConfiguration($website = null, $store = null)
     {
         $helper = $this->_getConfigHelper();
 
@@ -45,15 +46,45 @@ class Styla_Connect_Block_Adminhtml_Hint_Summary extends Mage_Adminhtml_Block_St
 
 
         $fields = '<ul>';
-        foreach (array_keys($helper->getApiConfigurationFields()) as $fieldName) {
-            $fieldPath = $helper->getApiConfigurationFieldByMode($fieldName, $mode);
+        foreach ($this->_getSummaryConfigurationFields() as $fieldName => $fieldLabel) {
+            $fieldPath = $helper->getApiConfigurationField($fieldName);
 
             $node = $helper->getConfigurationNode($fieldPath, $scope, $scopeId);
-            $fields .= '<li>' . $fieldName . ': ' . ($node ? $node : '<i>' . $notConfiguredNoted . '</i>') . '</li>';
+            $fields .= '<li>' . $fieldLabel . ': ' . ($node ? $node : '<i>' . $notConfiguredNoted . '</i>') . '</li>';
         }
 
         $fields .= "</ul>";
 
         return $fields;
+    }
+    
+    /**
+     * Get the configuration of a single field, within the given scope
+     * 
+     * @param string $fieldConfigurationPath
+     * @param mixed $website
+     * @param mixed $store
+     * @return string|null
+     */
+    public function getFieldConfiguration($fieldConfigurationPath, $website = null, $store = null)
+    {
+        $helper = $this->_getConfigHelper();
+
+        return $helper->getFieldConfiguration($fieldConfigurationPath, $website, $store);
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    protected function _getSummaryConfigurationFields()
+    {
+        if(null === $this->_summaryFields) {
+            $this->_summaryFields = array(
+                'client' => $this->__('Client Name'),
+                'rootpath' => $this->__('Magazine Url'),
+            );
+        }
+        return $this->_summaryFields;
     }
 }

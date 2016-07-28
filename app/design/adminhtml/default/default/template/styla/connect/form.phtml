@@ -1,3 +1,8 @@
+<?php
+$website = Mage::app()->getRequest()->getParam('website');
+$store = Mage::app()->getRequest()->getParam('store');
+$isDeveloperMode = Mage::helper('styla_connect/config')->getFieldConfiguration('styla_connect/developer/is_developer_mode', $website, $store);
+?>
 <div class="content-header">
     <table cellspacing="0" class="grid-header">
         <tr>
@@ -21,18 +26,6 @@
             </div>
             <table cellspacing="0" class="form-list">
                 <tr>
-                    <td class="label"><?=$this->__('Mode')?> <span class="required">*</span></td>
-                    <td class="input-ele">
-                        <select class="input-text required-entry" name="styla[mode]">
-                            <?php $currentMode = $this->getRequest()->getParam('mode'); ?>
-                            <?php foreach(Styla_Connect_Model_Adminhtml_System_Config_Source_Mode::toOptionArray() as $option): ?>
-                                <option <?php if($currentMode == $option['value']): ?>selected="selected"<?php endif ?> value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div><?php echo $this->__('Note: each Mode (stage/production) needs to be connected separately.') ?></div>
-                    </td>
-                </tr>
-                <tr>
                     <td class="label"><?=$this->__('Your Styla Email')?> <span class="required">*</span></td>
                     <td class="input-ele"><input class="input-text required-entry validate-email" name="styla[email]" /></td>
                 </tr>
@@ -40,6 +33,13 @@
                     <td class="label"><?=$this->__('Your Styla Password')?> <span class="required">*</span></td>
                     <td class="input-ele"><input class="input-text required-entry" type="password" name="styla[password]" /></td>
                 </tr>
+                <?php if($isDeveloperMode): ?>
+                <tr>
+                    <td class="label"><?=$this->__('API Connection Url to Use')?></td>
+                    <td class="input-ele"><input class="input-text" type="text" name="connection_url" value="<?= Styla_Connect_Model_Styla_Api_Oauth_Connector::STYLA_API_CONNECTOR_URL_PRODUCTION ?>" />
+                    <div><?php echo $this->__('Note: If you leave this empty, the default [%s] url will be used.', Styla_Connect_Model_Styla_Api_Oauth_Connector::STYLA_API_CONNECTOR_URL_PRODUCTION) ?></div></td>
+                </tr>
+                <?php endif ?>
             </table>
         </fieldset>
     </form>

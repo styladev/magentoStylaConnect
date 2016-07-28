@@ -35,6 +35,7 @@
                     <show_in_store>1</show_in_store>
 
                     <fields>
+                        <!-- @deprecated
                         <mode translate="label">
                             <label>Mode</label>
                             <comment>Please use "stage" in your testing environment.</comment>
@@ -45,6 +46,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>10</sort_order>
                         </mode>
+                        -->
 
                         <enabled translate="label">
                             <label>Enabled</label>
@@ -66,30 +68,16 @@
                             <sort_order>30</sort_order>
                         </frontend_name>
 
-                        <username_prod translate="label">
-                            <label>Client Name (Production)</label>
+                        <username translate="label">
+                            <label>Client Name</label>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <sort_order>40</sort_order>
-                            <depends>
-                                <mode>prod</mode>
-                            </depends>
-                        </username_prod>
+                        </username>
 
-                        <username_stage translate="label">
-                            <label>Client Name (Stage)</label>
-                            <frontend_type>text</frontend_type>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <sort_order>40</sort_order>
-                            <depends>
-                                <mode>stage</mode>
-                            </depends>
-                        </username_stage>
-
+                        <!-- @deprecated
                         <seo_url_prod translate="label">
                             <label>SEO Api Url (Production)</label>
                             <frontend_type>text</frontend_type>
@@ -115,6 +103,7 @@
                                 <mode>stage</mode>
                             </depends>
                         </seo_url_stage>
+                        -->
 
                         <!-- @deprecated
                         <js_url_prod translate="label">
@@ -213,6 +202,60 @@
                         </menu_link_label>
                     </fields>
                 </frontend>
+                
+                <developer>
+                    <sort_order>25</sort_order>
+                    <label>Developer Mode</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    
+                    <fields>
+                        <is_developer_mode translate="label">
+                            <label>Is Developer Mode</label>
+                            <comment>Is the module in developer mode. Leave this off, if you don't know what it does.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                        </is_developer_mode>
+                        
+                        <override_seo_url translate="label">
+                            <label>Override Url for SEO Api</label>
+                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://seo.styla.com/</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>20</sort_order>
+                            <depends><is_developer_mode>1</is_developer_mode></depends>
+                        </override_seo_url>
+                        
+                        <override_cdn_url translate="label">
+                            <label>Override Url for CDN/Assets</label>
+                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://cdn.styla.com/</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>40</sort_order>
+                            <depends><is_developer_mode>1</is_developer_mode></depends>
+                        </override_cdn_url>
+                        
+                        <override_api_url translate="label">
+                            <label>Override Url for Styla Content Version API</label>
+                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://live.styla.com/</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>15</sort_order>
+                            <depends><is_developer_mode>1</is_developer_mode></depends>
+                        </override_api_url>
+                    </fields>
+                </developer>
             </groups>
         </styla_connect>
     </sections>

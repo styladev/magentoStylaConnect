@@ -91,22 +91,30 @@ class Styla_Connect_Model_Styla_Api
             if (!$apiVersion) {
                 $request = $this->getRequest(self::REQUEST_TYPE_VERSION);
 
-                $response   = $this->callService($request, false, true);
-                $apiVersion = $response->getResult();
+                try {
+                    $response   = $this->callService($request, false, true);
+                    $apiVersion = $response->getResult();
+                    
+                    //if returned by the response, use the cache-control set lifetime
+                    $cacheTime = $response->getCacheControlValue();
+                    
+                    if (false === $cacheTime) {
+                        $cacheTime = "3600";
+                    }
 
-                //if returned by the response, use the cache-control set lifetime
-                $cacheTime = $response->getCacheControlValue();
-                if (false === $cacheTime) {
-                    $cacheTime = 3600;
+                    //cache for $cacheTime seconds
+                    $cache->save(
+                        $apiVersion,
+                        'styla-api-version',
+                        array(Styla_Connect_Model_Styla_Api_Cache::CACHE_TAG),
+                        $cacheTime
+                    );
+                } catch(Styla_Connect_Exception $e) {
+                    //this request might possibly fail, for example when wrong url is set in developer mode
+                    
+                    Mage::logException($e);
+                    $apiVersion = 1;
                 }
-
-                //cache for $cacheTime seconds
-                $cache->save(
-                    $apiVersion,
-                    'styla-api-version',
-                    array(Styla_Connect_Model_Styla_Api_Cache::CACHE_TAG),
-                    $cacheTime
-                );
             }
             $this->_currentApiVersion = $apiVersion;
         }
