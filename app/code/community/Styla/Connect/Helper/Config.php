@@ -6,18 +6,38 @@
 class Styla_Connect_Helper_Config
 {
     const DEFAULT_ROUTE_NAME = 'magazin';
+    
+    const URL_ASSETS_PROD       = 'http://cdn.styla.com/';
+    const URL_PART_JS           = 'scripts/clients/%s.js?v=%s';
+    const URL_PART_CSS          = 'styles/clients/%s.css?v=%s';
+    
+    const ASSET_TYPE_JS         = 'js';
+    const ASSET_TYPE_CSS        = 'css';
+    
+    const URL_VERSION_PROD      = 'http://live.styla.com/';
+    const URL_PART_VERSION      = 'api/version/%s';
+    
+    const URL_SEO_PROD          = 'http://seo.styla.com/';
 
-    const MODE_STAGE      = 'stage';
-    const MODE_PRODUCTION = 'prod';
+    /** @deprecated since version 0.1.1.6 */
+    const MODE_STAGE      = 'stage'; //@deprecated
+    const MODE_PRODUCTION = 'prod'; //@deprecated
 
+    /**
+     * these fields may be returned after a successfull connection with Styla, and should be stored
+     */
     protected $_apiConfigurationFields = array(
         'client' => 'styla_connect/basic/username',
-        'seoUrl' => 'styla_connect/basic/seo_url',
+        'rootpath' => 'styla_connect/basic/frontend_name'        
+        //'seoUrl' => 'styla_connect/basic/seo_url', @deprecated
         //'jsUrl'  => 'styla_connect/basic/js_url', @deprecated
     );
 
     protected $_configuration;
     protected $_currentMode;
+    protected $_isDeveloperMode;
+    protected $_apiVersion;
+    protected $_username;
 
     /**
      *
@@ -31,19 +51,32 @@ class Styla_Connect_Helper_Config
     /**
      * Get the proper field configuration path, according to module's operating mode (stage,prod)
      *
+     * @deprecated since version 0.1.1.6 we don't have modes, anymore
      * @param string $fieldName
-     * @param string $mode
+     * @param string $mode @deprecated
      * @param bool   $usingNameAsPath
      * @return boolean|string
      */
     public function getApiConfigurationFieldByMode($fieldName, $mode, $usingNameAsPath = false)
+    {
+        return $this->getApiConfigurationField($fieldName, $usingNameAsPath);
+    }
+    
+    /**
+     * Get the proper field configuration path, according to module's operating mode (stage,prod)
+     *
+     * @param string $fieldName
+     * @param bool   $usingNameAsPath
+     * @return boolean|string
+     */
+    public function getApiConfigurationField($fieldName, $usingNameAsPath = false)
     {
         $path = $usingNameAsPath ? $fieldName : (isset($this->_apiConfigurationFields[$fieldName]) ? $this->_apiConfigurationFields[$fieldName] : false);
         if (!$path) {
             return false;
         }
 
-        return $path . '_' . $mode;
+        return $path;
     }
 
     /**
@@ -64,12 +97,17 @@ class Styla_Connect_Helper_Config
      *
      * @return string
      */
-    public function getUsername($mode = null, $store = null)
+    public function getUsername($store = null)
     {
-        $mode = $this->getMode($mode, $store);
-        $path = $this->getApiConfigurationFieldByMode('styla_connect/basic/username', $mode, true);
+        if(isset($this->_username[$store])) {
+            return $this->_username[$store];
+        }
+        
+        $path = $this->getApiConfigurationField('styla_connect/basic/username', true);
 
         $username = Mage::getStoreConfig($path, $store);
+        $this->_username[$store] = $username;
+        
         return $username;
     }
 
@@ -142,20 +180,133 @@ class Styla_Connect_Helper_Config
     {
         return Mage::getStoreConfigFlag('styla_connect/basic/enabled');
     }
-
+    
     /**
-     *
-     * @param string|null $mode
-     * @param string|null $store
+     * Is the module in developer mode?
+     * 
+     * @return bool
+     */
+    public function isDeveloperMode()
+    {
+        if(null === $this->_isDeveloperMode) {
+            $this->_isDeveloperMode = Mage::getStoreConfigFlag('styla_connect/developer/is_developer_mode');
+        }
+        return $this->_isDeveloperMode;
+    }
+    
+    /**
+     * Get the overriden url, if the module is in developer mode.
+     * Returns FALSE if the url is not overriden, or the developer mode is disabled.
+     * 
+     * @param string $url
+     * @return boolean|string
+     */
+    public function getDeveloperModeUrl($url)
+    {
+        if(!$this->isDeveloperMode()) {
+            return false;
+        }
+        
+        $path = sprintf('styla_connect/developer/override_%s_url', $url);
+        $url = Mage::getStoreConfig($path);
+        if($url) {
+            $url = rtrim($url, "/") . "/";
+        }
+        
+        return $url;
+    }
+    
+    /**
+     * Get the Assets Url (script,css)
+     * 
+     * @param string $type
      * @return string
      */
-    public function getApiSeoUrl($mode = null, $store = null)
+    public function getAssetsUrl($type)
     {
-        $mode = $this->getMode($mode);
-        $path = $this->getApiConfigurationFieldByMode('styla_connect/basic/seo_url', $mode, true);
+        $url = false;
+        
+        //is the url overriden in developer mode of the styla module?
+        if($overrideUrl = $this->getDeveloperModeUrl('cdn')) {
+            $url = $overrideUrl;
+        } else {
+            $url = self::URL_ASSETS_PROD;
+        }
+        $clientName = $this->getUsername();
+        $apiVersion = $this->getCurrentApiVersion();
+        
+        $assetsUrl = false;
+        switch($type) {
+            case self::ASSET_TYPE_JS:
+                $assetsUrl = $url . sprintf(self::URL_PART_JS, $clientName, $apiVersion);
+                break;
+            case self::ASSET_TYPE_CSS:
+                $assetsUrl = $url . sprintf(self::URL_PART_CSS, $clientName, $apiVersion);
+                break;
+        }
+        
+        return $assetsUrl;
+    }
+    
+    /**
+     * Get the Content Version Number API Url
+     * 
+     * @return string
+     */
+    public function getApiVersionUrl()
+    {
+        $url = false;
+        
+        if($overrideUrl = $this->getDeveloperModeUrl('api')) {
+            $url = $overrideUrl;
+        } else {
+            $url = self::URL_VERSION_PROD;
+        }
+        
+        $clientName = $this->getUsername();
+        $versionUrl = sprintf($url . self::URL_PART_VERSION, $clientName);
+        
+        return $versionUrl;
+    }
+    
+    /**
+     * Get the current version number of the content (script, css)
+     *
+     * @return string
+     */
+    public function getCurrentApiVersion()
+    {
+        if (null === $this->_apiVersion) {
+            $this->_apiVersion = $this->_getApi()->getCurrentApiVersion();
+        }
 
-        $seoUrl = Mage::getStoreConfig($path, $store);
-        return $seoUrl;
+        return $this->_apiVersion;
+    }
+    
+    /**
+     * @return Styla_Connect_Model_Styla_Api
+     */
+    protected function _getApi()
+    {
+        return Mage::getSingleton('styla_connect/styla_api');
+    }
+
+    /**
+     * Get the SEO Api Url
+     *
+     * @return string
+     */
+    public function getApiSeoUrl()
+    {
+        $url = false;
+        
+        if($overrideUrl = $this->getDeveloperModeUrl('seo')) {
+            $url = $overrideUrl;
+        } else {
+            $url = self::URL_SEO_PROD;
+        }
+        
+        return $url;
     }
 
     /**
@@ -180,34 +331,24 @@ class Styla_Connect_Helper_Config
     /**
      * Return the current operating mode STAGE/PROD of the module
      *
+     * @deprecated since version 0.1.1.6 use developer mode, instead
      * @return string
      */
     public function getMode($mode = null, $store = null)
     {
-        if ($mode) {
-            return $mode;
-        }
-
-        $configuredMode = Mage::getStoreConfig('styla_connect/basic/mode', $store);
-
-        return $configuredMode ? $configuredMode : self::MODE_PRODUCTION;
+        return self::MODE_PRODUCTION;  //this is no longer relevant
     }
 
     /**
      * Get the current mode of operation, for the currently loaded store
      * The result is saved for later.
+     * 
+     * @deprecated since version 0.1.1.6
      *
      */
     public function getCurrentMode()
     {
-        if (null === $this->_currentMode) {
-            $currentStore = Mage::app()->getStore();
-            $mode         = $this->getMode(null, $currentStore->getId());
-
-            $this->_currentMode = $mode;
-        }
-
-        return $this->_currentMode;
+        return self::MODE_PRODUCTION;  //this is no longer relevant
     }
 
     /**
@@ -226,21 +367,19 @@ class Styla_Connect_Helper_Config
     }
 
     /**
-     * Is the module already registered with Styla in the operating mode in question (stage, prod)
+     * Is the module already registered with Styla in the operating mode in question (prod or developer)
      *
      * @return bool
      */
-    public function isConfiguredForThisMode($mode = null)
+    public function isConfiguredForThisMode()
     {
         $website = Mage::app()->getRequest()->getParam('website');
         $store   = Mage::app()->getRequest()->getParam('store');
         $scope   = $this->resolveScope($website, $store);
 
-        if (!$mode) {
-            $mode = $this->getAdminMode($scope);
-        }
-
-        $clientPath = $this->getApiConfigurationFieldByMode('client', $mode);
+        //basically, checks if the client name was already filled as it's the only thing
+        //that we need.
+        $clientPath = $this->getApiConfigurationField('client');
         $client     = $this->getConfigurationNode($clientPath, $scope->getScope(), $scope->getScopeId());
 
         return $client ? true : false;
@@ -249,6 +388,7 @@ class Styla_Connect_Helper_Config
     /**
      * Get the module's operating mode, as in the current scope selected in admin configuration
      *
+     * @deprecated since version 0.1.1.6
      * @param mixed $scope
      * @return string
      */
@@ -268,33 +408,25 @@ class Styla_Connect_Helper_Config
      * See the Api Connector for more details.
      *
      * @param array  $connectionData
-     * @param string $mode
      * @param array  $scopeData array('scope' => X, 'scope_id' => Y)
      * @throws Styla_Connect_Exception
      */
-    public function updateConnectionConfiguration(array $connectionData, $mode, $scopeData)
+    public function updateConnectionConfiguration(array $connectionData, $scopeData)
     {
         $configuration = $this->getConfiguration();
 
         foreach ($this->_apiConfigurationFields as $fieldName => $configurationPath) {
             if (!isset($connectionData[$fieldName])) {
-                throw new Styla_Connect_Exception('The configuration is missing required data: ' . $fieldName);
+                continue; //not all data needs to be returned. we save whatever we can
             }
 
-            $configurationPathByMode = $this->getApiConfigurationFieldByMode($fieldName, $mode);
             $configuration->saveConfig(
-                $configurationPathByMode,
+                $configurationPath,
                 $connectionData[$fieldName],
                 $scopeData['scope'],
                 $scopeData['scope_id']
             );
         }
-
-        /**
-         * set the operating mode to the one we just configured,
-         * as it easies the user into reconfiguring his store, a little bit
-         */
-        $configuration->saveConfig('styla_connect/basic/mode', $mode, $scopeData['scope'], $scopeData['scope_id']);
 
         //refresh the config cache
         $configuration->cleanCache();
@@ -375,49 +507,44 @@ class Styla_Connect_Helper_Config
     /**
      * Returns false if no configuration found for current mode
      *
+     * @deprecated since version 0.1.1.6 as there's no modes anymore, there's no need to cache the connection data
      * @return bool|array
      */
     public function getCachedConnectionData($mode = null, $scopeData = null)
     {
-        $mode      = $this->getMode($mode);
-        $scopeData = $this->getScope($scopeData);
-
-        $cachedConnectionData = $this->getConnectionDataForMode($mode, $scopeData);
-
-        return $cachedConnectionData;
+        return false;
     }
 
     /**
      * Store the response from the Styla API Connector for the $moduleMode operation mode, so we don't have to call
      * styla again to get the same data
+     *
+     * @deprecated since version 0.1.1.6 as there's no modes anymore, there's no need to cache the connection data
+     * 
      * @param array    $connectionData
      * @param          $moduleMode
      * @throws Styla_Connect_Exception
      */
     public function cacheConnectionData(array $connectionData, $moduleMode, $scopeData)
     {
-        $configuration = $this->getConfiguration();
-
-        foreach ($this->_apiConfigurationFields as $fieldName => $configurationPath) {
-            if (!isset($connectionData[$fieldName])) {
-                throw new Styla_Connect_Exception(
-                    "Invalid response from Styla API. Couldn't find required configuration value for " . $fieldName
-                );
-            }
-
-            /**
-             * save the cached value for this $moduleMode mode
-             */
-            $configurationPathByMode = $this->getApiConfigurationFieldByMode($fieldName, $moduleMode);
-            $configuration->saveConfig(
-                $configurationPathByMode,
-                $connectionData[$fieldName],
-                $scopeData['scope'],
-                $scopeData['scope_id']
-            );
-        }
-
-        //refresh the config cache
-        $configuration->cleanCache();
+        return;
+    }
+    
+    /**
+     * Get the configuration of a single field, within the given scope
+     * 
+     * @param string $fieldConfigurationPath
+     * @param mixed $website
+     * @param mixed $store
+     * @return string|null
+     */
+    public function getFieldConfiguration($fieldConfigurationPath, $website = null, $store = null)
+    {
+        $scopeModel         = $this->resolveScope($website, $store);
+        $scope              = $scopeModel->getScope();
+        $scopeId            = $scopeModel->getScopeId();
+        
+        $node = $this->getConfigurationNode($fieldConfigurationPath, $scope, $scopeId);
+        return $node;
     }
 }

@@ -30,16 +30,6 @@ class Styla_Connect_Block_Adminhtml_Hint_Environment
     }
 
     /**
-     * Get the current mode the module is operating in, in regard to the currently selected admin configuration scope
-     *
-     * @return string
-     */
-    public function getMode()
-    {
-        return Mage::helper('styla_connect/config')->getAdminMode();
-    }
-
-    /**
      * Get styla connect assistant url
      *
      * @return string
@@ -56,8 +46,6 @@ class Styla_Connect_Block_Adminhtml_Hint_Environment
         if ($store = $request->getParam('store')) {
             $params['store'] = $store;
         }
-
-        $params['mode'] = $this->getMode();
 
         $url = Mage::helper('adminhtml')->getUrl('adminhtml/styla_api/index', $params);
         return $url;

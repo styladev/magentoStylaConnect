@@ -9,17 +9,6 @@
 class Styla_Connect_Model_Page
     extends Varien_Object
 {
-    const JAVASCRIPT_URL = 'https://%s.styla.com/scripts/clients/%s.js?v=%s';
-    const CSS_URL        = 'https://%s.styla.com/styles/clients/%s.css?v=%s';
-
-    const URL_CDN_PREFIX_PRODUCTION = 'cdn';
-    const URL_CDN_PREFIX_STAGE      = 'dev';
-
-    protected $_urlCdnPrefix = array(
-        Styla_Connect_Helper_Config::MODE_PRODUCTION => self::URL_CDN_PREFIX_PRODUCTION,
-        Styla_Connect_Helper_Config::MODE_STAGE      => self::URL_CDN_PREFIX_STAGE,
-    );
-
     protected $tags;
     protected $baseTags;
     protected $_username;
@@ -222,28 +211,8 @@ class Styla_Connect_Model_Page
      */
     public function getCssUrl()
     {
-        $cssUrl     = self::CSS_URL;
-        $repository = $this->getContentRepositoryPrefix();
-        $clientName = $this->getUsername();
-        $apiVersion = $this->getCurrentApiVersion();
-
-        $cssUrl = sprintf($cssUrl, $repository, $clientName, $apiVersion);
+        $cssUrl = $this->getConfigHelper()->getAssetsUrl(Styla_Connect_Helper_Config::ASSET_TYPE_CSS);
         return $cssUrl;
-    }
-
-    /**
-     * The CDN used to download the js/css has a different domain,
-     * depending on the current mode of operation (stage/prod).
-     * This method returns this prefix.
-     *
-     * @return string
-     */
-    public function getContentRepositoryPrefix()
-    {
-        $mode = $this->getConfigHelper()->getCurrentMode();
-
-        $prefix = isset($this->_urlCdnPrefix[$mode]) ? $this->_urlCdnPrefix[$mode] : self::URL_CDN_PREFIX_STAGE;
-        return $prefix;
     }
 
     /**
@@ -267,18 +236,13 @@ class Styla_Connect_Model_Page
      */
     public function getScriptUrl()
     {
-        $scriptUrl  = self::JAVASCRIPT_URL;
-        $repository = $this->getContentRepositoryPrefix();
-        $clientName = $this->getUsername();
-        $apiVersion = $this->getCurrentApiVersion();
-
-        $scriptUrl = sprintf($scriptUrl, $repository, $clientName, $apiVersion);
-
+        $scriptUrl = $this->getConfigHelper()->getAssetsUrl(Styla_Connect_Helper_Config::ASSET_TYPE_JS);
         return $scriptUrl;
     }
 
     /**
      *
+     * @deprecated since version 0.1.1.6 now located in the configuration helper
      * @return string
      */
     public function getCurrentApiVersion()
