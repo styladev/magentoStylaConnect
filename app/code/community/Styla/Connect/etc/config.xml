@@ -122,6 +122,11 @@
             <frontend>
                 <menu_link_label>Magazine</menu_link_label>
             </frontend>
+            <developer>
+                <override_seo_url>http://seo.styla.com/</override_seo_url>
+                <override_cdn_url>http://cdn.styla.com/</override_cdn_url>
+                <override_api_url>http://live.styla.com/</override_api_url>
+            </developer>
 
             <response_fields>
                 <!-- If you add new fields here, remember that these new fields must also be added to the
