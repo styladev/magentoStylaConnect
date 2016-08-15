@@ -14,7 +14,7 @@ class Styla_Connect_Model_Observer
         $menu = $observer->getMenu();
         $tree = $menu->getTree();
 
-        $magazineUrl      = Mage::getBaseUrl() . $configHelper->getRouteName();
+        $magazineUrl      = $configHelper->getFullMagazineUrl();
         $magazineMenuNode = new Varien_Data_Tree_Node(
             array(
                 'name' => $configHelper->getNavigationLinkLabel(),

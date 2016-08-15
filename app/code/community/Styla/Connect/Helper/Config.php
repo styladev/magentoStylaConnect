@@ -38,6 +38,7 @@ class Styla_Connect_Helper_Config
     protected $_isDeveloperMode;
     protected $_apiVersion;
     protected $_username;
+    protected $_configuredRouteName;
 
     /**
      *
@@ -112,16 +113,43 @@ class Styla_Connect_Helper_Config
     }
 
     /**
-     * Get the route name for the router
+     * Get the route name for the router.
+     * Always appends a / character at the end.
      *
      * @return string
      */
     public function getRouteName()
     {
-        $configuredRouteName = Mage::getStoreConfig('styla_connect/basic/frontend_name');
-        $routeName           = $configuredRouteName ? $configuredRouteName : self::DEFAULT_ROUTE_NAME;
+        $routeName = $this->getConfiguredRouteName();
 
         return trim($routeName, '/') . '/';
+    }
+    
+    /**
+     * Get the route to the magazine, as configured by the user.
+     * Returns the default value, if no configuration is found.
+     * 
+     * @return string
+     */
+    public function getConfiguredRouteName()
+    {
+        if(null === $this->_configuredRouteName) {
+            $configuredRouteName = Mage::getStoreConfig('styla_connect/basic/frontend_name');
+            $this->_configuredRouteName = $configuredRouteName ? $configuredRouteName : self::DEFAULT_ROUTE_NAME;
+        }
+        return $this->_configuredRouteName;
+    }
+    
+    /**
+     * Get the full public url of the styla magazine
+     * 
+     * @return string
+     */
+    public function getFullMagazineUrl()
+    {
+        $url = Mage::getBaseUrl() . $this->getConfiguredRouteName();
+        
+        return $url;
     }
 
     /**
