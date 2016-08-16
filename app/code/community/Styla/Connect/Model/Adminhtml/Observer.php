@@ -2,7 +2,6 @@
 
 /**
  * Class Styla_Connect_Model_Adminhtml_Observer
- *
  */
 class Styla_Connect_Model_Adminhtml_Observer
 {

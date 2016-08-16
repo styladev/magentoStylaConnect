@@ -52,7 +52,7 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
     public function getRouteSettings($path)
     {
         //the path should not contain the trailing slash, the styla api is not expecting it
-        $path = rtrim(str_replace($this->getRouteName(), "", $path), '/');
+        $path = rtrim(str_replace($this->getRouteName(), '', $path), '/');
 
         return $path;
     }
@@ -65,9 +65,9 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
      */
     protected function _isValidPath(Zend_Controller_Request_Http $request)
     {
-        $path = trim($request->getPathInfo(), '/').'/';
+        $path = trim($request->getPathInfo(), '/') . '/';
 
-        if(strpos($path, $this->getRouteName()) === 0) {
+        if (strpos($path, $this->getRouteName()) === 0) {
             return $path;
         }
 

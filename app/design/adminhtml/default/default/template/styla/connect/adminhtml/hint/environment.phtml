@@ -2,7 +2,7 @@
 
 <?php if($this->userNeedsToRegister()): ?>
     <div class="section-config notification-global">
-        <strong><?php echo $this->__('Warning: You need to connect your store with Styla, before the module can work in mode &lt;&lt;%s&gt;&gt; for this store view.', $this->getMode()) ?></strong>
+        <strong><?php echo $this->__('Warning: You need to connect your store with Styla, before the module can work for this store view.') ?></strong>
         <p><?php echo $this->__('Before you can use the module in this mode (stage/ production), you must send activation data in order to connect with Styla. Please do it now.') ?></p>
         
         <p><?php echo $this->__('Please click here to use the "Connect Assistant" to connect your store with Styla') ?>: <a href="<?php echo $this->getConnectUrl() ?>"><?php echo $this->__('click here to connect.') ?></a></p>

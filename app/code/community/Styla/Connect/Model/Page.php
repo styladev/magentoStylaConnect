@@ -9,10 +9,10 @@
 class Styla_Connect_Model_Page
     extends Varien_Object
 {
-    const JAVASCRIPT_URL = '//live.styla.com/scripts/preloader/%.js?v=%s';
-
     protected $tags;
     protected $baseTags;
+    protected $_username;
+    protected $_apiVersion;
 
     public function save()
     {
@@ -79,7 +79,7 @@ class Styla_Connect_Model_Page
     {
         if (!$this->tags) {
             $this->tags = array();
-            $tags = $this->getData('tags');
+            $tags       = $this->getData('tags');
 
             if (!$tags) {
                 $tags = array();
@@ -92,7 +92,7 @@ class Styla_Connect_Model_Page
                 foreach (array('name', 'property') as $key) {
                     if (isset($data['attributes'][$key])) {
                         $added = true;
-                        $this->addTag($tagName.'-'.$data['attributes'][$key], $data);
+                        $this->addTag($tagName . '-' . $data['attributes'][$key], $data);
                     }
                 }
 
@@ -206,20 +206,52 @@ class Styla_Connect_Model_Page
     }
 
     /**
+     *
+     * @return string
+     */
+    public function getCssUrl()
+    {
+        $cssUrl = $this->getConfigHelper()->getAssetsUrl(Styla_Connect_Helper_Config::ASSET_TYPE_CSS);
+        return $cssUrl;
+    }
+
+    /**
+     * Get Styla client name
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        if (null === $this->_username) {
+            $this->_username = $this->getConfigHelper()->getUsername();
+        }
+
+        return $this->_username;
+    }
+
+    /**
      * Get the current url for Styla's JS script, used for loading the magazine page
      *
      * @return string
      */
     public function getScriptUrl()
     {
-        $configuredJsUrl = $this->getConfigHelper()->getApiJsUrl();
-        $scriptUrl       = $configuredJsUrl ? $configuredJsUrl : self::JAVASCRIPT_URL;
-        $clientName      = $this->getConfigHelper()->getUsername();
-        $apiVersion      = $this->_getApi()->getCurrentApiVersion();
-
-        $scriptUrl = sprintf($scriptUrl, $clientName, $apiVersion);
-
+        $scriptUrl = $this->getConfigHelper()->getAssetsUrl(Styla_Connect_Helper_Config::ASSET_TYPE_JS);
         return $scriptUrl;
+    }
+
+    /**
+     *
+     * @deprecated since version 0.1.1.6 now located in the configuration helper
+     * @return string
+     */
+    public function getCurrentApiVersion()
+    {
+        if (null === $this->_apiVersion) {
+            $this->_apiVersion = $this->_getApi()->getCurrentApiVersion();
+        }
+
+        return $this->_apiVersion;
     }
 
     /**

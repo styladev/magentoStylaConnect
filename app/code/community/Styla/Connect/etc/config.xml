@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Styla_Connect>
-            <version>0.1.1.5</version>
+            <version>0.1.1.6</version>
         </Styla_Connect>
     </modules>
 
@@ -67,7 +67,7 @@
                 </styla_connect>
             </updates>
         </layout>
-        
+
         <events>
             <page_block_html_topmenu_gethtml_before>
                 <observers>
@@ -110,6 +110,7 @@
         <styla_connect>
             <basic>
                 <frontend_name>magazin</frontend_name>
+                <!-- js_url is now @deprecated, don't use it anymore -->
                 <js_url>//live.styla.com/scripts/preloader/%s.js</js_url>
                 <seo_url>http://seo.styla.com/</seo_url>
                 <enabled>1</enabled>
@@ -117,10 +118,15 @@
                 <use_magento_layout>1</use_magento_layout>
                 <manufacturer_attribute>manufacturer</manufacturer_attribute>
             </basic>
-            
+
             <frontend>
                 <menu_link_label>Magazine</menu_link_label>
             </frontend>
+            <developer>
+                <override_seo_url>http://seo.styla.com/</override_seo_url>
+                <override_cdn_url>http://cdn.styla.com/</override_cdn_url>
+                <override_api_url>http://live.styla.com/</override_api_url>
+            </developer>
 
             <response_fields>
                 <!-- If you add new fields here, remember that these new fields must also be added to the

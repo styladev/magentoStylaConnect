@@ -2,14 +2,11 @@
 
 /**
  * Class Styla_Connect_Model_Resource_Catalog_Product_Collection
- *
- * @author ecocode GmbH <jk@ecocode.de>
- * @author Justus Krapp <jk@ecocode.de>
  */
 class Styla_Connect_Model_Resource_Catalog_Product_Collection
     extends Mage_Catalog_Model_Resource_Product_Collection
 {
-    const CATEGORY_FILTER = "styla_category_filter";
+    const CATEGORY_FILTER = 'styla_category_filter';
 
     /**
      * Specify category filter for product collection
@@ -75,7 +72,7 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection
     {
         $filters = $this->_productLimitationFilters;
 
-        $category = $filters[self::CATEGORY_FILTER];
+        $category    = $filters[self::CATEGORY_FILTER];
         $categoryIds = $this->_getValidIdsForCategory($category);
 
         $conditions = array(

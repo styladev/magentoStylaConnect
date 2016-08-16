@@ -33,8 +33,9 @@
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
-                    
+
                     <fields>
+                        <!-- @deprecated
                         <mode translate="label">
                             <label>Mode</label>
                             <comment>Please use "stage" in your testing environment.</comment>
@@ -45,7 +46,8 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>10</sort_order>
                         </mode>
-                        
+                        -->
+
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
@@ -55,7 +57,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>0</sort_order>
                         </enabled>
-                        
+
                         <frontend_name translate="label">
                             <label>Magazine frontend "Url"</label>
                             <comment>Your magazine uri will start with this name, and will be used like this: www.domain.com/[YOUR_MAGAZINE_URL]/rest_of_the_url</comment>
@@ -65,27 +67,17 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>30</sort_order>
                         </frontend_name>
-                        
-                        <username_prod translate="label">
-                            <label>Client Name (Production)</label>
+
+                        <username translate="label">
+                            <label>Client Name</label>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <sort_order>40</sort_order>
-                            <depends><mode>prod</mode></depends>
-                        </username_prod>
-                        
-                        <username_stage translate="label">
-                            <label>Client Name (Stage)</label>
-                            <frontend_type>text</frontend_type>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <sort_order>40</sort_order>
-                            <depends><mode>stage</mode></depends>
-                        </username_stage>
-                        
+                        </username>
+
+                        <!-- @deprecated
                         <seo_url_prod translate="label">
                             <label>SEO Api Url (Production)</label>
                             <frontend_type>text</frontend_type>
@@ -94,9 +86,11 @@
                             <show_in_store>1</show_in_store>
                             <comment>Eg. http://seo.styla.com/</comment>
                             <sort_order>50</sort_order>
-                            <depends><mode>prod</mode></depends>
+                            <depends>
+                                <mode>prod</mode>
+                            </depends>
                         </seo_url_prod>
-                        
+
                         <seo_url_stage translate="label">
                             <label>SEO Api Url (Stage)</label>
                             <frontend_type>text</frontend_type>
@@ -105,9 +99,13 @@
                             <show_in_store>1</show_in_store>
                             <comment>Eg. http://seo.styla.com/</comment>
                             <sort_order>50</sort_order>
-                            <depends><mode>stage</mode></depends>
+                            <depends>
+                                <mode>stage</mode>
+                            </depends>
                         </seo_url_stage>
-                        
+                        -->
+
+                        <!-- @deprecated
                         <js_url_prod translate="label">
                             <label>Styla Magazine Api Javascript Url (Production)</label>
                             <comment>Eg. //live.styla.com/preloader/embed/%s.js (%s will be turned into your Styla API Username)</comment>
@@ -129,7 +127,8 @@
                             <sort_order>55</sort_order>
                             <depends><mode>stage</mode></depends>
                         </js_url_stage>
-                        
+                        -->
+
                         <use_magento_layout translate="label">
                             <label>Use Magento Layout</label>
                             <comment>yes - the Styla magazine page will be wrapped within a normal Magento header and footer; no - only the magazine content will be visible</comment>
@@ -140,7 +139,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>60</sort_order>
                         </use_magento_layout>
-                        
+
                         <use_relative_product_url translate="label">
                             <label>Use Relative Product Urls</label>
                             <comment>yes - the product urls generated for the stories will be relative to store domain; no - full urls will be generated</comment>
@@ -151,7 +150,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>61</sort_order>
                         </use_relative_product_url>
-                        
+
                         <manufacturer_attribute translate="label">
                             <label>Manufacturer Attribute</label>
                             <frontend_type>select</frontend_type>
@@ -161,7 +160,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>90</sort_order>
                         </manufacturer_attribute>
-                        
+
                         <cache_lifetime translate="label">
                             <label>Cache Lifetime</label>
                             <frontend_type>text</frontend_type>
@@ -172,14 +171,35 @@
                         </cache_lifetime>
                     </fields>
                 </basic>
-                
+
+                <admin translate="label" module="styla_connect">
+                    <sort_order>15</sort_order>
+                    <label>Adminhtml Configuration</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+
+                    <fields>
+                        <max_category_children translate="label">
+                            <label>Maximum Levels of Categories Loaded at Once</label>
+                            <comment>If you're running a store with a category tree consisting of multiple levels, you may choose to limit the number of the branches loaded into the editor at once, for performance reasons.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>styla_connect/adminhtml_system_config_source_category_levels</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>90</sort_order>
+                        </max_category_children>
+                    </fields>
+                </admin>
+
                 <frontend translate="label" module="styla_connect">
                     <sort_order>20</sort_order>
                     <label>Frontend Configuration</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
-                    
+
                     <fields>
                         <menu_link_enabled translate="label">
                             <label>Add Magazine Link to Navigation</label>
@@ -191,7 +211,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>10</sort_order>
                         </menu_link_enabled>
-                        
+
                         <menu_link_label translate="label">
                             <label>Label for the Magazine Menu Link</label>
                             <comment>The label used for the navigation menu link.</comment>
@@ -203,6 +223,60 @@
                         </menu_link_label>
                     </fields>
                 </frontend>
+                
+                <developer>
+                    <sort_order>25</sort_order>
+                    <label>Developer Mode</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    
+                    <fields>
+                        <is_developer_mode translate="label">
+                            <label>Is Developer Mode</label>
+                            <comment>Is the module in developer mode. Leave this off, if you don't know what it does.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                        </is_developer_mode>
+                        
+                        <override_seo_url translate="label">
+                            <label>Override Url for SEO Api</label>
+                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://seo.styla.com/</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>20</sort_order>
+                            <depends><is_developer_mode>1</is_developer_mode></depends>
+                        </override_seo_url>
+                        
+                        <override_cdn_url translate="label">
+                            <label>Override Url for CDN/Assets</label>
+                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://cdn.styla.com/</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>40</sort_order>
+                            <depends><is_developer_mode>1</is_developer_mode></depends>
+                        </override_cdn_url>
+                        
+                        <override_api_url translate="label">
+                            <label>Override Url for Styla Content Version API</label>
+                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://live.styla.com/</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>15</sort_order>
+                            <depends><is_developer_mode>1</is_developer_mode></depends>
+                        </override_api_url>
+                    </fields>
+                </developer>
             </groups>
         </styla_connect>
     </sections>

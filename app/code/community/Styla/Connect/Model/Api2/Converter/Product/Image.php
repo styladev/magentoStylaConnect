@@ -30,7 +30,7 @@ class Styla_Connect_Model_Api2_Converter_Product_Image
      * Used to get the "main_image" from the collection.
      *
      * @param \Varien_Object $dataObject
-     * @return type
+     * @return array|boolean
      */
     public function getImages(\Varien_Object $dataObject)
     {

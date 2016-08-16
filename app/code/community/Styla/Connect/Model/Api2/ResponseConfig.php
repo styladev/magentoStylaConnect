@@ -5,7 +5,7 @@
  */
 class Styla_Connect_Model_Api2_ResponseConfig
 {
-    const FIELD_CONFIGURATION_XML = "default/styla_connect/response_fields/%s";
+    const FIELD_CONFIGURATION_XML = 'default/styla_connect/response_fields/%s';
 
     const EVENT_PREPARE_RESPONSE = 'styla_connect_api_prepare_response';
 
@@ -38,7 +38,7 @@ class Styla_Connect_Model_Api2_ResponseConfig
 
 
         Mage::dispatchEvent(
-            self::EVENT_PREPARE_RESPONSE.'_before',
+            self::EVENT_PREPARE_RESPONSE . '_before',
             array(
                 'config'        => $this,
                 'response_type' => $responseType,
@@ -53,7 +53,7 @@ class Styla_Connect_Model_Api2_ResponseConfig
         }
 
         Mage::dispatchEvent(
-            self::EVENT_PREPARE_RESPONSE.'_after',
+            self::EVENT_PREPARE_RESPONSE . '_after',
             array(
                 'config'        => $this,
                 'response_type' => $responseType,
@@ -67,6 +67,7 @@ class Styla_Connect_Model_Api2_ResponseConfig
         $alreadyAddedRequirements = array();
 
         foreach ($currentConverters as $converter) {
+            /** @var Styla_Connect_Model_Api2_Converter_Abstract $converter */
             $requirementsId = $converter::REQUIREMENTS_TYPE;
             if (in_array($requirementsId, $alreadyAddedRequirements)) {
                 continue;
@@ -111,7 +112,7 @@ class Styla_Connect_Model_Api2_ResponseConfig
 
         $fieldConfiguration = Mage::getConfig()->getNode(sprintf(self::FIELD_CONFIGURATION_XML, $responseType));
         if (!$fieldConfiguration) {
-            Mage::throwException("Couldn't get field configuration for response type: ".$responseType);
+            Mage::throwException("Couldn't get field configuration for response type: " . $responseType);
         }
 
         $this->_responseFields[$responseType] = $fieldConfiguration->asArray();
@@ -129,7 +130,7 @@ class Styla_Connect_Model_Api2_ResponseConfig
     {
         $converterClass = Mage::getModel($alias);
         if (!$converterClass) {
-            Mage::throwException("Unknown converter requested: ".$alias);
+            Mage::throwException('Unknown converter requested: ' . $alias);
         }
 
         return $converterClass;
