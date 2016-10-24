@@ -14,7 +14,7 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
         }
 
         if ($path = $this->_isValidPath($request)) {
-            $routeSettings = $this->getRouteSettings($path);
+            $routeSettings = $this->getRouteSettings($path, $request);
 
             //setModule name is the front name
             $request->setModuleName('styla')
@@ -49,12 +49,19 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
      * @param string $path
      * @return string
      */
-    public function getRouteSettings($path)
+    public function getRouteSettings($path, $request)
     {
         //the path should not contain the trailing slash, the styla api is not expecting it
         $path = rtrim(str_replace($this->getRouteName(), '', $path), '/');
+        
+        //all the get params should be retained
+        $requestUri = $request->getRequestUri();
+        $params = '';
+        if(false !== ($paramsIndex = strpos($requestUri, "?"))) {
+            $params = substr($requestUri, $paramsIndex);
+        }
 
-        return $path;
+        return $path . $params;
     }
 
     /**
