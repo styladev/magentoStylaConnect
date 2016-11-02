@@ -55,13 +55,22 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
         $path = rtrim(str_replace($this->getRouteName(), '', $path), '/');
         
         //all the get params should be retained
-        $requestUri = $request->getRequestUri();
-        $params = '';
-        if(false !== ($paramsIndex = strpos($requestUri, "?"))) {
-            $params = substr($requestUri, $paramsIndex);
-        }
+        $requestParameters = $this->_getRequestParamsString($request);
 
-        return $path . $params;
+        $route = $path . ($requestParameters ? '?' . $requestParameters : '');
+        return $route;
+    }
+    
+    /**
+     * 
+     * @param Zend_Controller_Request_Http $request
+     * @return string
+     */
+    protected function _getRequestParamsString(Zend_Controller_Request_Http $request)
+    {
+        $allRequestParameters = $request->getParams();
+        
+        return count($allRequestParameters) ? http_build_query($allRequestParameters) : '';
     }
 
     /**
