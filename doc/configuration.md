@@ -1,11 +1,11 @@
 # Configuration
-* Login into you magento backend
+* Login into your magento backend
 * Navigate to "System -> Configuration" and open the section "Styla Connect"
-* Please use the "Configuration Assistant" to connect your Store with Styla. The Assistant will automatically configure the required `RestApi` user and will take care of the authorization process.
+* Please use the "Configuration Assistant" to connect your store with Styla. The assistant will automatically configure the required `RestApi` user and will take care of the authorization process.
 
 ## Connect Assistant
 
-The Assistant will use your styla credentials to retrieve all the needed configuration data directly from styla, it will also create the restApi User if needed.
+The assistant will use your Styla credentials to retrieve all the needed configuration data directly from Styla, it will also create the restApi User if needed.
 
 ## Configuration Values
 
@@ -88,4 +88,4 @@ footer
 </tr>
 </table>
 
-Please do not modify this values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
+Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.

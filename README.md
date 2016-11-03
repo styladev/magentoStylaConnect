@@ -1,4 +1,4 @@
-# Styla Connect (v 0.1.1.5)
+# Styla Connect (v 0.1.1.6)
 ---
 
 Requires PHP >= 5.3
