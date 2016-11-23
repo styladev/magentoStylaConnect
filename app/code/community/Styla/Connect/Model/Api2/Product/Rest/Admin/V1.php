@@ -128,8 +128,21 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('styla_connect/catalog_product_collection');
         $store      = $this->_getStore();
-
+        
         $collection->setStoreId($store->getId());
+        
+        //if there was a store_id parameter defined, add the store filter for it
+        if($this->getRequest()->getParam('store')) {
+            $collection->setVisibility( //for the ->addStoreFilter() method to work, there _must_ be a visibility filter applied, first
+                    array(
+                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
+                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
+                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE,
+                ));
+            $collection->addStoreFilter($store);
+        }
+        
         $collection->addAttributeToSelect(
             array_keys(
                 $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
