@@ -131,15 +131,15 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
         
         $collection->setStoreId($store->getId());
         
-        //if there was a store_id parameter defined, add the store filter for it
+        $collection->setVisibility( //we'll only be returning visible products. this also _must_ be set for the store filter to work
+            array(
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+                //Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE,
+            ));
         if($this->getRequest()->getParam('store')) {
-            $collection->setVisibility( //for the ->addStoreFilter() method to work, there _must_ be a visibility filter applied, first
-                    array(
-                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
-                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
-                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE,
-                ));
+            //if there was a store_id parameter defined, add the store filter for it
             $collection->addStoreFilter($store);
         }
         
