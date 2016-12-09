@@ -90,19 +90,6 @@ footer
 <td>3600</td>
 </tr>
 
-<tr>
-<td>SEO Api Url*</td>
-<td>The url to the seo api server</td>
-<td>seo.styla.com</td>
-</tr>
-
-<tr>
-<td>Styla Magazine Api Javascript Url*</td>
-<td>The path to the styla javascript</td>
-<td>live.styla.com</td>
-</tr>
-
-
 </table>
 
 /* - Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
