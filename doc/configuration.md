@@ -34,6 +34,12 @@ The assistant will use your Styla credentials to retrieve all the needed configu
 </tr>
 
 <tr>
+<td>Enabled</td>
+<td>Allows to enable or disable the magazine</td>
+<td>enabled</td>
+</tr>
+
+<tr>
 <td>Magazine frontend “Url”</td>
 <td>The url where the magazine is available</td>
 <td>/magazin</td>
@@ -43,12 +49,6 @@ The assistant will use your Styla credentials to retrieve all the needed configu
 <td>Client Name*</td>
 <td>Name of the styla client (this could be different from the username)</td>
 <td></td>
-</tr>
-
-<tr>
-<td>Enabled</td>
-<td>Allows to enable or disable the magazine</td>
-<td>enabled</td>
 </tr>
 
 <tr>
@@ -70,6 +70,27 @@ footer
 </tr>
 
 <tr>
+<td>Use Relative Product Urls</td>
+<td>Defines how product URLs for magazine front-end will be created:
+
+<ul>
+<li>yes - the product urls generated for the stories will be relative to store domain (ie: /product-name-SKU/)
+</li>
+<li>no - no - full urls will be generated (ie: http://www.yourdomain.com/product-name-SKU/)
+</li>
+</ul>
+
+</td>
+<td>yes</td>
+</tr>
+
+<tr>
+<td>Cache Lifetime</td>
+<td>The seo data cache lifetime</td>
+<td>3600</td>
+</tr>
+
+<tr>
 <td>SEO Api Url*</td>
 <td>The url to the seo api server</td>
 <td>seo.styla.com</td>
@@ -81,11 +102,7 @@ footer
 <td>live.styla.com</td>
 </tr>
 
-<tr>
-<td>Cache Lifetime</td>
-<td>The seo data cache lifetime</td>
-<td>3600</td>
-</tr>
+
 </table>
 
 Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
