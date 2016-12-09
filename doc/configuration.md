@@ -81,7 +81,7 @@ footer
 </ul>
 
 </td>
-<td>yes</td>
+<td>no</td>
 </tr>
 
 <tr>
