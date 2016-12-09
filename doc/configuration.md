@@ -105,4 +105,4 @@ footer
 
 </table>
 
-* - Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
+/* - Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
