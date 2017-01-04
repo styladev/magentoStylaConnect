@@ -11,6 +11,8 @@ class Styla_Connect_Model_Api2_Converter_Product_Url
      */
     public function runConverter(Varien_Object $dataObject)
     {
+        /** @var Mage_Catalog_Model_Product $dataObject */
+        
         $stylaField = $this->getStylaField();
 
         $environmentInfo = $this->_emulateFrontend();

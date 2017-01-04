@@ -12,6 +12,8 @@ class Styla_Connect_Model_Api2_Converter_Product_Attribute extends Styla_Connect
      */
     public function runConverter(Varien_Object $dataObject)
     {
+        /** @var Mage_Catalog_Model_Product $dataObject */
+
         $stylaField   = $this->getStylaField();
         $attribute    = $this->getAttribute();
         $magentoValue = null;

@@ -20,6 +20,8 @@ abstract class Styla_Connect_Model_Api2_Converter_Product_ImageAbstract
      */
     public function getImages(Varien_Object $dataObject)
     {
+        /** @var Mage_Catalog_Model_Product $dataObject */
+
         $images = $this->_getCollectionImages($dataObject);
         if (!$images) {
             $images = $this->_getGalleryAttributeImages($dataObject);

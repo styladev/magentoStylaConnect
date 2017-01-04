@@ -11,6 +11,8 @@ class Styla_Connect_Model_Api2_Converter_Product_Image
      */
     public function runConverter(Varien_Object $dataObject)
     {
+        /** @var Mage_Catalog_Model_Product $dataObject */
+
         $objectImages = $this->getImages($dataObject);
         if (!$objectImages) {
             return;

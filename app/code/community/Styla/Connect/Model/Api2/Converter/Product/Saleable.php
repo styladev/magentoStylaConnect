@@ -11,6 +11,8 @@ class Styla_Connect_Model_Api2_Converter_Product_Saleable
      */
     public function runConverter(Varien_Object $dataObject)
     {
+        /** @var Mage_Catalog_Model_Product $dataObject */
+
         $value = ($dataObject->isSaleable());
 
         $stylaField = $this->getStylaField();
