@@ -82,9 +82,12 @@ class Styla_Connect_Model_Api2_Category_Rest_Admin_V1
     protected function _getCategoryTree()
     {
         $categoryId = $this->getRequest()->getParam('id');
+
         if (!$categoryId) {
-            $defaultStore = Mage::app()->getDefaultStoreView()->getId();
-            $categoryId   = Mage::app()->getStore($defaultStore)->getRootCategoryId();
+            if(!$storeId = $this->getRequest()->getParam('store')) {
+                $storeId = Mage::app()->getDefaultStoreView()->getId();
+            }
+            $categoryId   = Mage::app()->getStore($storeId)->getRootCategoryId();
         }
 
         $categoryTree = $this->_getCategoryApi()->tree($categoryId);
