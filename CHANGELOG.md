@@ -1,3 +1,6 @@
+* 0.1.1.8 (2016-01-07)
+  * stability improvements
+  
 * 0.1.1.7 (2016-12-01)
   * improved seo features for magazine pages
   * improved multi magazine handling
