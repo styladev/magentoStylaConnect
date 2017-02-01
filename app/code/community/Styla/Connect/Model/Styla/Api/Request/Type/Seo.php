@@ -13,8 +13,8 @@ class Styla_Connect_Model_Styla_Api_Request_Type_Seo extends Styla_Connect_Model
      * The SEO request is not required for the page, and shouldn't be processed if taking too long.
      * Therefore, we're settings a timeout (in seconds) for it
      */
-    protected $_requestTimeout = 2;
-    protected $_requestConnectTimeout = 2;
+    protected $_requestTimeout = 4;
+    protected $_requestConnectTimeout = 4;
 
     public function getApiUrl()
     {
