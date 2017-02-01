@@ -66,17 +66,28 @@ class Styla_Connect_Model_Styla_Api
      */
     public function getPageSeoData($requestPath)
     {
-        //check if a no-response status was cached
+        $seoRequest = $this->getRequest(self::REQUEST_TYPE_SEO)
+            ->initialize($requestPath);
+        
+        //if the result was already cached previously:
         $cache = $this->getCache();
+        $cachedResponse = $cache->getCachedApiResponse($seoRequest);
+        if($cachedResponse) {
+            return $cachedResponse->getResult();
+        }
+        
+        //otherwise, check if a no-response status was cached
         if($cache->load('styla_seo_unreachable')) {
             return array();
         }
 
-        $seoRequest = $this->getRequest(self::REQUEST_TYPE_SEO)
-            ->initialize($requestPath);
-
         try {
-            $response = $this->callService($seoRequest);
+            $response = $this->callService($seoRequest, false); //do not use cache, we already checked it a moment ago
+            
+            //if we had a success, store the retrieved values:
+            if ($response->getHttpStatus() === 200) {
+                $cache->storeApiResponse($seoRequest, $response);
+            }
         } catch(Styla_Connect_Exception $e) {
             //in case of the SEO request, we don't mind if the connection was failed. we'll just save this failed status for 5 minutes
             //and not return anything.
