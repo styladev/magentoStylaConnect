@@ -40,6 +40,10 @@ class Styla_Connect_Model_Styla_Api_Cache
         if ($specificLifetime === false) {
             $specificLifetime = $this->getCacheLifetime();
         }
+        
+        if($id !== null) {
+            $id .= "_store_" . Mage::app()->getStore()->getId();
+        }
 
         $this->getCache()->save($data, $id, $tags, $specificLifetime, $priority);
     }
@@ -73,8 +77,9 @@ class Styla_Connect_Model_Styla_Api_Cache
      *
      * @param Styla_Connect_Model_Styla_Api_Request_Type_Abstract  $request
      * @param Styla_Connect_Model_Styla_Api_Response_Type_Abstract $response
+     * @param bool|int $specificLifetime
      */
-    public function storeApiResponse($request, $response)
+    public function storeApiResponse($request, $response, $specificLifetime = false)
     {
         if (!$this->isEnabled() || $response->getHttpStatus() !== 200) {
             return;
@@ -83,7 +88,7 @@ class Styla_Connect_Model_Styla_Api_Cache
         $cachedData = serialize($response->getRawResult());
         $cacheKey   = $this->getCacheKey($request);
 
-        $this->save($cachedData, $cacheKey);
+        $this->save($cachedData, $cacheKey, array(), $specificLifetime);
     }
 
     public function getCacheLifetime()
