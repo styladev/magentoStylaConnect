@@ -6,7 +6,8 @@ class Styla_Connect_Model_Styla_Api_Seodata
     const SEO_CACHE_INDICATOR_LIFE   = 3600; //an hour
     const SEO_CACHE_SUSPENDED        = 'styla_connect_seo_suspended';
     const SEO_CACHE_SUSPENDED_LIFE   = 300; //5 mins
-    const SEO_CACHE_SEO_CONTENT_LIFE = false; //indefinitely
+    //indefinitely cache for a very long time
+    const SEO_CACHE_SEO_CONTENT_LIFE = 9999999999;
 
     /** @var Styla_Connect_Model_Styla_Api_Cache */
     protected $_cache;
@@ -61,13 +62,14 @@ class Styla_Connect_Model_Styla_Api_Seodata
      */
     protected function _refreshCachedSeoDataIfPossible(Styla_Connect_Model_Styla_Api_Request_Type_Seo $seoRequest)
     {
+        $data = false;
         if (!$this->isSuspendingSeoRequests($seoRequest->getRequestPath())) {
             //try getting the new data from seo server:
             $data = $this->requestNewSeoDataFromApi($seoRequest);
-        } else {
-            //the system tells me that we're temporarily not allowed to make new
-            //seo requests, because most likely the remote seo sever is down.
-            //so, as a last resort, we'll try loading our outdated local copy:
+        }
+
+        if (!$data ) {
+            //all failed try to server an outdated cache entry
             $data = $this->_tryCachedSeoData($seoRequest);
         }
 
