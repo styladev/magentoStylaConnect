@@ -10,6 +10,8 @@ class Styla_Connect_Model_Styla_Api_Cache
     const CACHE_GROUP = 'styla_connect';
 
     protected $_cache;
+
+    /** @var Styla_Connect_Model_Styla_Api */
     protected $_api;
 
 
@@ -73,8 +75,9 @@ class Styla_Connect_Model_Styla_Api_Cache
      *
      * @param Styla_Connect_Model_Styla_Api_Request_Type_Abstract  $request
      * @param Styla_Connect_Model_Styla_Api_Response_Type_Abstract $response
+     * @param bool|int                                             $specificLifetime
      */
-    public function storeApiResponse($request, $response)
+    public function storeApiResponse($request, $response, $specificLifetime = false)
     {
         if (!$this->isEnabled() || $response->getHttpStatus() !== 200) {
             return;
@@ -83,7 +86,7 @@ class Styla_Connect_Model_Styla_Api_Cache
         $cachedData = serialize($response->getRawResult());
         $cacheKey   = $this->getCacheKey($request);
 
-        $this->save($cachedData, $cacheKey);
+        $this->save($cachedData, $cacheKey, array(), $specificLifetime);
     }
 
     public function getCacheLifetime()
@@ -103,7 +106,15 @@ class Styla_Connect_Model_Styla_Api_Cache
      */
     public function getCacheKey($request)
     {
-        $key = $request->getRequestType() . $request->getRequestPath() . "_" . $this->getApiVersion();
+        $key = implode(
+            '.',
+            [
+                Mage::app()->getStore()->getId(),
+                $request->getRequestType(),
+                $request->getRequestPath(),
+                $this->getApiVersion()
+            ]
+        );
 
         return $key;
     }
