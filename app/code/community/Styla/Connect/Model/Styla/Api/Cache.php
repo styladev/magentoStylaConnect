@@ -40,10 +40,6 @@ class Styla_Connect_Model_Styla_Api_Cache
         if ($specificLifetime === false) {
             $specificLifetime = $this->getCacheLifetime();
         }
-        
-        if($id !== null) {
-            $id .= "_store_" . Mage::app()->getStore()->getId();
-        }
 
         $this->getCache()->save($data, $id, $tags, $specificLifetime, $priority);
     }
