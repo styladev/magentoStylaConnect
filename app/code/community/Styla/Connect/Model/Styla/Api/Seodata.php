@@ -133,6 +133,7 @@ class Styla_Connect_Model_Styla_Api_Seodata
     protected function _getSuspendSeoRequestCacheId($forPath)
     {
         $cacheKey = $this->createCacheKey(array(self::SEO_CACHE_SUSPENDED, $forPath));
+
         return $cacheKey;
     }
 
@@ -189,18 +190,20 @@ class Styla_Connect_Model_Styla_Api_Seodata
         $cacheKey = $this->createCacheKey(array(self::SEO_CACHE_INDICATOR, $forPath));
         return $cacheKey;
     }
-    
+
     /**
      * Create a cache key, always including the current store_id in it
-     * 
+     *
      * @param array $parts
+     * @return string
      */
     public function createCacheKey(array $parts)
     {
         $storeId = Mage::app()->getStore()->getId();
-        $parts = array_merge(array('store_id' => $storeId), $parts);
-        
+        $parts   = array_merge(array('store_id' => $storeId), $parts);
+
         $key = implode('.', $parts);
+
         return $key;
     }
 
