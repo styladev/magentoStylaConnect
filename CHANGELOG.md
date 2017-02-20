@@ -1,3 +1,10 @@
+* 0.1.1.9 (2017-02-01)
+  * improved seo api caching [#8](https://github.com/styladev/magentoStylaConnect/issues/8)
+  * increased seo request timeout
+  
+* 0.1.1.8 (2017-01-07)
+  * stability improvements
+  
 * 0.1.1.7 (2016-12-01)
   * improved seo features for magazine pages
   * improved multi magazine handling

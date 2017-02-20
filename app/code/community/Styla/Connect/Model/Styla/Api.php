@@ -19,10 +19,10 @@ class Styla_Connect_Model_Styla_Api
      */
     protected $_apiConnectionOptions = array(
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_HTTPHEADER,
-        array(
-            'Accept: application/json',
-        ),
+        CURLOPT_HTTPHEADER     =>
+            array(
+                'Accept: application/json',
+            ),
     );
 
     /**
@@ -68,30 +68,30 @@ class Styla_Connect_Model_Styla_Api
     {
         $seoRequest = $this->getRequest(self::REQUEST_TYPE_SEO)
             ->initialize($requestPath);
-        
+
         //if the result was already cached previously:
-        $cache = $this->getCache();
+        $cache          = $this->getCache();
         $cachedResponse = $cache->getCachedApiResponse($seoRequest);
-        if($cachedResponse) {
+        if ($cachedResponse) {
             return $cachedResponse->getResult();
         }
-        
+
         //otherwise, check if a no-response status was cached
-        if($cache->load('styla_seo_unreachable')) {
+        if ($cache->load('styla_seo_unreachable')) {
             return array();
         }
 
         try {
             $response = $this->callService($seoRequest, false); //do not use cache, we already checked it a moment ago
-            
+
             //if we had a success, store the retrieved values:
             if ($response->getHttpStatus() === 200) {
                 $cache->storeApiResponse($seoRequest, $response);
             }
-        } catch(Styla_Connect_Exception $e) {
+        } catch (Styla_Connect_Exception $e) {
             //in case of the SEO request, we don't mind if the connection was failed. we'll just save this failed status for 5 minutes
             //and not return anything.
-            $cache->save("1", 'styla_seo_unreachable', array(), 5*60); //save for 5 minutes
+            $cache->save("1", 'styla_seo_unreachable', array(), 5 * 60); //save for 5 minutes
 
             return array();
         }
@@ -121,10 +121,10 @@ class Styla_Connect_Model_Styla_Api
                 try {
                     $response   = $this->callService($request, false, true);
                     $apiVersion = $response->getResult();
-                    
+
                     //if returned by the response, use the cache-control set lifetime
                     $cacheTime = $response->getCacheControlValue();
-                    
+
                     if (false === $cacheTime) {
                         $cacheTime = "3600";
                     }
@@ -136,9 +136,9 @@ class Styla_Connect_Model_Styla_Api
                         array(Styla_Connect_Model_Styla_Api_Cache::CACHE_TAG),
                         $cacheTime
                     );
-                } catch(Styla_Connect_Exception $e) {
+                } catch (Styla_Connect_Exception $e) {
                     //this request might possibly fail, for example when wrong url is set in developer mode
-                    
+
                     Mage::logException($e);
                     $apiVersion = 1;
                 }
@@ -171,11 +171,11 @@ class Styla_Connect_Model_Styla_Api
 
         $requestApiUrl = $request->getApiUrl();
         /** @var Varien_Http_Adapter_Curl $service */
-        $service       = $this->getService();
+        $service = $this->getService();
 
         //include the request timeout, if set
         $requestTimeoutOptions = $request->getConnectionTimeoutOptions();
-        if($requestTimeoutOptions) {
+        if ($requestTimeoutOptions) {
             $service->setOptions($requestTimeoutOptions);
         }
 
