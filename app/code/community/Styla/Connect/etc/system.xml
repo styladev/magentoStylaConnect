@@ -116,7 +116,7 @@
                             <sort_order>55</sort_order>
                             <depends><mode>prod</mode></depends>
                         </js_url_prod>
-                        
+
                         <js_url_stage translate="label">
                             <label>Styla Magazine Api Javascript Url (Stage)</label>
                             <comment>Eg. //live.styla.com/preloader/embed/%s.js (%s will be turned into your Styla API Username)</comment>
@@ -223,14 +223,14 @@
                         </menu_link_label>
                     </fields>
                 </frontend>
-                
+
                 <developer>
                     <sort_order>25</sort_order>
                     <label>Developer Mode</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
-                    
+
                     <fields>
                         <is_developer_mode translate="label">
                             <label>Is Developer Mode</label>
@@ -242,7 +242,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>10</sort_order>
                         </is_developer_mode>
-                        
+
                         <override_seo_url translate="label">
                             <label>Override Url for SEO Api</label>
                             <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://seo.styla.com/</comment>
@@ -253,10 +253,10 @@
                             <sort_order>20</sort_order>
                             <depends><is_developer_mode>1</is_developer_mode></depends>
                         </override_seo_url>
-                        
+
                         <override_cdn_url translate="label">
                             <label>Override Url for CDN/Assets</label>
-                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://cdn.styla.com/</comment>
+                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. //cdn.styla.com/</comment>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -264,7 +264,7 @@
                             <sort_order>40</sort_order>
                             <depends><is_developer_mode>1</is_developer_mode></depends>
                         </override_cdn_url>
-                        
+
                         <override_api_url translate="label">
                             <label>Override Url for Styla Content Version API</label>
                             <comment>If filled, use this url instead of the automatically-acquired one. Eg. http://live.styla.com/</comment>

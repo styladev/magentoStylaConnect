@@ -81,7 +81,7 @@
     </frontend>
 
     <!-- @deprecated after 0.1.1.4 -->
-    <!--    
+    <!--
     <adminhtml>
         <events>
             <admin_system_config_changed_section_styla_connect>
@@ -124,13 +124,13 @@
             </frontend>
             <developer>
                 <override_seo_url>http://seo.styla.com/</override_seo_url>
-                <override_cdn_url>http://cdn.styla.com/</override_cdn_url>
+                <override_cdn_url>//cdn.styla.com/</override_cdn_url>
                 <override_api_url>http://live.styla.com/</override_api_url>
             </developer>
 
             <response_fields>
                 <!-- If you add new fields here, remember that these new fields must also be added to the
-                     Styla rest user's access rights as well. 
+                     Styla rest user's access rights as well.
                      This means updating the admin attributes and the api2.xml file.
                      Otherwise, the additional fields will be filtered out by magento api.
                 -->
