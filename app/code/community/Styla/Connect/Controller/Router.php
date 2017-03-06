@@ -72,6 +72,16 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
         
         return count($allRequestParameters) ? http_build_query($allRequestParameters) : '';
     }
+    
+    /**
+     * Check if can be store code as part of url
+     *
+     * @return bool
+     */
+    protected function _canBeStoreCodeInUrl()
+    {
+        return Mage::isInstalled() && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL);
+    }
 
     /**
      * Can this request's path be processed by this router?
@@ -81,9 +91,26 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
      */
     protected function _isValidPath(Zend_Controller_Request_Http $request)
     {
+        /**
+         * here i'm cheking if the "store code in URL" option is enabled, and if it is,
+         * i'm making sure that the store code actually is the first part of the URI we got.
+         * if it isn't, we return FALSE and the match fails.
+         */
+        if($this->_canBeStoreCodeInUrl()) {
+            $uri = explode('/', trim($request->getRequestUri(), '/')); //only here the store code will be available for lookup. uri should be {STORE_CODE}/{FRONTENDNAME}/[...]
+            $requestedStoreCode = reset($uri);
+            
+            $currentStoreCode = Mage::app()->getStore()->getCode();
+            if($currentStoreCode !== $requestedStoreCode) {
+                return false; //"store codes in URL are enabled", and the store code isn't the first element in the URI
+            }
+        }
+        
+        //we expect the magazine's frontend name to be the first element in the path_info
         $path = trim($request->getPathInfo(), '/') . '/';
-
-        if (strpos($path, $this->getRouteName()) === 0) {
+        $elements = explode('/', $path);
+        $frontendName = trim($this->getRouteName(), '/');
+        if (isset($elements[0]) && ($elements[0] === $frontendName)) { //the first element in the path must be our 
             return $path;
         }
 
