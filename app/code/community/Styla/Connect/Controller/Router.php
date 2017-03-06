@@ -98,10 +98,10 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
          */
         if($this->_canBeStoreCodeInUrl()) {
             $uri = explode('/', trim($request->getRequestUri(), '/')); //only here the store code will be available for lookup. uri should be {STORE_CODE}/{FRONTENDNAME}/[...]
-            $storeCode = reset($uri);
+            $requestedStoreCode = reset($uri);
             
-            $stores = $stores = Mage::app()->getStores(true, true);
-            if(!isset($stores[$storeCode])) {
+            $currentStoreCode = Mage::app()->getStore()->getCode();
+            if($currentStoreCode !== $requestedStoreCode) {
                 return false; //"store codes in URL are enabled", and the store code isn't the first element in the URI
             }
         }
