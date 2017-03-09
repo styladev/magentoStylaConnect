@@ -39,6 +39,7 @@ class Styla_Connect_Helper_Config
     protected $_apiVersion;
     protected $_username;
     protected $_configuredRouteName;
+    protected $_rootPath;
 
     /**
      *
@@ -123,6 +124,24 @@ class Styla_Connect_Helper_Config
         $routeName = $this->getConfiguredRouteName();
 
         return trim($routeName, '/') . '/';
+    }
+    
+    /**
+     * Get the RootPath of the request.
+     * It's always the name of the configured magazine frontname
+     * 
+     * @return string
+     */
+    public function getRootPath()
+    {
+        if(null === $this->_rootPath) {
+            //get the url to the magazine page, strip index.php from it. this gives me the root path for a magazine
+            $url = parse_url(str_replace('/index.php/', '/', Mage::getUrl($this->getRouteName())));
+            
+            $this->_rootPath = isset($url['path']) ? $url['path'] : '';
+        }
+        
+        return $this->_rootPath;
     }
     
     /**

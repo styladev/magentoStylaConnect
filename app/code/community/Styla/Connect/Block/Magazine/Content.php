@@ -15,7 +15,7 @@ class Styla_Connect_Block_Magazine_Content extends Styla_Connect_Block_Magazine
 
     public function getRootPath()
     {
-        return $this->getConfigHelper()->getRouteName();
+        return $this->getConfigHelper()->getRootPath();
     }
 
     public function getPluginVersion()
