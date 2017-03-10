@@ -12,6 +12,9 @@ class Styla_Connect_Model_Styla_Api_Cache
     protected $_cache;
     protected $_api;
 
+    /** @var boolean */
+    protected $enabled;
+
 
     /**
      * Is this cache type enabled
@@ -20,9 +23,11 @@ class Styla_Connect_Model_Styla_Api_Cache
      */
     public function isEnabled()
     {
-        $useCache = Mage::app()->useCache(self::CACHE_GROUP);
+        if ($this->enabled === null) {
+            $this->enabled = Mage::app()->useCache(self::CACHE_GROUP);
+        }
 
-        return $useCache;
+        return $this->enabled;
     }
 
     /**
@@ -34,6 +39,10 @@ class Styla_Connect_Model_Styla_Api_Cache
      */
     public function save($data, $id = null, $tags = array(), $specificLifetime = false, $priority = 8)
     {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
         $tags[] = self::CACHE_TAG;
         $tags   = array_unique($tags);
 
@@ -52,6 +61,10 @@ class Styla_Connect_Model_Styla_Api_Cache
      */
     public function load($id, $doNotTestCacheValidity = false, $doNotUnserialize = false)
     {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
         return $this->getCache()->load($id, $doNotTestCacheValidity, $doNotUnserialize);
     }
 
