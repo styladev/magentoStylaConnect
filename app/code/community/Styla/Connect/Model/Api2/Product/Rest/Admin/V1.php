@@ -5,6 +5,12 @@
  */
 class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Product_Rest_Admin_V1
 {
+    public function dispatch()
+    {
+        Mage::app()->setCurrentStore($this->_getStore());
+        parent::dispatch();
+    }
+
     /**
      * Retrieve product data
      *
@@ -142,6 +148,7 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
             //if there was a store_id parameter defined, add the store filter for it
             $collection->addStoreFilter($store);
         }
+        $collection->addUrlRewrite();
         
         $collection->addAttributeToSelect(
             array_keys(
