@@ -59,6 +59,8 @@ class Styla_Connect_Model_Api2_Category_Rest_Admin_V1
 
     public function dispatch()
     {
+        Mage::app()->setCurrentStore($this->_getStore());
+
         switch ($this->getActionType() . $this->getOperation()) {
             /* Retrieve */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_RETRIEVE:
