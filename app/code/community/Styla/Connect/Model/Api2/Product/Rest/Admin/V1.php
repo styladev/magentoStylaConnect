@@ -173,11 +173,9 @@ class Styla_Connect_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_
      */
     protected function _applySearchFilter(Styla_Connect_Model_Resource_Catalog_Product_Collection $collection)
     {
-        $searchTerm = $this->getRequest()->getParam('search');
-        if ($searchTerm) {
-            $searchTerm = urldecode($searchTerm);
-            $collection->addFulltextSearchTerm($searchTerm);
-        }
+        $searchHelper = Mage::helper('styla_connect/rest');
+        
+        $searchHelper->applySearchFilter($collection, $this->_getStore());
     }
 
     /**
