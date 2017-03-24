@@ -70,6 +70,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
             $productInfo['tax'] = $taxInfo;
         }
 
+        $productInfo['options'] = $this->_collectCustomOptions($product);
         //get additional info, if possible
         //this may be different for various product types
         $productInfo = $this->_collectAdditionalProductInfo($product, $productInfo);
@@ -192,6 +193,28 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
         }
     }
 
+    protected function _collectCustomOptions(Mage_Catalog_Model_Product $product)
+    {
+        $options = array();
+        foreach ($product->getProductOptionsCollection() as $id => $option) {
+            /** @var Mage_Catalog_Model_Product_Option $option */
+            $optionData = array_filter($option->getData(), array($this, 'filterNullValues'));
+
+            $optionData['values'] = array();
+            foreach ($option->getValues() as $id => $value) {
+                /** @var Mage_Catalog_Model_Product_Option_Value $value */
+                $optionData['values'][] = array_filter($value->getData(), array($this, 'filterNullValues'));
+            }
+
+            $options[] = $optionData;
+        }
+        if (!$options) {
+            return null;
+        }
+        return $options;
+    }
+
+
     /**
      * Load and collect any other product info that we may need
      *
@@ -199,15 +222,19 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
      * @param array                      $productInfo
      * @return array
      */
-    protected function _collectAdditionalProductInfo($product, $productInfo)
+    protected function _collectAdditionalProductInfo(Mage_Catalog_Model_Product $product, $productInfo)
     {
         //can be overridden and used in productType-specific classes to get more detailed attributes
 
         //allow for collecting additional data outside of the renderer
         $transportObject = new Varien_Object();
-        $transportObject->setProductInfo($productInfo);
-        $transportObject->setProduct($product);
-        Mage::dispatchEvent(self::EVENT_COLLECT_ADDITIONAL_INFO, array('transport_object' => $transportObject));
+        $transportObject->setData('product_info', $productInfo);
+        $transportObject->setData('product', $product);
+
+        Mage::dispatchEvent(
+            self::EVENT_COLLECT_ADDITIONAL_INFO,
+            array('transport_object' => $transportObject)
+        );
 
         $productInfo = $transportObject->getProductInfo();
 
@@ -238,5 +265,10 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
         }
 
         return $this->manufacturerAttribute;
+    }
+
+    protected function filterNullValues($value)
+    {
+        return $value !== null;
     }
 }
