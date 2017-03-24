@@ -39,22 +39,9 @@ abstract class Styla_Connect_Model_Api2_Converter_Abstract
         return $this->getArgument(self::ARGUMENT_MAGENTO_FIELD);
     }
 
-    protected function _emulateFrontend()
-    {
-        $appEmulation = Mage::getSingleton('core/app_emulation');
-
-        return $appEmulation->startEnvironmentEmulation($this->_getDefaultStoreViewId());
-    }
-
     protected function _getDefaultStoreViewId()
     {
         return Mage::app()->getDefaultStoreView()->getId();
-    }
-
-    protected function _stopEmulation($environmentInfo)
-    {
-        $appEmulation = Mage::getSingleton('core/app_emulation');
-        $appEmulation->stopEnvironmentEmulation($environmentInfo);
     }
 
     /**
