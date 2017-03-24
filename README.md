@@ -8,7 +8,8 @@ Requires:
 
 Styla Connect is a module to connect your Magento Store with [Styla](http://www.styla.com/). The first diagram on [this page](https://styladocs.atlassian.net/wiki/spaces/CO/pages/9961481/Technical+Integration) should provide you an overview of what the plugin does and how it exchanges data with Styla. 
 
-* [Installation](doc/installation.md)
+* [Installation/Update](doc/installation.md)
 * [Configuration](doc/configuration.md)
 * [Customization](doc/customization.md)
 * [Events](doc/events.md)
+* [Good to know](doc/good_to_know.md)

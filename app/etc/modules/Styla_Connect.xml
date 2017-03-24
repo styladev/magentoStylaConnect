@@ -4,6 +4,10 @@
         <Styla_Connect>
             <active>true</active>
             <codePool>community</codePool>
+            <depends>
+                <Mage_Catalog/>
+                <Mage_Api2 />
+            </depends>
         </Styla_Connect>
     </modules>
 </config>
