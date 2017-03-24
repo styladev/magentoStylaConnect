@@ -1,3 +1,6 @@
+* 0.1.1.11 (2017-03-24)
+  * fixed an issue with wrong product urls in multi store setups
+  
 * 0.1.1.9 (2017-02-01)
   * improved seo api caching [#8](https://github.com/styladev/magentoStylaConnect/issues/8)
   * increased seo request timeout
