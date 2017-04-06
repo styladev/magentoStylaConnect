@@ -1,7 +1,10 @@
 # Configuration
 * Login into your magento backend
 * Navigate to "System -> Configuration" and open the section "Styla Connect"
-* Please use the "Configuration Assistant" to connect your store with Styla. The assistant will automatically configure the required `RestApi` user and will take care of the authorization process.
+* Please use the "Configuration Assistant" to connect your store with Styla. The assistant will automatically configure the required `RestApi` user and will take care of the authorization process: 
+  * Start with clicking the orange "Click here if you need to re-connect your store to the Styla API" 
+  * Enter the email and password provided by Styla Account Manager. If there are several magazines that you are going to use, make sure to select a correct store view from the drop-down list above to match the email and password as this will define which magazine is shown on which store view.
+  * Click the orange "Send Login Data to Styla" button top-right
 
 ## Connect Assistant
 
