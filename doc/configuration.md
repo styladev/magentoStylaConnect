@@ -13,6 +13,8 @@ The assistant will use your Styla credentials to retrieve all the needed configu
 
 ## Configuration Values
 
+Once the connect process is done you will be able to change the below values for each store view/magazine.
+
 <table>
 <tr>
 <th>Name</th>
@@ -92,6 +94,24 @@ footer
 <td>Cache Lifetime</td>
 <td>The seo data cache lifetime</td>
 <td>3600</td>
+</tr>
+
+<tr>
+<td>Maximum Levels of Categories Loaded at Once</td>
+<td>If you run a store with a category tree consisting of multiple levels, you may choose to limit the number of the branches loaded into styla backoffice editor at once, for performance reasons.)</td>
+<td>No limit - load all categories in a single API call</td>
+</tr>
+
+<tr>
+<td>Add Magazine Link to Navigation</td>
+<td>Turn to "No" if you don't want the magazine link to be available in the menu (good for testing the magazine before disclosing to your audience)</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>Label for the Magazine Menu Link</td>
+<td>Enter any name your audience see on the menu linking to the magazine</td>
+<td>Magazine</td>
 </tr>
 
 </table>
