@@ -98,7 +98,7 @@ footer
 
 <tr>
 <td>Maximum Levels of Categories Loaded at Once</td>
-<td>If you run a store with a category tree consisting of multiple levels, you may choose to limit the number of the branches loaded into styla backoffice editor at once, for performance reasons.)</td>
+<td>If you run a store with a category tree consisting of multiple levels, you may choose to limit the number of the branches loaded into styla backoffice editor at once, for performance reasons)</td>
 <td>No limit - load all categories in a single API call</td>
 </tr>
 
