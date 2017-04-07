@@ -44,7 +44,7 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection
     }
 
     /**
-     *
+     * @deprecated
      * @param string $searchTerm
      */
     public function addFulltextSearchTerm($searchTerm)
