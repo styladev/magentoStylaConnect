@@ -24,7 +24,7 @@ do not omit the `depends` tag it will assure that your customization's will work
 
  * [Add To Cart](customization/add-to-cart.md)
  * [Changes Api](customization/api.md)
- 
+ * [Custom Search Engines](customization/custom-search-engines.md)
 
 
 ## Events
