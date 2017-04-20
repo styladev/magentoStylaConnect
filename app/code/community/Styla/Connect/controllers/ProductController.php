@@ -39,7 +39,9 @@ class Styla_Connect_ProductController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * @return boolean|Mage_Catalog_Model_Product
+     * @return bool|Mage_Catalog_Model_Product
+     * @throws Exception
+     * @throws Styla_Connect_Exception
      */
     protected function _initProduct()
     {
