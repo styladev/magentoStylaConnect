@@ -1,13 +1,19 @@
 # Configuration
 * Login into your magento backend
 * Navigate to "System -> Configuration" and open the section "Styla Connect"
-* Please use the "Configuration Assistant" to connect your store with Styla. The assistant will automatically configure the required `RestApi` user and will take care of the authorization process.
+* Please use the "Configuration Assistant" to connect your store with Styla. The assistant will automatically configure the required `RestApi` user and will take care of the authorization process: 
+  * Start with clicking the orange "Click here if you need to re-connect your store to the Styla API" 
+  * Enter the email and password provided by Styla Account Manager. If there are several magazines that you are going to use, make sure to select a correct store view from the drop-down list above to match the email and password as this will define which magazine is shown on which store view.
+  ![Styla Connect Process](/doc/styla_connect_process.png)
+  * Click the orange "Send Login Data to Styla" button top-right
 
 ## Connect Assistant
 
 The assistant will use your Styla credentials to retrieve all the needed configuration data directly from Styla, it will also create the restApi User if needed.
 
 ## Configuration Values
+
+Once the connect process is done you will be able to change the below values for each store view/magazine.
 
 <table>
 <tr>
@@ -88,6 +94,24 @@ footer
 <td>Cache Lifetime</td>
 <td>The seo data cache lifetime</td>
 <td>3600</td>
+</tr>
+
+<tr>
+<td>Maximum Levels of Categories Loaded at Once</td>
+<td>If you run a store with a category tree consisting of multiple levels, you may choose to limit the number of the branches loaded into styla backoffice editor at once, for performance reasons)</td>
+<td>No limit - load all categories in a single API call</td>
+</tr>
+
+<tr>
+<td>Add Magazine Link to Navigation</td>
+<td>Turn to "No" if you don't want the magazine link to be available in the menu (good for testing the magazine before disclosing to your audience)</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>Label for the Magazine Menu Link</td>
+<td>Enter any name your audience see on the menu linking to the magazine</td>
+<td>Magazine</td>
 </tr>
 
 </table>

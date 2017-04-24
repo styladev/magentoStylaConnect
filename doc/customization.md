@@ -1,6 +1,6 @@
-# Customization's
+# Customizations
 
-##Best Practice
+## Best Practice
 * Do not modify the plugin directly you will loose the benefit of easy updates!
 * Create your own module the depends on the `Styla_Connect` module
 ```xml
@@ -20,11 +20,11 @@
 do not omit the `depends` tag it will assure that your customization's will work as intended!
  
 
-## Customization's
+## Customizations
 
  * [Add To Cart](customization/add-to-cart.md)
  * [Changes Api](customization/api.md)
- 
+ * [Custom Search Engines](customization/custom-search-engines.md)
 
 
 ## Events
