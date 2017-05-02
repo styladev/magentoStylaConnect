@@ -57,7 +57,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
                     $simpleChildren[$productAttributeId][$attributeValue] = array();
                 }
                 $simpleChildren[$productAttributeId][$attributeValue][] = array('id'       => $productId,
-                                                                                'sku'       => $product->getSku(),
+                                                                                'sku'      => $product->getSku(),
                                                                                 'saleable' => $product->isSaleable(),
                 );
             }

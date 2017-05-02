@@ -117,3 +117,13 @@ footer
 </table>
 
 /* - Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
+
+## StylaApiAdminUser and StylaApi2Role - please don't modify
+
+During the connect process a new 'StylaApiAdminUser' user with a 'StylaApi2Role' will be created. You can see it in System/Permissions/Users:
+
+![Styla User](/doc/styla_user.png)
+
+Please don't modify these user's and role's permissions. It needs the following permissions to propagate product data via Magento REST API:
+
+![Styla Role](/doc/styla_role.png)
