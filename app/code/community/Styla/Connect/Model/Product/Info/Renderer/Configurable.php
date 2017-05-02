@@ -13,6 +13,82 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
         return $this->_product;
     }
 
+    public function getProductPrices(Mage_Catalog_Model_Product $product)
+    {
+        $basePrice = $product->getFinalPrice();
+
+        /** @var Mage_Catalog_Model_Product_Type_Configurable $typeInstance */
+        $typeInstance = $product->getTypeInstance(true);
+
+        $useProducts            = $typeInstance->getUsedProducts(null, $product);
+        $configurableAttributes = $typeInstance->getConfigurableAttributes($product);
+
+        $productPrices = [];
+        $priceData     = [];
+
+        //find all option pricing data
+        foreach ($configurableAttributes as $attribute) {
+            /** @var Mage_Catalog_Model_Product_Type_Configurable_Attribute $attribute */
+            $prices = $attribute->getData('prices');
+            if (!$prices) {
+                continue;
+            }
+            $attributeId = $attribute['attribute_id'];
+            foreach ($prices as $price) {
+                $priceData[$attributeId][$price['value_index']] = $price;
+            }
+        }
+
+        foreach ($useProducts as $childProduct) {
+            /** @var Mage_Catalog_Model_Product $childProduct */
+            $productId = $childProduct->getId();
+
+            $price = $basePrice;
+            foreach ($configurableAttributes as $attribute) {
+                $attributeId    = $attribute['attribute_id'];
+                $attributeCode  = $attribute['product_attribute']->getAttributeCode();
+                $attributeValue = $childProduct->getData($attributeCode);
+
+                if (isset($priceData[$attributeId][$attributeValue])) {
+                    $optionPriceData = $priceData[$attributeId][$attributeValue];
+
+                    $price = $price + $this->_calculatePriceAddition(
+                            $basePrice,
+                            $optionPriceData['pricing_value'],
+                            $optionPriceData['is_percent']
+                        );
+                }
+            }
+            $product->setConfigurablePrice($price);
+            $product->setParentId(true);
+            Mage::dispatchEvent(
+                'catalog_product_type_configurable_price',
+                array('product' => $product)
+            );
+
+            $productPrices[$productId] = $this->_convertPrice($product->getConfigurablePrice(), true);
+        }
+
+        return $productPrices;
+    }
+
+    /**
+     * percentage price adjustments are relative to the "base price" not the option prices
+     *
+     * @param $basePrice
+     * @param $value
+     * @param $isPercent
+     * @return float|int
+     */
+    protected function _calculatePriceAddition($basePrice, $value, $isPercent)
+    {
+        if ($isPercent && !empty($value)) {
+            return $basePrice * $value / 100;
+        }
+
+        return $value;
+    }
+
     /**
      * Add configurable product's options data to the product info array.
      * This method is basically the same logic that's used for generating the options selects on the product view page.
@@ -32,6 +108,9 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
          */
         $this->_product = $product;
 
+        $productPrices = $this->getProductPrices($product);
+
+
         //add configurable-specific data.
         $configurableInfo = array();
 
@@ -41,8 +120,11 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
         $simpleChildren         = array();
         $configurableAttributes = $product->getTypeInstance(true)->getConfigurableAttributes($product);
 
-        foreach ($product->getTypeInstance(true)
-                     ->getUsedProducts(null, $product) as $product) {
+
+        $useProducts = $product->getTypeInstance(true)
+            ->getUsedProducts(null, $product);
+
+        foreach ($useProducts as $product) {
             $productId = $product->getId();
 
             foreach ($configurableAttributes as $attribute) {
@@ -56,12 +138,16 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
                 if (!isset($simpleChildren[$productAttributeId][$attributeValue])) {
                     $simpleChildren[$productAttributeId][$attributeValue] = array();
                 }
-                $simpleChildren[$productAttributeId][$attributeValue][] = array('id'       => $productId,
-                                                                                'sku'      => $product->getSku(),
-                                                                                'saleable' => $product->isSaleable(),
+
+                $simpleChildren[$productAttributeId][$attributeValue][$productId] = array(
+                    'id'       => $productId,
+                    'sku'      => $product->getSku(),
+                    'saleable' => $product->isSaleable(),
+                    'price'    => $productPrices[$productId]
                 );
             }
         }
+
 
         //and for each attribute, all it's options and simples associated to them
         foreach ($configurableAttributes as $attribute) {
@@ -75,6 +161,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
 
             $attributeOptions = array();
             $prices           = $attribute->getPrices();
+
             if (is_array($prices)) {
                 foreach ($prices as $value) {
                     if (isset($simpleChildren[$attributeId][$value['value_index']])) {
@@ -83,22 +170,10 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
                         $productsIndex = array();
                     }
 
-                    $product->setConfigurablePrice(
-                        $this->_preparePrice($value['pricing_value'], $value['is_percent'])
-                    );
-                    $product->setParentId(true);
-                    Mage::dispatchEvent(
-                        'catalog_product_type_configurable_price',
-                        array('product' => $product)
-                    );
-                    $configurablePrice = $product->getConfigurablePrice();
-
                     $attributeOptions[] = array(
                         'id'       => $value['value_index'],
                         'label'    => $value['label'],
-                        'products' => $productsIndex,
-                        'price'    => $configurablePrice,
-                        'oldPrice' => $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']),
+                        'products' => $productsIndex
                     );
                 }
             }
