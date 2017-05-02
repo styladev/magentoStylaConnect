@@ -1,3 +1,8 @@
+* 0.1.1.12 (2017-05-02)
+  * pricing data for configurable products
+  * support for [custom search engines](doc/customization/custom-search-engines.md)
+  * documentation improvements
+  
 * 0.1.1.11 (2017-03-24)
   * fixed an issue with wrong product urls in multi store setups
   
