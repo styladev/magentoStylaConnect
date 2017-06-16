@@ -1,8 +1,8 @@
-# Styla Connect (v 0.1.1.11)
+# Styla Connect (v 0.1.1.12)
 ---
 
 Requires:
-* PHP >= 5.3
+* PHP >= 5.3. Since Magento 1 itself does not run on PHP7, we haven't tested on this PHP version.
 * Magento 1.7 or later, for our Magento 2 plugin check this https://github.com/styladev/magentoStylaConnect
 * Magento REST API activated to share product information http://devdocs.magento.com/guides/m1x/api/rest/introduction.html
 

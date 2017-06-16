@@ -141,6 +141,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
 
                 $simpleChildren[$productAttributeId][$attributeValue][$productId] = array(
                     'id'       => $productId,
+                    'sku'      => $product->getSku(),
                     'saleable' => $product->isSaleable(),
                     'price'    => $productPrices[$productId]
                 );

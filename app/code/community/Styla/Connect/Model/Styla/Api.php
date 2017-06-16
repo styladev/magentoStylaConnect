@@ -70,11 +70,6 @@ class Styla_Connect_Model_Styla_Api
         return $seo->getSeoData($requestPath);
     }
 
-    public function save($data, $id = null, $tags = array(), $specificLifetime = false, $priority = 8)
-    {
-
-    }
-
     /**
      * Get the current cache version number from the Styla api
      *
