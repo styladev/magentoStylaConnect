@@ -12,6 +12,7 @@ class Styla_Connect_MagazineController extends Mage_Core_Controller_Front_Action
         if (empty($path)) {
             $path = '/';
         }
+
         $page = Mage::getModel('styla_connect/page')
             ->load($path);
 
@@ -59,8 +60,9 @@ class Styla_Connect_MagazineController extends Mage_Core_Controller_Front_Action
      */
     protected function useMagentoLayout()
     {
-        return Mage::helper('styla_connect/config')
-            ->isUsingMagentoLayout();
+        return Mage::helper('styla_connect')
+            ->getCurrentMagazine()
+            ->useMagentoLayout();
     }
 
     /**

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <cms>
+            <children>
+                <styla_magazine translate="title">
+                    <title>Styla Magazines</title>
+                    <action>adminhtml/styla_magazine/index</action>
+                    <sort_order>70</sort_order>
+                </styla_magazine>
+            </children>
+        </cms>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <cms>
+                        <children>
+                            <styla_magazine>
+                                <title>Styla Magazine</title>
+                            </styla_magazine>
+                        </children>
+                    </cms>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <styla_connect>
+                                        <title>Styla Connect</title>
+                                    </styla_connect>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -26,7 +26,10 @@ class Styla_Connect_Block_Adminhtml_Hint_Environment
      */
     public function userNeedsToRegister()
     {
-        return !Mage::helper('styla_connect/config')->isConfiguredForThisMode();
+        //check if we have a default magazine
+        $magazine = Mage::getModel('styla_connect/magazine')->loadDefault();
+
+        return $magazine->getId() ? false : true;
     }
 
     /**
@@ -36,18 +39,8 @@ class Styla_Connect_Block_Adminhtml_Hint_Environment
      */
     public function getConnectUrl()
     {
-        $request = $this->getRequest();
+        $url = Mage::helper('adminhtml')->getUrl('adminhtml/styla_api/index');
 
-        $params = array();
-        if ($website = $request->getParam('website')) {
-            $params['website'] = $website;
-        }
-
-        if ($store = $request->getParam('store')) {
-            $params['store'] = $store;
-        }
-
-        $url = Mage::helper('adminhtml')->getUrl('adminhtml/styla_api/index', $params);
         return $url;
     }
 }

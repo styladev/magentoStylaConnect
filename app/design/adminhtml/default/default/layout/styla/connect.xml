@@ -2,9 +2,26 @@
 <layout>
     <adminhtml_styla_api_index>
         <reference name="content">
-            <block type="adminhtml/template" name="connect.form" as="connect.form" template="styla/connect/form.phtml">
-                <block type="adminhtml/system_config_switcher" name="switcher" as="switcher" template="styla/connect/form/switcher.phtml" />
-            </block>
+            <block type="adminhtml/template" name="connect.form" as="connect.form" template="styla/connect/form.phtml" />
         </reference>
     </adminhtml_styla_api_index>
+
+
+    <adminhtml_styla_magazine_index>
+        <reference name="content">
+            <block type="styla_connect/adminhtml_magazine" name="styla_magazine"/>
+        </reference>
+    </adminhtml_styla_magazine_index>
+
+    <adminhtml_styla_magazine_edit>
+        <reference name="content">
+            <block type="styla_connect/adminhtml_magazine_edit" name="styla.magazine.edit"/>
+        </reference>
+    </adminhtml_styla_magazine_edit>
+
+    <adminhtml_styla_magazine_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="styla_connect/adminhtml_magazine_grid" name="styla.magazine.grid"/>
+        </block>
+    </adminhtml_styla_magazine_grid>
 </layout>
