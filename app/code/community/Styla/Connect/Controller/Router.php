@@ -7,72 +7,67 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
 {
     public function match(Zend_Controller_Request_Http $request)
     {
-        //checking before even try to find out that current module
-        //should use this router
-        if (!$this->_beforeModuleMatch() || !$this->isModuleEnabled()) {
+        $path = $this->_getRequestPath($request);
+        if ($path === false) {
             return false;
         }
 
-        if ($path = $this->_isValidPath($request)) {
-            $routeSettings = $this->getRouteSettings($path, $request);
-
-            //setModule name is the front name
-            $request->setModuleName('styla')
-                ->setControllerName('magazine')
-                ->setActionName('index')
-                ->setParam('path', $routeSettings);
-
-            return true;
-        } else {
+        $frontName = $this->_getFrontName($path);
+        if (!$frontName) {
             return false;
         }
-    }
 
-    /**
-     * Get the currently configured starting route name for this router
-     *
-     * @return string
-     */
-    public function getRouteName()
-    {
-        return Mage::helper('styla_connect/config')->getRouteName();
-    }
+        $magazine = Mage::getModel('styla_connect/magazine')->loadByFrontName($frontName);
 
-    public function isModuleEnabled()
-    {
-        return Mage::helper('styla_connect/config')->isModuleEnabled();
+        if (!$magazine || !$magazine->isActive()) {
+            return false;
+        }
+
+        Mage::register('current_magazine', $magazine);
+        $routeSettings = $this->getRouteSettings($magazine, $path, $request);
+
+        //setModule name is the front name
+        $request
+            ->setModuleName('styla')
+            ->setControllerName('magazine')
+            ->setActionName('index')
+            ->setParam('path', $routeSettings);
+
+        return true;
     }
 
     /**
      * Get only the last part of the route, leading up to a specific page
      *
-     * @param string $path
+     * @param Styla_Connect_Model_Magazine $magazine
+     * @param string                       $path
+     * @param                              $request
      * @return string
      */
-    public function getRouteSettings($path, $request)
+    public function getRouteSettings(Styla_Connect_Model_Magazine $magazine, $path, $request)
     {
         //the path should not contain the trailing slash, the styla api is not expecting it
-        $path = rtrim(str_replace($this->getRouteName(), '', $path), '/');
-        
+        $path = rtrim(str_replace($magazine->getFrontName(), '', $path), '/');
+
         //all the get params should be retained
         $requestParameters = $this->_getRequestParamsString($request);
 
         $route = $path . ($requestParameters ? '?' . $requestParameters : '');
         return $route;
     }
-    
+
     /**
-     * 
+     *
      * @param Zend_Controller_Request_Http $request
      * @return string
      */
     protected function _getRequestParamsString(Zend_Controller_Request_Http $request)
     {
         $allRequestParameters = $request->getQuery();
-        
+
         return count($allRequestParameters) ? http_build_query($allRequestParameters) : '';
     }
-    
+
     /**
      * Check if can be store code as part of url
      *
@@ -83,37 +78,24 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
         return Mage::isInstalled() && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL);
     }
 
+    protected function _getRequestPath(Zend_Controller_Request_Http $request)
+    {
+        return  trim($request->getRequestString(), '/');
+    }
+
     /**
      * Can this request's path be processed by this router?
      *
      * @param Zend_Controller_Request_Http $request
      * @return string|boolean
      */
-    protected function _isValidPath(Zend_Controller_Request_Http $request)
+    protected function _getFrontName($path)
     {
-        /**
-         * here i'm cheking if the "store code in URL" option is enabled, and if it is,
-         * i'm making sure that the store code actually is the first part of the URI we got.
-         * if it isn't, we return FALSE and the match fails.
-         */
-        if($this->_canBeStoreCodeInUrl()) {
-            $uri = explode('/', trim($request->getRequestUri(), '/')); //only here the store code will be available for lookup. uri should be {STORE_CODE}/{FRONTENDNAME}/[...]
-            $requestedStoreCode = reset($uri);
-            
-            $currentStoreCode = Mage::app()->getStore()->getCode();
-            if($currentStoreCode !== $requestedStoreCode) {
-                return false; //"store codes in URL are enabled", and the store code isn't the first element in the URI
-            }
-        }
-        
         //we expect the magazine's frontend name to be the first element in the path_info
-        $path = trim($request->getPathInfo(), '/') . '/';
-        $elements = explode('/', $path);
-        $frontendName = trim($this->getRouteName(), '/');
-        if (isset($elements[0]) && ($elements[0] === $frontendName)) { //the first element in the path must be our 
-            return $path;
-        }
+        $path     = trim($path, '/') . '/';
+        $elements = explode('/', $path, 2);
 
-        return false;
+        $frontendName = reset($elements);
+        return trim($frontendName, '/');
     }
 }

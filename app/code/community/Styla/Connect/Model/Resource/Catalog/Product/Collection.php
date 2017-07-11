@@ -44,24 +44,6 @@ class Styla_Connect_Model_Resource_Catalog_Product_Collection
     }
 
     /**
-     * @deprecated
-     * @param string $searchTerm
-     */
-    public function addFulltextSearchTerm($searchTerm)
-    {
-        $select = $this->getSelect();
-
-        $preparedTerms = Mage::getResourceHelper('catalogsearch')
-            ->prepareTerms($searchTerm);
-
-        $select->join(array('fs' => 'catalogsearch_fulltext'), 'fs.product_id = e.entity_id', array());
-        $select->where(new Zend_Db_Expr('MATCH (fs.data_index) AGAINST (:query IN BOOLEAN MODE)'));
-        $this->addBindParam(':query', implode(' ', $preparedTerms[0]));
-
-        $select->group('e.entity_id');
-    }
-
-    /**
      * Apply limitation filters to collection base on API
      * Method allows using one time category product table
      * for combinations of category_id filter states

@@ -31,6 +31,6 @@ class Styla_Connect_Model_Api2_Converter_Product_Url
      */
     protected function _useRelativeUrls()
     {
-        return Mage::helper('styla_connect/config')->isUsingRelativeProductUrls();
+        return Mage::helper('styla_connect')->isUsingRelativeProductUrls();
     }
 }

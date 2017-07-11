@@ -202,7 +202,7 @@ class Styla_Connect_Model_Page
      */
     public function getLanguageCode()
     {
-        return $this->getConfigHelper()->getLanguageCode();
+        return $this->getHelper()->getLanguageCode();
     }
 
     /**
@@ -211,7 +211,7 @@ class Styla_Connect_Model_Page
      */
     public function getCssUrl()
     {
-        $cssUrl = $this->getConfigHelper()->getAssetsUrl(Styla_Connect_Helper_Config::ASSET_TYPE_CSS);
+        $cssUrl = $this->getHelper()->getAssetsUrl(Styla_Connect_Helper_Data::ASSET_TYPE_CSS);
         return $cssUrl;
     }
 
@@ -223,7 +223,9 @@ class Styla_Connect_Model_Page
     public function getUsername()
     {
         if (null === $this->_username) {
-            $this->_username = $this->getConfigHelper()->getUsername();
+            $this->_username = $this->getHelper()
+                ->getCurrentMagazine()
+                ->getClientName();
         }
 
         return $this->_username;
@@ -236,31 +238,18 @@ class Styla_Connect_Model_Page
      */
     public function getScriptUrl()
     {
-        $scriptUrl = $this->getConfigHelper()->getAssetsUrl(Styla_Connect_Helper_Config::ASSET_TYPE_JS);
+        $scriptUrl = Mage::helper('styla_connect')->getAssetsUrl(Styla_Connect_Helper_Data::ASSET_TYPE_JS);
         return $scriptUrl;
     }
 
-    /**
-     *
-     * @deprecated since version 0.1.1.6 now located in the configuration helper
-     * @return string
-     */
-    public function getCurrentApiVersion()
-    {
-        if (null === $this->_apiVersion) {
-            $this->_apiVersion = $this->_getApi()->getCurrentApiVersion();
-        }
-
-        return $this->_apiVersion;
-    }
 
     /**
      *
-     * @return Styla_Connect_Helper_Config
+     * @return Styla_Connect_Helper_Data
      */
-    public function getConfigHelper()
+    public function getHelper()
     {
-        return Mage::helper('styla_connect/config');
+        return Mage::helper('styla_connect');
     }
 
     /**

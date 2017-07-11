@@ -25,9 +25,12 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
     {
         $connectionUrl = self::STYLA_API_CONNECTOR_URL_PRODUCTION;
 
-        if(Mage::helper('styla_connect/config')->isDeveloperMode() && $forcedUrl = Mage::app()->getRequest()->getParam('connection_url')) {
+        if (Mage::helper('styla_connect')->isDeveloperMode() && $forcedUrl = Mage::app()->getRequest()->getParam(
+                'connection_url'
+            )
+        ) {
             //do some basic validation on the url given by the admin
-            if(filter_var($forcedUrl, FILTER_VALIDATE_URL) === false) {
+            if (filter_var($forcedUrl, FILTER_VALIDATE_URL) === false) {
                 throw new Styla_Connect_Exception('The Connection URL you provided is invalid.');
             }
 
@@ -47,71 +50,18 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
     }
 
     /**
-     *
-     * @param array $formData
-     * @param mixed $defaultScope
-     * @return boolean|array
-     */
-    protected function _getConnectionScope($formData, $defaultScope = null)
-    {
-        $scope   = is_array($defaultScope) && isset($defaultScope['scope']) ? $defaultScope['scope'] : null;
-        $scopeId = is_array($defaultScope) && isset($defaultScope['scope_id']) ? $defaultScope['scope_id'] : null;
-        if ($scope !== null && $scopeId !== null) {
-            return array('scope' => $scope, 'scope_id' => $scopeId);
-        }
-
-        if (!isset($formData['scope'])) {
-            return false;
-        }
-
-        $formScope = $formData['scope'];
-        $formScope = explode('_', $formScope);
-
-        $website = $formScope[0] !== 'default' ? $formScope[0] : null;
-        $store   = isset($formScope[1]) ? $formScope[1] : null;
-
-        if ($website === 'website') {
-            $website = $store;
-            $store   = null;
-        }
-
-        /**
-         * normally, the form data will give us a scope like: "store_french" or "default".
-         * we need to translate it into the proper magento scope for saving the data
-         */
-        $configModel = Mage::getSingleton('styla_connect/adminhtml_config_data');
-        $configModel->setWebsite($website);
-        $configModel->setStore($store);
-        $configModel->resolveScope();
-
-        return array('scope' => $configModel->getScope(), 'scope_id' => $configModel->getScopeId());
-    }
-
-    /**
      * Use this method to grant api2 access to Styla in your local magento installation.
      * This will create a special admin user, grant it all required attributes,
      * create the consumer and permanent token for this new user and send this data to Styla.
      *
-     * @param array  $connectionFormData
-     * @param bool   $forceSendingDataToStylaApi Should the connection data be always sent to Styla, even if cached locally
-     * @param null   $scopeData
+     * @param array $connectionFormData
      * @throws Exception
      * @throws Styla_Connect_Exception
      */
     public function grantStylaApiAccess(
-        array $connectionFormData,
-        $forceSendingDataToStylaApi = false,
-        $scopeData = null
-    )
-    {
+        array $connectionFormData
+    ) {
         $this->_stylaLoginData = $connectionFormData;
-
-        $connectionScope = $this->_getConnectionScope($connectionFormData, $scopeData);
-        if (!$connectionScope) {
-            throw new Exception(
-                "Couldn't determine the scope for your connection."
-            );
-        }
 
         $adminUser = $this->getAdminUser();
         if (!$adminUser) {
@@ -125,11 +75,14 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
 
         $consumer = $this->getConsumer();
 
-        $token = Mage::getModel('oauth/token')->getCollection()
+        $token = Mage::getModel('oauth/token')
+            ->getCollection()
             ->addFieldToFilter('consumer_id', $consumer->getId());
+
         $token = $token->getFirstItem();
         if (!$token->getId()) {
-            $token = Mage::getModel('oauth/token')->createRequestToken($consumer->getId(), $this->getConnectorApiUrl());
+            $token = Mage::getModel('oauth/token')
+                ->createRequestToken($consumer->getId(), $this->getConnectorApiUrl());
         }
 
         //if this is a new token, it will be authorized and converted to permanent
@@ -141,45 +94,31 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         $connectionData = $this->sendRegistrationRequest(
             $connectionFormData,
             $consumer,
-            $token,
-            $connectionScope
+            $token
         );
 
-        Mage::helper('styla_connect/config')->updateConnectionConfiguration($connectionData, $connectionScope);
+        if (isset($connectionData['client'])) {
+            $this->createDefaultMagazine($connectionData['client'], 'magazine');
+        }
 
-        Mage::getSingleton('adminhtml/session')->addSuccess('Connection to Styla made successfully.');
+        Mage::getSingleton('adminhtml/session')
+            ->addSuccess(Mage::helper('styla_connect')->__('Connection to Styla made successfully.'));
     }
 
-    /**
-     * Use this method to get the module to re-save it's configuration to the one matching the current operation mode (stage/ prod).
-     * It will try using a cached Styla connection API response.
-     *
-     * @deprecated after 0.1.1.4 because there's now separate fields for configuration, per module operation mode
-     * @return boolean
-     */
-    public function tryUpdatingStylaAccessConfiguration()
+    protected function createDefaultMagazine($clientName, $frontName)
     {
-        return false;
+        /** @var Styla_Connect_Model_Magazine $magazine */
+        $magazine = Mage::getModel('styla_connect/magazine');
+        $magazine->loadDefault();
+
+        $magazine
+            ->setClientName($clientName)
+            ->setFrontName($frontName)
+            ->setIsDefault(1);
+
+        $magazine->save();
     }
 
-    /**
-     *
-     * @deprecated since version 0.1.1.6
-     * @return stdClass|bool
-     */
-    public function getCachedConnectionData($mode = null, $scopeData = null)
-    {
-        return false;
-    }
-
-    /**
-     *
-     * @deprecated since version 0.1.1.6
-     */
-    public function cacheConnectionData(array $connectionData, $moduleMode, $scopeData)
-    {
-        return;
-    }
 
     /**
      * Send the registration data to Styla and request module configuration
@@ -187,12 +126,11 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
      * @param array                     $loginData
      * @param Mage_Oauth_Model_Consumer $consumer
      * @param Mage_Oauth_Model_Token    $token
-     * @param                           $scopeData
-     * @return stdClass
+     * @return array
      * @throws Exception
      * @throws Styla_Connect_Exception
      */
-    public function sendRegistrationRequest($loginData, $consumer, $token, $scopeData)
+    public function sendRegistrationRequest($loginData, $consumer, $token)
     {
         //at this point we have all the login data we need for styla to access our api
         $stylaApi = Mage::getSingleton('styla_connect/styla_api');
@@ -224,15 +162,6 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
         $connectionData = $apiResponse->getResult();
 
         return $connectionData;
-    }
-
-    /**
-     *
-     * @return Mage_Core_Model_Config
-     */
-    public function getConfiguration()
-    {
-        return new Mage_Core_Model_Config();
     }
 
     /**
@@ -359,6 +288,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
     /**
      * If we have existing attributes assigned to our admin user, delete them all
      *
+     * @return $this
      */
     public function resetStylaAttributesInAdminRole()
     {
@@ -463,7 +393,7 @@ class Styla_Connect_Model_Styla_Api_Oauth_Connector
      *
      * @param int $adminId
      * @param int $roleId
-     * @return Mage_Api2_Adminhtml_Api2_RoleController
+     * @return $this
      */
     protected function _addUserToRole($adminId, $roleId)
     {
