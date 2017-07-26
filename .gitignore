@@ -2,7 +2,7 @@
 .buildpath
 .project
 .settings/*
-ecocode_minify.iml
+*.iml
 .vagrant
 !.vagrant/utilities
 .vagrant-user.yaml
