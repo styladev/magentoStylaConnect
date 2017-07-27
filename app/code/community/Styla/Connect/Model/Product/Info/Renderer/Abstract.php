@@ -38,6 +38,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Abstract
             'type'          => $product->getTypeId(),
             'name'          => $product->getName(),
             'description'   => $product->getShortDescription(),
+            'categories'    => $product->getCategoryIds(),
             'saleable'      => $product->isSaleable(),
             'price'         => Mage::helper('tax')->getPrice($product, $product->getFinalPrice()),
             'priceTemplate' => $this->getPriceTemplate(),
