@@ -104,7 +104,7 @@ class Styla_Connect_Model_Styla_Api_Cache
 
     public function getCacheLifetime()
     {
-        return Mage::helper('styla_connect/config')->getCacheLifetime();
+        return Mage::helper('styla_connect')->getCacheLifetime();
     }
 
     public function getApiVersion()
