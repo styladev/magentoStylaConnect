@@ -12,14 +12,25 @@ class Styla_Connect_ProductController extends Mage_Core_Controller_Front_Action
     public function infoAction()
     {
         try {
+            $currentStoreId = (int)Mage::app()->getStore()->getId();
+            $targetStoreId  = Mage::app()->getRequest()->getParam('store');
+
+            if ($targetStoreId && $currentStoreId !== (int)$targetStoreId) {
+                $appEmulation           = Mage::getSingleton('core/app_emulation');
+                $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation((int) $targetStoreId);
+            }
+
             $product = $this->_initProduct();
-            
+
             $productInfo = $this->_getProductInfo();
             $productInfo->setProduct($product);
 
             $this->getResponse()->setHeader('Content-type', 'application/json');
             $this->getResponse()->setBody(json_encode($productInfo->getInfo()));
 
+            if (isset($appEmulation, $initialEnvironmentInfo)) {
+                $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+            }
         } catch(Styla_Connect_Exception $e) {
             //on known and recoverable exceptions, we're trying to generate a meaningful error response
             $body = array("error" => $this->__($e->getMessage()), "saleable" => false);
