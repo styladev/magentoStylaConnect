@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Styla_Connect>
-            <version>0.1.1.12</version>
+            <version>0.2.0.0</version>
         </Styla_Connect>
     </modules>
 
@@ -15,6 +15,11 @@
 
             <styla_connect_resource>
                 <class>Styla_Connect_Model_Resource</class>
+                <entities>
+                    <magazine>
+                        <table>styla_magazine</table>
+                    </magazine>
+                </entities>
             </styla_connect_resource>
         </models>
         <resources>
@@ -80,23 +85,6 @@
         </events>
     </frontend>
 
-    <!-- @deprecated after 0.1.1.4 -->
-    <!--
-    <adminhtml>
-        <events>
-            <admin_system_config_changed_section_styla_connect>
-                <observers>
-                    <styla_connect_config_change>
-                        <class>styla_connect/adminhtml_observer</class>
-                        <type>singleton</type>
-                        <method>checkModuleConfiguration</method>
-                    </styla_connect_config_change>
-                </observers>
-            </admin_system_config_changed_section_styla_connect>
-        </events>
-    </adminhtml>
-    -->
-
     <default>
         <web>
             <routers>
@@ -110,8 +98,6 @@
         <styla_connect>
             <basic>
                 <frontend_name>magazin</frontend_name>
-                <!-- js_url is now @deprecated, don't use it anymore -->
-                <js_url>//live.styla.com/scripts/preloader/%s.js</js_url>
                 <seo_url>http://seo.styla.com/</seo_url>
                 <enabled>1</enabled>
                 <cache_lifetime>3600</cache_lifetime>
@@ -217,26 +203,6 @@
     </admin>
 
     <adminhtml>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <styla_connect>
-                                            <title>Styla Connect</title>
-                                        </styla_connect>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
-
         <layout>
             <updates>
                 <styla_connect>

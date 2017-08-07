@@ -1,7 +1,7 @@
 <?php
 $website = Mage::app()->getRequest()->getParam('website');
 $store = Mage::app()->getRequest()->getParam('store');
-$isDeveloperMode = Mage::helper('styla_connect/config')->getFieldConfiguration('styla_connect/developer/is_developer_mode', $website, $store);
+$isDeveloperMode = Mage::getStoreConfigFlag('styla_connect/developer/is_developer_mode', $store);
 ?>
 <div class="content-header">
     <table cellspacing="0" class="grid-header">
@@ -20,9 +20,6 @@ $isDeveloperMode = Mage::helper('styla_connect/config')->getFieldConfiguration('
         <fieldset id="my-fieldset">
             <div class="comment">
                 <?php echo $this->__('The connect assistant will use your styla login to retrieve the necessary configuration data directly form styla.')?>
-            </div>
-            <div>
-                <?php echo $this->getChildHtml('switcher'); ?>
             </div>
             <table cellspacing="0" class="form-list">
                 <tr>

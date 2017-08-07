@@ -121,13 +121,13 @@ abstract class Styla_Connect_Model_Styla_Api_Request_Type_Abstract
 
     /**
      *
-     * @return Styla_Connect_Helper_Config
+     * @return Styla_Connect_Helper_Data
      */
-    public function getConfigHelper()
+    public function getHelper()
     {
-        return Mage::helper('styla_connect/config');
+        return Mage::helper('styla_connect');
     }
-    
+
     /**
      * Get the connection timeout settings for this request.
      * 

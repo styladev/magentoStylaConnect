@@ -12,14 +12,16 @@ class Styla_Connect_Block_Magazine_Content extends Styla_Connect_Block_Magazine
             ->getNoScript();
     }
 
-
     public function getRootPath()
     {
-        return $this->getConfigHelper()->getRootPath();
+        $helper   = Mage::helper('styla_connect');
+        $magazine = $helper->getCurrentMagazine();
+
+        return $helper->getMagazineRootPath($magazine);
     }
 
     public function getPluginVersion()
     {
-        return $this->getConfigHelper()->getPluginVersion();
+        return Mage::helper('styla_connect')->getPluginVersion();
     }
 }
