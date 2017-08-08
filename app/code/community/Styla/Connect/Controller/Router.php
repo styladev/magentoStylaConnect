@@ -23,7 +23,13 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
                 ->setParam('path', $routeSettings);
 
             return true;
-        } else {
+        } else if ($request->getPathInfo() == '/styla-plugin-version') {
+            $styla_version_arr = array();
+            $styla_version_arr['version'] = Mage::helper('styla_connect/config')->getPluginVersion();
+            echo json_encode($styla_version_arr);
+            exit;
+        }
+        else{
             return false;
         }
     }
