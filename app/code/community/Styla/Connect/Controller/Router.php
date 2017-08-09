@@ -13,8 +13,17 @@ class Styla_Connect_Controller_Router extends Mage_Core_Controller_Varien_Router
         }
 
         $frontName = $this->_getFrontName($path);
+        
         if (!$frontName) {
             return false;
+        }
+
+        if ($frontName == 'styla-plugin-version'){
+            $styla_version_arr = array();
+            $styla_version_config = (Array) Mage::getConfig()->getModuleConfig('Styla_Connect')->version;
+            $styla_version_arr['version'] = $styla_version_config[0];
+            echo json_encode($styla_version_arr);
+            exit;
         }
 
         $magazine = Mage::getModel('styla_connect/magazine')->loadByFrontName($frontName);
