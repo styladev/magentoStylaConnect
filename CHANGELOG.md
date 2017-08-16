@@ -1,3 +1,9 @@
+* 0.2.0.0 (2017-08-16)
+  * added possibility to have multiple magazines per store view
+  * added sku parameter restriction for product details endpoint
+  * added category ids and description to product details endpoint
+  * added new version endpoint
+
 * 0.1.1.12 (2017-05-02)
   * pricing data for configurable products
   * support for [custom search engines](doc/customization/custom-search-engines.md)
