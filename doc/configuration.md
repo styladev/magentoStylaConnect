@@ -15,15 +15,52 @@ The assistant will use your Styla credentials to retrieve all the needed configu
 
 Once the connect process is done you will be able to change the below values for each store view/magazine.
 
+Styla plugin version 0.2.0.0 introduced a possibility to set up several magazines for the same store view. That’s why Styla plugin settings are now separated into two Magento menus:
+
+### System > Configuration > Styla Connect (for all magazines):
+
 <table>
 <tr>
-<th>Name</th>
+<th>Name (pre-0.2.0.0)</th>
 <th>Description</th>
 <th>Default</th>
 </tr>
 
 <tr>
-<td>Mode</td>
+<td>Use Relative Product Urls</td>
+<td>Defines how product URLs for magazine front-end will be created:
+
+<ul>
+<li>yes - the product urls generated for the stories will be relative to store domain (ie: /product-name-SKU/)
+</li>
+<li>no - no - full urls will be generated (ie: http://www.yourdomain.com/product-name-SKU/)
+</li>
+</ul>
+
+</td>
+<td>no</td>
+</tr>
+
+<tr>
+<td>Manufacturer Attribute</td>
+<td>Magento field that will be used to display manufacturer name</td>
+<td>Manufacturer</td>
+</tr>
+
+<tr>
+<td>Cache Lifetime</td>
+<td>The seo data cache lifetime</td>
+<td>3600</td>
+</tr>
+
+<tr>
+<td>Maximum Levels of Categories Loaded at Once</td>
+<td>If you run a store with a category tree consisting of multiple levels, you may choose to limit the number of the branches loaded into styla backoffice editor at once, for performance reasons)</td>
+<td>No limit - load all categories in a single API call</td>
+</tr>
+
+<tr>
+<td>Is Developer Mode (Mode)</td>
 <td>The Styla Connect endpoint:
 
 <ul>
@@ -39,22 +76,40 @@ Once the connect process is done you will be able to change the below values for
 <td>Production</td>
 </tr>
 
+</table>
+
+
+### CMS > Styla Magazines (for each magazine separately):
+
+<table>
 <tr>
-<td>Enabled</td>
-<td>Allows to enable or disable the magazine</td>
-<td>enabled</td>
+<th>Name (pre-0.2.0.0)</th>
+<th>Description</th>
+<th>Default</th>
 </tr>
 
 <tr>
-<td>Magazine frontend “Url”</td>
-<td>The url where the magazine is available</td>
-<td>/magazin</td>
+<td>Store name</td>
+<td>Defines on which store view will your magazine be displayed</td>
+<td>default store in your Magento</td>
+</tr>
+
+<tr>
+<td>Active (Enabled)</td>
+<td>Allows to enable or disable the magazine</td>
+<td>enabled</td>
 </tr>
 
 <tr>
 <td>Client Name*</td>
 <td>Name of the styla client (this could be different from the username)</td>
 <td></td>
+</tr>
+
+<tr>
+<td>Front Name (Magazine frontend “Url”)</td>
+<td>The part of the URL after your store view part where the magazine is available</td>
+<td>/magazin</td>
 </tr>
 
 <tr>
@@ -76,40 +131,13 @@ footer
 </tr>
 
 <tr>
-<td>Use Relative Product Urls</td>
-<td>Defines how product URLs for magazine front-end will be created:
-
-<ul>
-<li>yes - the product urls generated for the stories will be relative to store domain (ie: /product-name-SKU/)
-</li>
-<li>no - no - full urls will be generated (ie: http://www.yourdomain.com/product-name-SKU/)
-</li>
-</ul>
-
-</td>
-<td>no</td>
-</tr>
-
-<tr>
-<td>Cache Lifetime</td>
-<td>The seo data cache lifetime</td>
-<td>3600</td>
-</tr>
-
-<tr>
-<td>Maximum Levels of Categories Loaded at Once</td>
-<td>If you run a store with a category tree consisting of multiple levels, you may choose to limit the number of the branches loaded into styla backoffice editor at once, for performance reasons)</td>
-<td>No limit - load all categories in a single API call</td>
-</tr>
-
-<tr>
-<td>Add Magazine Link to Navigation</td>
+<td>Include in navigation (Add Magazine Link to Navigation)</td>
 <td>Turn to "No" if you don't want the magazine link to be available in the menu (good for testing the magazine before disclosing to your audience)</td>
 <td>Yes</td>
 </tr>
 
 <tr>
-<td>Label for the Magazine Menu Link</td>
+<td>Navigation label (Label for the Magazine Menu Link)</td>
 <td>Enter any name your audience see on the menu linking to the magazine</td>
 <td>Magazine</td>
 </tr>
@@ -117,6 +145,11 @@ footer
 </table>
 
 /* - Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
+
+You can also add new magazines there.
+
+For Styla plugin version 0.1.1.12 and earlier all the settings above are available in **System > Configuration > Styla Connect**  as there is only one magazine available per store view. 
+
 
 ## StylaApiAdminUser and StylaApi2Role - please don't modify
 
