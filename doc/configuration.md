@@ -79,7 +79,7 @@ Styla plugin version 0.2.0.0 introduced a possibility to set up several magazine
 </table>
 
 
-### CMS > Styla Magazines (for each magazine separately):
+### CMS > Styla Magazines (for each magazine separately, set up new magazines there):
 
 <table>
 <tr>
@@ -145,8 +145,6 @@ footer
 </table>
 
 /* - Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
-
-You can also add new magazines there.
 
 For Styla plugin version 0.1.1.12 and earlier all the settings above are available in **System > Configuration > Styla Connect**  as there is only one magazine available per store view. 
 
