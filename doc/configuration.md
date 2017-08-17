@@ -15,7 +15,7 @@ The assistant will use your Styla credentials to retrieve all the needed configu
 
 Once the connect process is done you will be able to change the below values for each store view/magazine.
 
-Styla plugin version 0.2.0.0 introduced a possibility to set up several magazines for the same store view. That’s why Styla plugin settings are now separated into two Magento menus:
+Styla plugin version [0.2.0.0](https://github.com/styladev/magentoStylaConnect/releases/tag/v0.2.0.0) introduced a possibility to set up several magazines for the same store view. That’s why Styla plugin settings are now separated into two Magento menus:
 
 ### System > Configuration > Styla Connect (for all magazines):
 
@@ -146,7 +146,7 @@ footer
 
 /* - Please do not modify these values. This configuration will be automatically set during the “Styla Connect” process from the previous step.
 
-For Styla plugin version 0.1.1.12 and earlier all the settings above are available in **System > Configuration > Styla Connect**  as there is only one magazine available per store view. 
+For Styla plugin version [0.1.1.12](https://github.com/styladev/magentoStylaConnect/releases/tag/v0.1.1.12) and earlier all the settings above are available in **System > Configuration > Styla Connect**  as there is only one magazine available per store view. 
 
 
 ## StylaApiAdminUser and StylaApi2Role - please don't modify
