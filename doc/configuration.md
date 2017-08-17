@@ -1,4 +1,6 @@
 # Configuration
+
+In order to set up connection between your Magento and Styla, please do the following:
 * Login into your magento backend
 * Navigate to "System -> Configuration" and open the section "Styla Connect"
 * Please use the "Configuration Assistant" to connect your store with Styla. The assistant will automatically configure the required `RestApi` user and will take care of the authorization process: 
