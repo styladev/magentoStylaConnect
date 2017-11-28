@@ -1,5 +1,7 @@
 # Installation
 
+If you currently have version 0.1.1.11 or older installed, please first go throught the below for 0.1.1.12 and only then install 0.2.0.0 or later. There are changes in the plugin structure that potentially might cause issues when updating directly from pre-0.1.1.12 to 0.2.0.0 or later.
+
 * Copy the content of the zip file into your "Magento Root" directory
 * Change the folder permissions recursivly if needed
 * Clear the cache
