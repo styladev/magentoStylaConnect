@@ -82,7 +82,12 @@ class Styla_Connect_Helper_Rest
             ->setStore($store)
             ->addStoreFilter();
 
-        $productIds = $searchCollection->getAllIds();
+        if ($this->isMagentoUsesNewestFullTextFeature()) {
+            $searchCollection->setOrder($searchCollection::RELEVANCE_ORDER_NAME, $searchCollection::SORT_ORDER_DESC);
+            $productIds = $searchCollection->getFoundIds();
+        } else {
+            $productIds = $searchCollection->getAllIds();
+        }
 
         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
@@ -101,6 +106,9 @@ class Styla_Connect_Helper_Rest
     )
     {
         $collection->addFieldToFilter('entity_id', array('in' => $entityIds));
+        $collection->getSelect()->order(
+            new Zend_Db_Expr('FIELD(e.entity_id, ' . implode(',', $entityIds).')')
+        );
     }
 
     /**
@@ -127,5 +135,27 @@ class Styla_Connect_Helper_Rest
         }
 
         return $this->_searchTerm;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMagentoUsesNewestFullTextFeature()
+    {
+        $uses = false;
+        $edition = Mage::getEdition();
+        $version = Mage::getVersion();
+
+        if ($edition == Mage::EDITION_COMMUNITY
+            && version_compare($version, '1.9.3', '>=' )) {
+            $uses = true;
+        }
+
+        if ($edition == Mage::EDITION_ENTERPRISE
+            && version_compare($version, '1.14.3', '>=' )) {
+            $uses = true;
+        }
+
+        return $uses;
     }
 }
