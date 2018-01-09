@@ -23,6 +23,7 @@ window.stylaUpdateCart = function stylaUpdateCart(data) {
      */
     var $cartCountElement = jQuery(".skip-cart .count");
     if ($cartCountElement && data.hasOwnProperty('meta')) {
-        $cartCountElement.html(data.meta.num_items);
+        $cartCountElement.parent().removeClass('no-count'); /* Removing the no-count class from the parent element */
+        $cartCountElement.html(data.meta.items_qty);
     }
 };
