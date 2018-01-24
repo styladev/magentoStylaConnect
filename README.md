@@ -1,4 +1,4 @@
-# Styla Connect (v 0.2.0.1)
+# Styla Connect (v 0.2.0.2)
 ---
 
 Requires:
