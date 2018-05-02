@@ -80,6 +80,13 @@ Styla plugin version [0.2.0.0](https://github.com/styladev/magentoStylaConnect/r
 
 </table>
 
+Please switch the Developer Mode **ON**, then update the settings to the following ones:  
+ `https://client-scripts.styla.com`   
+ `http://seoapi.styla.com`   
+ `https://client-scripts.styla.com`   
+as shown on this screen shot:
+![Styla New JS source](/doc/styla-plugin-client-scripts.png)  
+Then switch the Developer Mode dropdown to **OFF again** and click the **Save Config** button top-right. 
 
 ### CMS > Styla Magazines (for each magazine separately, set up new magazines there):
 
