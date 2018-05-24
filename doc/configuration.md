@@ -167,3 +167,11 @@ During the connect process a new 'StylaApiAdminUser' user with a 'StylaApi2Role'
 Please don't modify these user's and role's permissions. It needs the following permissions to propagate product data via Magento REST API:
 
 ![Styla Role](/doc/styla_role.png)
+
+## Turn off http password-protection on API endpoints
+
+Styla sources product data from Magento REST API which is protected by OAuth. Our application cannot access the endpoints if they are in addition password-protected, which is a common solution for protecting development and stage environments on which the plugin is first installed.
+
+If your stage environment is password protected, please turn it off for `http://yourdomain/api/*` where the enddpoints are located. 
+
+Alternatively, turn password-protection on your stage altogether for the time Styla is using it. 
