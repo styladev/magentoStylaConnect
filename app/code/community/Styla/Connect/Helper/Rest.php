@@ -48,7 +48,9 @@ class Styla_Connect_Helper_Rest
         }
 
         $filteredProductIds = is_array($filteredProductIds) ? $filteredProductIds : array();
-        $this->_applySearchFilterOnProductCollection($collection, $filteredProductIds);
+        if (filteredProductIds) {            
+            $this->_applySearchFilterOnProductCollection($collection, $filteredProductIds);
+        }
     }
 
     /**

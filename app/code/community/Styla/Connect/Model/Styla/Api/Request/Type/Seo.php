@@ -23,7 +23,7 @@ class Styla_Connect_Model_Styla_Api_Request_Type_Seo extends Styla_Connect_Model
         $apiBaseUrl  = $this->getHelper()->getApiSeoUrl();
         $clientName  = $this->getHelper()->getClientName();
 
-        $requestPath = $this->getRequestPath();
+        $requestPath = $this->getPath();
 
         if (strlen($requestPath) > 1) {
             $requestPath = rtrim($requestPath, '/');
@@ -32,5 +32,17 @@ class Styla_Connect_Model_Styla_Api_Request_Type_Seo extends Styla_Connect_Model
         $apiUrl = sprintf($apiUrl, $apiBaseUrl, $clientName, $requestPath);
 
         return $apiUrl;
+    }
+
+    public function getPath()
+    {
+        $helper   = Mage::helper('styla_connect');
+        $magazine = $helper->getCurrentMagazine();
+        $requestPath = $this->getRequestPath();
+
+        $fullPath = '/' . $magazine->getFrontName() . '/' . $requestPath;
+        $cleanedPath = preg_replace('#/+#','/', $fullPath);
+
+        return $cleanedPath;
     }
 }

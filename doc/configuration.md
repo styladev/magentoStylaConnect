@@ -80,6 +80,13 @@ Styla plugin version [0.2.0.0](https://github.com/styladev/magentoStylaConnect/r
 
 </table>
 
+Please switch the Developer Mode **ON**, then update the settings to the following ones:  
+ `https://client-scripts.styla.com`   
+ `http://seoapi.styla.com`   
+ `https://client-scripts.styla.com`   
+as shown on this screen shot:
+![Styla New JS source](/doc/styla-plugin-client-scripts.png)  
+Then switch the Developer Mode dropdown to **OFF again** and click the **Save Config** button top-right. 
 
 ### CMS > Styla Magazines (for each magazine separately, set up new magazines there):
 
@@ -160,3 +167,23 @@ During the connect process a new 'StylaApiAdminUser' user with a 'StylaApi2Role'
 Please don't modify these user's and role's permissions. It needs the following permissions to propagate product data via Magento REST API:
 
 ![Styla Role](/doc/styla_role.png)
+
+## Turn off http password-protection on API endpoints
+
+Styla sources product data from Magento REST API which is protected by OAuth. Our application cannot access the endpoints if they are in addition password-protected, which is a common solution for protecting development and stage environments on which the plugin is first installed.
+
+If your stage environment is password protected, please turn it off for `http://yourdomain/api/*` where the enddpoints are located. 
+
+Alternatively, turn password-protection on your stage altogether for the time Styla is using it. 
+
+## SEO Content from Styla's SEO API
+
+The module uses data from Styla's SEO API to:
+* generate tags like: meta tags including `<title>`, canonical link, og:tags, static content inserted into <body>, `robots` instructions
+* insert these tags accordingly into HTML of the template the page with Styla content uses
+  
+This is done to provide search engine bots with data to crawl and index all Styal URLs, which are in fact a Single-Page-Application.
+
+Once you install and configure the module, please open source of the page on which your Styla content is embedded and check if none of the tags mentioned below are duplicated. In case `robots`or `link rel="canonical"` or any other are in the HTML twice, make sure to remove the original ones coming from your default template. Otherwise search engine bots might not be able to crawl all the Styla content or crawl it incorrectly. 
+
+You can finde more information on the SEO API on [this page](https://styladocs.atlassian.net/wiki/spaces/CO/pages/9961486/SEO+API+and+Sitemaps+Integration)

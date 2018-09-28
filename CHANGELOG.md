@@ -1,3 +1,9 @@
+* 0.2.0.2 (2018-01-24)
+  * bugfix on cart count update
+
+* 0.2.0.1 (2017-12-12)
+  * fixed issues with product search functionality on Magento EE
+
 * 0.2.0.0 (2017-08-16)
   * added possibility to have multiple magazines per store view
   * added sku parameter restriction for product details endpoint
