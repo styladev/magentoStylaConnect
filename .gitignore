@@ -6,3 +6,4 @@
 .vagrant
 !.vagrant/utilities
 .vagrant-user.yaml
+.idea
