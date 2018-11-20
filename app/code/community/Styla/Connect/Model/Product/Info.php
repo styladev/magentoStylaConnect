@@ -53,6 +53,12 @@ class Styla_Connect_Model_Product_Info
         $rendererAlias = self::RENDERER_ALIAS;
 
         switch ($productType) {
+            case 'grouped':
+                $rendererAlias .= 'grouped';
+                break;
+            case 'bundle':
+                $rendererAlias .= 'bundle';
+                break;
             case 'configurable':
                 $rendererAlias .= 'configurable';
                 break;
