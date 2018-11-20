@@ -62,7 +62,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
      *
      * @return string
      */
-    private function getBundlePrice($product, $type = 'min')
+    private function getBundlePrice(Mage_Catalog_Model_Product $product, $type = 'min')
     {
         if ($product->getFinalPrice()) {
             return $product->getFormatedPrice();
@@ -101,8 +101,11 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
     {
         $maxPrice = 0;
         foreach ($selections as $product) {
-            if ((float) $product->getFinalPrice() > $maxPrice) {
-                $maxPrice = $product->getFinalPrice();
+            $price = Mage::helper('tax')
+                ->getPrice($product, $product->getFinalPrice());
+
+            if ($price > $maxPrice) {
+                $maxPrice = $price;
             }
         }
 
@@ -120,8 +123,11 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
     {
         $minPrice = PHP_INT_MAX;
         foreach ($selections as $product) {
-            if ((float) $product->getFinalPrice() < $minPrice) {
-                $minPrice = $product->getFinalPrice();
+            $price = Mage::helper('tax')
+                ->getPrice($product, $product->getFinalPrice());
+
+            if ($price < $minPrice) {
+                $minPrice = $price;
             }
         }
 
@@ -138,12 +144,12 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
     private function getFormattedAssociatedProducts($selections)
     {
         $data = [];
-        foreach ($selections as $selection) {
+        foreach ($selections as $product) {
             $data[] = [
-                'id'       => $selection->getId(),
-                'name'     => $selection->getName(),
-                'oldPrice' => $this->getOldPrice($selection) ?: null,
-                'price'    => Mage::helper('tax')->getPrice($selection, $selection->getFinalPrice()),
+                'id'       => $product->getId(),
+                'name'     => $product->getName(),
+                'oldPrice' => $this->getOldPrice($product) ?: null,
+                'price'    => Mage::helper('tax')->getPrice($product, $product->getFinalPrice()),
             ];
         }
 
@@ -157,7 +163,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
      *
      * @return void
      */
-    private function prepareOptionCol($product)
+    private function prepareOptionCol(Mage_Catalog_Model_Product $product)
     {
         $this->optionCol = $product->getTypeInstance(true)
             ->getOptionsCollection($product);
