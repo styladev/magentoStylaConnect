@@ -147,7 +147,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
         $data = [];
         foreach ($selections as $product) {
             $data[] = [
-                'id'       => $product->getSelectionId(),
+                'id'       => $product->getId(),
                 'name'     => $product->getName(),
                 'oldPrice' => $this->getOldPrice($product) ?: null,
                 'price'    => Mage::helper('tax')->getPrice($product, $product->getFinalPrice()),
