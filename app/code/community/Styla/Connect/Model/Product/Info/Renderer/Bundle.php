@@ -44,6 +44,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
                 $data[] = [
                     'id'       => $option->getId(),
                     'type'     => $option->getType(),
+                    'label'    => $option->getDefaultTitle(),
                     'required' => (bool) $option->getRequired(),
                     'position' => (int) $option->getPosition(),
                     'products' => $this->getFormattedAssociatedProducts($option->getSelections()),
