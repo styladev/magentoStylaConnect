@@ -98,7 +98,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
      * @param array                      $productInfo
      * @return array
      */
-    protected function _collectAdditionalProductInfo($product, $productInfo)
+    protected function _collectAdditionalProductInfo(Mage_Catalog_Model_Product $product, $productInfo)
     {
         parent::_collectAdditionalProductInfo($product, $productInfo);
 
