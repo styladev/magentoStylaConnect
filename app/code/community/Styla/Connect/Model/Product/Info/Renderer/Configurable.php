@@ -156,7 +156,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Configurable
 
             $attributeInfo = array(
                 'id'    => $attributeId,
-                'label' => $productAttribute->getFrontendLabel(),
+                'label' => empty($productAttribute->getStoreLabel()) ? $productAttribute->getFrontendLabel() : $productAttribute->getStoreLabel(),
             );
 
             $attributeOptions = array();
