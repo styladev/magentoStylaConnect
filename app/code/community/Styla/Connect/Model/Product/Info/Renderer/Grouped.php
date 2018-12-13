@@ -38,7 +38,8 @@ class Styla_Connect_Model_Product_Info_Renderer_Grouped
             $price = Mage::helper('tax')
                 ->getPrice($associatedProduct, $associatedProduct->getFinalPrice());
 
-            $finalPrice += $price * $associatedProduct->getQty();
+            $qty = (int) $associatedProduct->getQty() === 0 ? 1 : $associatedProduct->getQty();
+            $finalPrice += $price * $qty;
         }
 
         return number_format(

@@ -40,16 +40,14 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
     {
         $data = [];
         foreach ($this->optionCol as $option) {
-            if ($option->required) {
-                $data[] = [
-                    'id'       => $option->getId(),
-                    'type'     => $option->getType(),
-                    'label'    => $option->getDefaultTitle(),
-                    'required' => (bool) $option->getRequired(),
-                    'position' => (int) $option->getPosition(),
-                    'products' => $this->getFormattedAssociatedProducts($option->getSelections()),
-                ];
-            }
+            $data[] = [
+                'id'       => $option->getId(),
+                'type'     => $option->getType(),
+                'label'    => $option->getDefaultTitle(),
+                'required' => (bool) $option->getRequired(),
+                'position' => (int) $option->getPosition(),
+                'products' => $this->getFormattedAssociatedProducts($option->getSelections()),
+            ];
         }
 
         return $data;
@@ -146,12 +144,14 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
     {
         $data = [];
         foreach ($selections as $product) {
-            $data[] = [
-                'id'       => $product->getSelectionId(),
-                'name'     => $product->getName(),
-                'oldPrice' => $this->getOldPrice($product) ?: null,
-                'price'    => Mage::helper('tax')->getPrice($product, $product->getFinalPrice()),
-            ];
+            if ($product->isSalable()) {
+                $data[] = [
+                    'id'       => $product->getSelectionId(),
+                    'name'     => $product->getName(),
+                    'oldPrice' => $this->getOldPrice($product) ?: null,
+                    'price'    => Mage::helper('tax')->getPrice($product, $product->getFinalPrice()),
+                ];
+            }
         }
 
         return $data;
