@@ -70,7 +70,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
         $price = $product->getPrice();
 
         foreach ($this->optionCol as $option) {
-            if ($option->required) {
+            if ($type !== 'min' || $option->required) {
                 $selections = $option->getSelections();
                 if ($type === 'min') {
                     $minPrice = $this->getMinPrice($selections);
@@ -100,11 +100,13 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
     {
         $maxPrice = 0;
         foreach ($selections as $product) {
-            $price = Mage::helper('tax')
-                ->getPrice($product, $product->getFinalPrice());
+            if ($product->isSalable()) {
+                $price = Mage::helper('tax')
+                    ->getPrice($product, $product->getFinalPrice());
 
-            if ($price > $maxPrice) {
-                $maxPrice = $price;
+                if ($price > $maxPrice) {
+                    $maxPrice = $price;
+                }
             }
         }
 
@@ -122,11 +124,13 @@ class Styla_Connect_Model_Product_Info_Renderer_Bundle
     {
         $minPrice = PHP_INT_MAX;
         foreach ($selections as $product) {
-            $price = Mage::helper('tax')
-                ->getPrice($product, $product->getFinalPrice());
+            if ($product->isSalable()) {
+                $price = Mage::helper('tax')
+                    ->getPrice($product, $product->getFinalPrice());
 
-            if ($price < $minPrice) {
-                $minPrice = $price;
+                if ($price < $minPrice) {
+                    $minPrice = $price;
+                }
             }
         }
 
