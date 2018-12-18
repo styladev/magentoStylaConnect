@@ -26,7 +26,7 @@ The process of setting up your Content Hub(s) usually goes as follows:
 7. Styla conducts final User Acceptance Tests before the go-live
 8. Go-live (you link to the Content Hub embedded on your production)
 
-## Important Note for plugin updates
+## Important Note for Plugin Updates
 
 If you've used a **pre-0.2.0.3 version** of this this plugin, please let Styla know before updating it. A very quick update on your JS settings will be needed on Styla's end, **otherwise your magazine and landing pages won't work**. 
 
