@@ -9,8 +9,10 @@ class Styla_Connect_Model_Product_Info_Renderer_Grouped
 
     /**
      * Add grouped product's options data to the product info array.
+     *
      * @param Mage_Catalog_Model_Product $product
-     * @param array                      $productInfo
+     * @param array $productInfo
+     *
      * @return array
      */
     protected function _collectAdditionalProductInfo(Mage_Catalog_Model_Product $product, $productInfo)
@@ -29,6 +31,7 @@ class Styla_Connect_Model_Product_Info_Renderer_Grouped
      * Returns grouped product price.
      *
      * @param array $associatedProducts
+     *
      * @return string
      */
     protected function getGroupedPrice($associatedProducts)
@@ -62,8 +65,9 @@ class Styla_Connect_Model_Product_Info_Renderer_Grouped
         $data = [];
         foreach ($associatedProducts as $associatedProduct) {
             $data[] = [
-                'id'   => $associatedProduct->getId(),
-                'name' => $associatedProduct->getName(),
+                'id'       => $associatedProduct->getId(),
+                'name'     => $associatedProduct->getName(),
+                'saleable' => (bool) $associatedProduct->isSaleable(),
             ];
         }
 
