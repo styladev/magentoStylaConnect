@@ -38,11 +38,13 @@ class Styla_Connect_Model_Product_Info_Renderer_Grouped
     {
         $finalPrice = 0;
         foreach ($associatedProducts as $associatedProduct) {
-            $price = Mage::helper('tax')
-                ->getPrice($associatedProduct, $associatedProduct->getFinalPrice());
+            if ($associatedProduct->isSaleable()) {
+                $price = Mage::helper('tax')
+                    ->getPrice($associatedProduct, $associatedProduct->getFinalPrice());
 
-            $qty = (int) $associatedProduct->getQty() === 0 ? 1 : $associatedProduct->getQty();
-            $finalPrice += $price * $qty;
+                $qty = (int) $associatedProduct->getQty() === 0 ? 1 : $associatedProduct->getQty();
+                $finalPrice += $price * $qty;
+            }
         }
 
         return number_format(
