@@ -9,8 +9,10 @@ class Styla_Connect_Model_Product_Info_Renderer_Grouped
 
     /**
      * Add grouped product's options data to the product info array.
+     *
      * @param Mage_Catalog_Model_Product $product
-     * @param array                      $productInfo
+     * @param array $productInfo
+     *
      * @return array
      */
     protected function _collectAdditionalProductInfo(Mage_Catalog_Model_Product $product, $productInfo)
@@ -29,17 +31,20 @@ class Styla_Connect_Model_Product_Info_Renderer_Grouped
      * Returns grouped product price.
      *
      * @param array $associatedProducts
+     *
      * @return string
      */
     protected function getGroupedPrice($associatedProducts)
     {
         $finalPrice = 0;
         foreach ($associatedProducts as $associatedProduct) {
-            $price = Mage::helper('tax')
-                ->getPrice($associatedProduct, $associatedProduct->getFinalPrice());
+            if ($associatedProduct->isSaleable()) {
+                $price = Mage::helper('tax')
+                    ->getPrice($associatedProduct, $associatedProduct->getFinalPrice());
 
-            $qty = (int) $associatedProduct->getQty() === 0 ? 1 : $associatedProduct->getQty();
-            $finalPrice += $price * $qty;
+                $qty = (int) $associatedProduct->getQty() === 0 ? 1 : $associatedProduct->getQty();
+                $finalPrice += $price * $qty;
+            }
         }
 
         return number_format(
@@ -62,8 +67,9 @@ class Styla_Connect_Model_Product_Info_Renderer_Grouped
         $data = [];
         foreach ($associatedProducts as $associatedProduct) {
             $data[] = [
-                'id'   => $associatedProduct->getId(),
-                'name' => $associatedProduct->getName(),
+                'id'       => $associatedProduct->getId(),
+                'name'     => $associatedProduct->getName(),
+                'saleable' => (bool) $associatedProduct->isSaleable(),
             ];
         }
 
