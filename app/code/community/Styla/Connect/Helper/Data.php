@@ -19,7 +19,7 @@ class Styla_Connect_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_apiVersion;
 
     const URL_SEO_PROD    = 'http://seo.styla.com/';
-    const URL_ASSETS_PROD = '//cdn.styla.com/';
+    const URL_ASSETS_PROD = '//client-scripts.styla.com/';
 
     const URL_PART_JS  = 'scripts/clients/%s.js?v=%s';
     const URL_PART_CSS = 'styles/clients/%s.css?v=%s';

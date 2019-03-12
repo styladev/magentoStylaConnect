@@ -115,7 +115,7 @@
 
                         <override_cdn_url translate="label">
                             <label>Override Url for CDN/Assets</label>
-                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. //cdn.styla.com/</comment>
+                            <comment>If filled, use this url instead of the automatically-acquired one. Eg. //client-scripts.styla.com/</comment>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
