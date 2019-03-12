@@ -1,5 +1,6 @@
 * 0.2.1.1 (2019-03-12)
   * moved seo content in div container
+  * improved error message on connect failure
 
 * 0.2.1.0 (2018-12-18)
   * added support for multiple paths
