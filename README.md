@@ -28,6 +28,6 @@ The process of setting up your Content Hub(s) usually goes as follows:
 
 ## Important Note for Plugin Updates
 
-If you've used a **pre-0.2.0.3 version** of this this plugin, please let Styla know before updating it. A very quick update on your JS settings will be needed on Styla's end, **otherwise your magazine and landing pages won't work**. 
+If you've used a **pre-0.2.1.0 version** of this this plugin, please let Styla know before updating it. A very quick update on your JS settings will be needed on Styla's end, **otherwise your magazine and landing pages won't work**. 
 
 If you start with installing a **post-0.2.0.2 version**, no changes needed. 
