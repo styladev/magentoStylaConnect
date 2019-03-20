@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Styla_Connect>
-            <version>0.2.1.0</version>
+            <version>0.2.1.1</version>
         </Styla_Connect>
     </modules>
 
@@ -110,7 +110,7 @@
             </frontend>
             <developer>
                 <override_seo_url>http://seo.styla.com/</override_seo_url>
-                <override_cdn_url>//cdn.styla.com/</override_cdn_url>
+                <override_cdn_url>//client-scripts.styla.com/</override_cdn_url>
                 <override_api_url>http://live.styla.com/</override_api_url>
             </developer>
 
