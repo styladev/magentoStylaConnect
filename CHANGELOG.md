@@ -1,3 +1,6 @@
+* 1.0.0.0 (2019-08-08)
+  * added full path to seo api
+
 * 0.2.1.1 (2019-03-12)
   * moved seo content in div container
   * improved error message on connect failure
