@@ -6,7 +6,7 @@ Requires:
 * Magento 1.7 or later, for our Magento 2 plugin check this https://github.com/styladev/magentoStylaConnect
 * Magento REST API activated to share product information http://devdocs.magento.com/guides/m1x/api/rest/introduction.html
 
-Styla Connect is a module to connect your Magento Store with [Styla](http://www.styla.com/). This cartridge connects your Salesforce with [Styla](http://www.styla.com/) by embedding Styla content on a specific path. [This documentation page](https://docs.styla.com/) should provide you an overview of how Styla works in general. 
+Styla Connect is a module to connect your Magento Store with [Styla](http://www.styla.com/) by embedding Styla content on a specific path and providing a source of product data. [This documentation page](https://docs.styla.com/) should provide you an overview of how Styla works in general. 
 
 * [Installation](doc/installation.md)
 * [Configuration](doc/configuration.md)
