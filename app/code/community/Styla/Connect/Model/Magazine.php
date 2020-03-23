@@ -28,6 +28,18 @@ class Styla_Connect_Model_Magazine
 
     public function loadByFrontName($frontName)
     {
+        if(!$frontName) {
+            $collection = $this->getCollection();
+            $item = $collection->addFieldToFilter('front_name', array('null' => true))
+                    ->getFirstItem();
+            
+            if($item->getId()) {
+                return $this->load($item->getId());
+            } else {
+                return $item;
+            }
+        }
+        
         $this->load($frontName, 'front_name');
 
         return $this;

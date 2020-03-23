@@ -37,4 +37,11 @@
                  after a product was added to the cart -->
         </block>
     </styla_connect_cart_add>
+    
+    <styla_homepage>
+        <update handle="styla_connect_magazine_index" />
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+    </styla_homepage>
 </layout>

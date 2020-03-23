@@ -77,7 +77,7 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit_Form extends Mage_Adminhtml_Bl
             'name'               => 'front_name',
             'label'              => $this->__('Front Name'),
             'title'              => $this->__('Front Name'),
-            'required'           => true,
+            'required'           => false,
             'after_element_html' => '<p class="note"><span>' . $this->__('Your magazine uri will start with this name, and will be used like this: www.domain.com/[FRONT_NAME]/rest_of_the_url') . '</span></p>'
         ]);
 
