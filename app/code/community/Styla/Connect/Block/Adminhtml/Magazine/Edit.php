@@ -12,7 +12,7 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit extends Mage_Adminhtml_Block_W
         /** @var Styla_Connect_Model_Magazine $magazine */
         $magazine = Mage::registry('current_magazine');
 
-        $this->_updateButton('delete', 'label', $this->__('Delete Magazine'));
+        $this->_updateButton('delete', 'label', $this->__('Delete Styla Page'));
 
 
         if ($magazine && $magazine->getId()) {
@@ -43,9 +43,9 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit extends Mage_Adminhtml_Block_W
         $magazine = Mage::registry('current_magazine');
 
         if ($magazine && $magazine->getId()) {
-            return $this->__('Edit magazine');
+            return $this->__('Edi Styla Page');
         } else {
-            return $this->__('Create new magazine');
+            return $this->__('Create new Styla Page');
         }
     }
 }

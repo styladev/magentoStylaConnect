@@ -9,12 +9,12 @@ class Styla_Connect_Adminhtml_Styla_MagazineController extends Mage_Adminhtml_Co
 
     public function indexAction()
     {
-        $this->_title($this->__('Magazine List'));
+        $this->_title($this->__('Styla pages List'));
 
         $this->loadLayout()
             ->_setActiveMenu('cms/page')
             ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Styla Magazines'), Mage::helper('cms')->__('Manage Styla Magazines'));
+            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Styla Pages'), Mage::helper('cms')->__('Manage Styla Pages'));
 
         $this->renderLayout();
     }
@@ -42,7 +42,7 @@ class Styla_Connect_Adminhtml_Styla_MagazineController extends Mage_Adminhtml_Co
             $magazine->load($id);
             if (!$magazine->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('styla_connect')->__('This magazine does no longer exists.')
+                    Mage::helper('styla_connect')->__('This Styla Page does no longer exists.')
                 );
                 $this->_redirect('*/*/');
 
@@ -78,7 +78,7 @@ class Styla_Connect_Adminhtml_Styla_MagazineController extends Mage_Adminhtml_Co
         try {
             $magazine->save();
             Mage::getSingleton('adminhtml/session')->addSuccess(
-                $this->__('Magazine successfully saved.')
+                $this->__('Styla Page successfully saved')
             );
             Mage::getSingleton('adminhtml/session')->setFormData(false);
 
@@ -115,13 +115,13 @@ class Styla_Connect_Adminhtml_Styla_MagazineController extends Mage_Adminhtml_Co
         if ($magazine->getId()) {
             if ($magazine->isDefault()) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    $this->__('Deleting the magazine is not supported!')
+                    $this->__('Deleting the Styla Page is not supported!')
                 );
                 return $this->_redirect('*/*/edit', array('id' => $magazine->getId()));
             } else {
                 $magazine->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    $this->__('Magazine successfully deleted!')
+                    $this->__('Styla Page successfully deleted!')
                 );
             }
         }

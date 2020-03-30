@@ -232,4 +232,23 @@ class Styla_Connect_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getSingleton('styla_connect/styla_api');
     }
 
+    public function getPageTitle()
+    {
+        $pageTitle = '';
+        if($page = Mage::registry('current_magazine_page')) {
+            $pageTitle = $page->getTitle();
+        }
+        
+        return $pageTitle;
+    }
+    
+    public function getPageMetaDescription()
+    {
+        $pageMetaDescription = '';
+        if($page = Mage::registry('current_magazine_page')) {
+            $pageMetaDescription = $page->getMetaDescription();
+        }
+        
+        return $pageMetaDescription;
+    }
 }

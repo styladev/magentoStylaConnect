@@ -48,10 +48,7 @@ class Styla_Connect_Model_Observer
             return false;
         }
         
-        $routeName = Mage::app()->getRequest()->getRouteName();
-        $identifier = Mage::getSingleton('cms/page')->getIdentifier();
-
-        if($routeName == 'cms' && $identifier == 'home') {
+        if(Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
             $observer->getEvent()->getLayout()->getUpdate()
                 ->addHandle('styla_homepage');
 
@@ -71,8 +68,10 @@ class Styla_Connect_Model_Observer
                 ->load($path);
 
             if (!$page->exist()) {
-                $this->_forward('noRoute');
-
+                $pageUrlKey = Mage::getStoreConfig('styla_connect/homepage/page_fallback', Mage::app()->getStore());
+                $url = Mage::getUrl($pageUrlKey);
+                Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+                Mage::app()->getResponse()->sendResponse();
                 return;
             }
 
@@ -86,10 +85,7 @@ class Styla_Connect_Model_Observer
             return false;
         }
         
-        $routeName = Mage::app()->getRequest()->getRouteName();
-        $identifier = Mage::getSingleton('cms/page')->getIdentifier();
-
-        if($routeName == 'cms' && $identifier == 'home') {
+        if(Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
             $layout = $observer->getEvent()->getLayout();
             $page = Mage::registry('current_magazine_page');
             $layoutHelper = Mage::helper('styla_connect/layout');

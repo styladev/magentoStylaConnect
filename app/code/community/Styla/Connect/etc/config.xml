@@ -206,6 +206,9 @@
                     </image>
                 </category>
             </response_fields>
+            <homepage>
+                <page_fallback>no-route</page_fallback>
+            </homepage>
         </styla_connect>
     </default>
 

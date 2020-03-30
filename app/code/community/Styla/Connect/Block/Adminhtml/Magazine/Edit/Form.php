@@ -28,15 +28,15 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit_Form extends Mage_Adminhtml_Bl
         ));
 
         $fieldset = $form->addFieldset('base', array(
-            'legend' => $this->__('Magazine Data'),
+            'legend' => $this->__('Styla Page Data'),
             'class'  => 'fieldset-wide'
         ));
 
         if ($magazine->isDefault()) {
-            $fieldset->setData('comment', $this->__('This is your default magazine! If you want to disable a magazine for a certain store, create a new magazine with the same front name and disable it.'));
+            $fieldset->setData('comment', $this->__('This is your default Styla Page! If you want to disable a Styla Page for a certain store, create a new Styla Page with the same front name and disable it.'));
         } else {
             if (!$magazine->getId()) {
-                $fieldset->setData('comment', $this->__('You are going to create a new magazine which also need to exist on styla side before it can work.'));
+                $fieldset->setData('comment', $this->__('You are going to create a new Styla Page which also need to exist on styla side before it can work.'));
             }
             $fieldset->addField('store_id', 'select', array(
                 'name'               => 'store_id',
@@ -44,7 +44,7 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit_Form extends Mage_Adminhtml_Bl
                 'title'              => $this->__('Store'),
                 'required'           => true,
                 'values'             => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true),
-                'after_element_html' => '<p class="note"><span>' . $this->__('The store the magazine should be active on') . '</span></p>'
+                'after_element_html' => '<p class="note"><span>' . $this->__('The store the pages should be active on') . '</span></p>'
             ));
         }
 
@@ -78,7 +78,8 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit_Form extends Mage_Adminhtml_Bl
             'label'              => $this->__('Front Name'),
             'title'              => $this->__('Front Name'),
             'required'           => false,
-            'after_element_html' => '<p class="note"><span>' . $this->__('Your magazine uri will start with this name, and will be used like this: www.domain.com/[FRONT_NAME]/rest_of_the_url') . '</span></p>'
+            'after_element_html' => '<p class="note"><span>' . $this->__('Your Styla pages uri will start with this name, and will be used like this: www.domain.com/[FRONT_NAME]/rest_of_the_url') . '<br/>' . 
+                                        $this->__('Leave empty to override the home page content.') . '</span></p>'
         ]);
 
         $fieldset->addField('use_magento_layout', 'select', [
@@ -90,7 +91,7 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit_Form extends Mage_Adminhtml_Bl
                 '1' => $this->__('Yes'),
                 '0' => $this->__('No'),
             ),
-            'after_element_html' => '<p class="note"><span>' . $this->__('yes - the Styla magazine page will be wrapped within a normal Magento header and footer; no - only the magazine content will be visible') . '</span></p>'
+            'after_element_html' => '<p class="note"><span>' . $this->__('yes - the Styla pages will be wrapped within a normal Magento header and footer; no - only the page content will be visible') . '</span></p>'
         ]);
 
         $includeInNavigation = $fieldset->addField('include_in_navigation', 'select', [
@@ -102,7 +103,7 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit_Form extends Mage_Adminhtml_Bl
                 '1' => $this->__('Yes'),
                 '0' => $this->__('No'),
             ),
-            'after_element_html' => '<p class="note"><span>' . $this->__('yes - a "magazine" link will be added to the main (top) navigation menu.') . '</span></p>'
+            'after_element_html' => '<p class="note"><span>' . $this->__('yes - a link to you page will be added to the main (top) navigation menu.') . '</span></p>'
         ]);
 
         $navigationLabel = $fieldset->addField('navigation_label', 'text', [

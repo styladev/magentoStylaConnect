@@ -4,7 +4,7 @@
         <cms>
             <children>
                 <styla_magazine translate="title">
-                    <title>Styla Magazines</title>
+                    <title>Styla Pages</title>
                     <action>adminhtml/styla_magazine/index</action>
                     <sort_order>70</sort_order>
                 </styla_magazine>
@@ -18,7 +18,7 @@
                     <cms>
                         <children>
                             <styla_magazine>
-                                <title>Styla Magazine</title>
+                                <title>Styla Page</title>
                             </styla_magazine>
                         </children>
                     </cms>

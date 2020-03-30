@@ -7,7 +7,7 @@
 class Styla_Connect_Helper_Layout extends Styla_Connect_Helper_Data
 {
     /**
-     * one entry for all styla layout functions
+     * one entry all styla layout functions
      * 
      * @param type $page
      * @param type $layout
