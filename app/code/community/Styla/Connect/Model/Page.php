@@ -66,10 +66,18 @@ class Styla_Connect_Model_Page
      */
     public function getAdditionalMetaTags()
     {
-        return array_diff_key(
+        $tags = array_diff_key(
             $this->getTags(),
             $this->getBaseMetaData()
         );
+        
+        //homepage - remove description as it is placed in default tag
+        $handles = Mage::app()->getLayout()->getUpdate()->getHandles();
+        if(in_array('styla_homepage', $handles)) {
+            unset($tags['meta-description']);
+        }
+        
+        return $tags;
     }
 
     /**

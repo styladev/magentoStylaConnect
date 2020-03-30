@@ -82,6 +82,25 @@
                     </styla_connect>
                 </observers>
             </page_block_html_topmenu_gethtml_before>
+            <!-- events for homepage -->
+            <controller_action_layout_load_before>
+                <observers>
+                    <styla_connect_homepage_controller_action_layout_load_before>
+                        <type>singleton</type>
+                        <class>styla_connect/observer</class>
+                        <method>stylaHomepageGetData</method>
+                    </styla_connect_homepage_controller_action_layout_load_before>
+                </observers>
+            </controller_action_layout_load_before>
+            <controller_action_layout_load_after>
+                <observers>
+                    <styla_connect_homepage_controller_action_layout_load_after>
+                        <type>singleton</type>
+                        <class>styla_connect/observer</class>
+                        <method>stylaHomepageAddOptions</method>
+                    </styla_connect_homepage_controller_action_layout_load_after>
+                </observers>
+            </controller_action_layout_load_after>
         </events>
     </frontend>
 
@@ -187,6 +206,9 @@
                     </image>
                 </category>
             </response_fields>
+            <homepage>
+                <page_fallback>no-route</page_fallback>
+            </homepage>
         </styla_connect>
     </default>
 

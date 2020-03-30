@@ -41,4 +41,56 @@ class Styla_Connect_Model_Observer
 
         return $collection;
     }
+    
+    public function stylaHomepageGetData($observer)
+    {
+        if(!Mage::getStoreConfig('styla_connect/homepage/enabled', Mage::app()->getStore())) {
+            return false;
+        }
+        
+        if(Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
+            $observer->getEvent()->getLayout()->getUpdate()
+                ->addHandle('styla_homepage');
+
+            $frontName = '';
+            
+            $magazine = Mage::getModel('styla_connect/magazine')->loadByFrontName($frontName);
+            if (!$magazine || !$magazine->isActive()) {
+                return false;
+            }
+
+            Mage::register('current_magazine', $magazine);
+            
+            $path = '/';
+            Mage::register('current_styla_api_path', $path);
+
+            $page = Mage::getModel('styla_connect/page')
+                ->load($path);
+
+            if (!$page->exist()) {
+                $pageUrlKey = Mage::getStoreConfig('styla_connect/homepage/page_fallback', Mage::app()->getStore());
+                $url = Mage::getUrl($pageUrlKey);
+                Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+                Mage::app()->getResponse()->sendResponse();
+                return;
+            }
+
+            Mage::register('current_magazine_page', $page);
+        }
+    }
+    
+    public function stylaHomepageAddOptions($observer)
+    {
+        if(!Mage::getStoreConfig('styla_connect/homepage/enabled', Mage::app()->getStore())) {
+            return false;
+        }
+        
+        if(Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
+            $layout = $observer->getEvent()->getLayout();
+            $page = Mage::registry('current_magazine_page');
+            $layoutHelper = Mage::helper('styla_connect/layout');
+
+            $layoutHelper->setStylaData($page, $layout);
+        }
+    }
 }
