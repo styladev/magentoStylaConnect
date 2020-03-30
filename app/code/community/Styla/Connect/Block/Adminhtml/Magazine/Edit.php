@@ -43,7 +43,7 @@ class Styla_Connect_Block_Adminhtml_Magazine_Edit extends Mage_Adminhtml_Block_W
         $magazine = Mage::registry('current_magazine');
 
         if ($magazine && $magazine->getId()) {
-            return $this->__('Edi Styla Page');
+            return $this->__('Edit Styla Page');
         } else {
             return $this->__('Create new Styla Page');
         }
