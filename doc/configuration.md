@@ -117,7 +117,7 @@ Then switch the Developer Mode dropdown to **OFF again** and click the **Save Co
 
 <tr>
 <td>Front Name (Magazine frontend “Url”)</td>
-<td>The part of the URL after your store view part where the magazine is available</td>
+<td>The part of the URL after your store view part where the magazine is available. Leave empty to override the home page content from Magento with Styla page with blank path. </td>
 <td>/magazin</td>
 </tr>
 
