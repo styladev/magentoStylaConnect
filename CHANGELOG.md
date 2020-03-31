@@ -1,5 +1,9 @@
+* 1.1.0.0 (2019-03-31)
+  * Allow to use Styla content on frontpage
+
 * 1.0.0.0 (2019-08-08)
-  * added full path to seo api
+  * The plugin now requests Styla page content from Styla SEO API without base path defined in its settings.
+  * If you update your plugin version to this one, please contact Styla to update your client settings on their end. Otherwise Styla content might not work as intended.
 
 * 0.2.1.1 (2019-03-12)
   * moved seo content in div container
